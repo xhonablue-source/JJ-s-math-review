@@ -31,19 +31,19 @@ st.title("🏈 MathCraft: Quest for the Quarterback Crown")
 st.markdown("""
 **A 4-Week Challenge-Based Math Journey for Jeremiah Erskine**
 
-Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade math review into an epic quest connecting your passions—quarterback mechanics, Sonic speed, Segway adventures, and real estate success with Mom—into mathematical mastery.
+Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade math review into an epic quest, blending Jeremiah’s passions—quarterback mechanics, Sonic speed, Segway adventures, and real estate success with his mother Rose from South Africa—into mathematical mastery.
 
 ---
 
 ### 🎯 Program Goal:
-Prepare Jeremiah for a confident and successful 10th grade math experience by reinforcing foundational 9th grade skills through a personalized, interest-based curriculum rooted in Common Core standards.
+Prepare Jeremiah for a confident 10th grade math experience by reinforcing foundational skills through a personalized, interest-based curriculum rooted in Common Core standards, with Rose as his inspiring partner.
 
 ### 🧑🏿‍🏫 Who is Dr. X?
-Dr. X is not a robot 🤓. He's modeled after a real Black educator — Xavier Honablue M.Ed — complete with glasses, deep voice, and a passion for helping students succeed. Think of him as your personal sideline coach for math.
+Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real Black educator with glasses, a deep voice, and a heart for student success. He’s your sideline coach for math, cheering Jeremiah and Rose on!
 """)
 
 # Common Core Standards Alignment
-st.info("📚 **Common Core Alignment:** This program addresses High School Algebra standards including creating equations (HSA.CED), reasoning with equations (HSA.REI), and building functions (HSF.BF) through real-world applications.")
+st.info("📚 **Common Core Alignment:** This program covers High School Algebra standards like creating equations (HSA.CED), reasoning with equations (HSA.REI), and building functions (HSF.BF) through real-world applications.")
 
 # Common Core Standards Dropdown
 common_core_standard = st.selectbox("📋 Select specific Common Core Standard focus:", [
@@ -70,7 +70,7 @@ position = st.selectbox("Choose your mathematical identity:", [
 ])
 
 if name:
-    st.success(f"Welcome, {name} the {position}! Ready to dominate 10th grade math!")
+    st.success(f"Welcome, {name} the {position}! Ready to dominate 10th grade math with Rose by your side!")
 
 # --- Level Selection ---
 challenge_level = st.selectbox("Choose your challenge level:", [
@@ -83,7 +83,7 @@ challenge_level = st.selectbox("Choose your challenge level:", [
 # Initialize session state for Dr. X chat
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = [
-        {"role": "assistant", "content": "Hello Jeremiah! I'm Dr. X, your AI math coach. Whether you need help with quadratic equations for football trajectories, linear functions for real estate analysis, or systems of equations for game strategy, I'm here to help you succeed!"}
+        {"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your AI math coach. Let’s conquer math together, from football fields to real estate deals!"}
     ]
 
 # Dr. X API function
@@ -118,6 +118,11 @@ with week_tabs[0]:
     st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3")
     st.markdown("**🎯 Focus:** Expressions, Equations, and Linear Functions")
 
+    # Story: Jeremiah and Rose’s Speed Adventure
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Back in South Africa, Jeremiah and his mom Rose loved watching wildlife dash across the savanna. One day, they imagined racing Sonic the Hedgehog from their new Jersey City home to Lincoln Park. Rose, with her keen eye for deals, turned it into a math challenge: “Let’s calculate our speeds and see who wins!” Jeremiah grinned, ready to outsmart Sonic with algebra.
+    """)
+
     # Interactive Sonic Speed Calculator with Toggle
     st.markdown("---")
     st.markdown("### 🚀 Sonic vs. Jeremiah Speed Challenge")
@@ -147,6 +152,12 @@ with week_tabs[0]:
                 ax.text(bar.get_x() + bar.get_width()/2., height + 10, f'{value:.1f} mph', ha='center', va='bottom', fontweight='bold')
             st.pyplot(fig)
 
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Speed is calculated as distance divided by time (Speed = Distance/Time). Here, Jeremiah’s 40-yard dash time is converted to mph using the formula:  
+    Speed (mph) = (40 yards × 3600 seconds/hour) / (dash time × 5280 yards/mile). Sonic’s speed is a constant 767 mph. The ratio helps us compare their speeds, a key skill in HSA.CED.A.1 for creating equations!
+    """)
+
     # Lincoln Park Distance Problem with Toggle
     st.markdown("---")
     st.markdown("### 🏃‍♂️ Lincoln Park Challenge")
@@ -168,6 +179,11 @@ with week_tabs[0]:
         ax.set_title('Time Comparison for Lincoln Park Distance')
         ax.set_ylim(0, max(times) * 1.2)
         st.pyplot(fig)
+
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Time = Distance / Speed. For Jeremiah, we convert mph to minutes per mile (Time = Distance × 60 / Speed). For Sonic, we use seconds (Time = Distance × 3600 / Speed). This exercise builds HSA.REI.B.3 skills by solving linear equations to find time.
+    """)
 
     # Segway Slope Analysis with Toggle
     st.markdown("---")
@@ -191,12 +207,27 @@ with week_tabs[0]:
         ax.grid(True, alpha=0.3)
         st.pyplot(fig)
 
+    # Story: Jeremiah and Rose’s Segway Adventure
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** One sunny afternoon in Jersey City, Rose suggested they explore the hills on a Segway, reminiscing about the rolling landscapes of South Africa. Jeremiah calculated the slope to ensure a smooth ride, saying, “Mom, if the hill’s too steep, we’ll tip over!” Rose laughed, “Let’s use math to keep us safe!”
+    """)
+
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Slope = Rise / Run, representing the rate of change. A 10% slope means a 10-foot rise over 100 feet of run. This aligns with HSF.IF.B.4, interpreting key features of graphs, and helps Jeremiah and Rose plan their Segway routes!
+    """)
+
 # --- WEEK 2 ---
 with week_tabs[1]:
     st.subheader("🏈 Week 2: Football Physics & Quadratics")
     st.markdown("**📘 IXL Skills Focus:** [J.7 - Graph parabolas](https://www.ixl.com/math/algebra-1/graph-a-quadratic-function)")
     st.markdown("**📚 Common Core:** HSA.REI.B.4")
     st.markdown("**🎯 Focus:** Quadratic Functions and Vertex Form")
+
+    # Story: Jeremiah and Rose’s Football Triumph
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Back in South Africa, Jeremiah dreamed of being a quarterback, and Rose cheered him on at every practice. In Jersey City, they turned his throws into a math lesson, calculating the perfect spiral’s arc. “Let’s use quadratics to make you a star, my boy!” Rose exclaimed, her South African accent warming the room.
+    """)
 
     # Football Trajectory Calculator with Toggle
     st.markdown("---")
@@ -237,6 +268,11 @@ with week_tabs[1]:
             ax.legend()
             st.pyplot(fig)
 
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** A projectile’s path follows a quadratic equation: h(t) = h₀ + v₀t - ½gt², where h₀ is initial height, v₀ is initial velocity, and g is gravity (32.2 ft/s²). The vertex gives the maximum height, a key concept in HSA.REI.B.4 for solving quadratics. Jeremiah and Rose can optimize his throws!
+    """)
+
     # Quadratic Function Analysis with Toggle
     st.markdown("---")
     st.markdown("### 📐 Vertex Form Analysis")
@@ -246,12 +282,22 @@ with week_tabs[1]:
         st.markdown(f"**Vertex form:** h(t) = -16.1(t - {v_y/(2*16.1):.2f})² + {max_height:.1f}")
         st.markdown(f"**Vertex (time at max height):** t = {v_y/(2*16.1):.2f} seconds")
 
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Vertex form, h(t) = a(t - h)² + k, reveals the peak (h, k). Here, a = -16.1 (downward parabola), h is the time to max height, and k is max height. This ties to HSF.IF.C.7 for graphing functions symbolically—perfect for Jeremiah’s quarterback precision!
+    """)
+
 # --- WEEK 3 ---
 with week_tabs[2]:
     st.subheader("🥷 Week 3: Naruto Motion & Systems of Equations")
     st.markdown("**📘 IXL Skills Focus:** [W.10 - Solve a system of equations by graphing](https://www.ixl.com/math/algebra-1/solve-a-system-of-equations-by-graphing)")
     st.markdown("**📚 Common Core:** HSA.CED.A.3")
     st.markdown("**🎯 Focus:** Simultaneous Equations and Real-Life Situations")
+
+    # Story: Jeremiah and Rose’s Race Day
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Inspired by Naruto’s ninja races, Jeremiah and Rose set up a triple challenge in Jersey City—running, Segway, and imagining Sonic’s dash. Rose, with her real estate savvy, added a twist: “Let’s calculate who wins with systems of equations, just like negotiating property deals back in South Africa!”
+    """)
 
     # Three-Way Race System with Toggle
     st.markdown("---")
@@ -290,6 +336,11 @@ with week_tabs[2]:
             ax.set_ylim(0, race_distance * 1.2)
             st.pyplot(fig)
 
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Systems of equations model multiple relationships, like distance = speed × time for each racer. Graphing these (HSA.CED.A.3) shows where lines intersect, representing equal times or distances. Jeremiah and Rose can use this to strategize their race!
+    """)
+
     # Real Estate Systems with Toggle
     st.markdown("---")
     st.markdown("### 🏠 Mom's Real Estate Commission Systems")
@@ -324,12 +375,27 @@ with week_tabs[2]:
             if break_even_price > 0:
                 st.success(f"**Break-even point:** ${break_even_price:,.0f}")
 
+    # Story: Jeremiah and Rose’s Real Estate Deal
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Rose, a savvy real estate agent from South Africa, once negotiated a big deal in Cape Town. In Jersey City, she and Jeremiah tackled commission options for a new property. “Let’s find the break-even point, my clever son!” Rose said, beaming with pride as they solved it together.
+    """)
+
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Systems of linear equations (C₁ = k₁P, C₂ = k₂P + B) can be solved to find the break-even point where C₁ = C₂. This involves HSA.REI.C.6—solving systems exactly. Jeremiah and Rose use this to optimize real estate profits!
+    """)
+
 # --- WEEK 4 ---
 with week_tabs[3]:
     st.subheader("🎓 Week 4: NJIT Bound - College Prep & Inequalities")
     st.markdown("**📘 IXL Skills Focus:** [Y.5 - Graph compound inequalities](https://www.ixl.com/math/algebra-1/graph-compound-inequalities)")
     st.markdown("**📚 Common Core:** HSA.REI.D.12, HSA.CED.A.2")
     st.markdown("**🎯 Focus:** Cumulative Assessment and Future Planning")
+
+    # Story: Jeremiah and Rose’s College Dream
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Rose always dreamed of Jeremiah attending university, a goal they brought from South Africa to Jersey City. They mapped out NJIT and RPI requirements, using inequalities to ensure his GPA and SAT scores would shine. “You’re my future engineer!” Rose cheered, her voice full of hope.
+    """)
 
     # College Readiness Analysis with Toggle
     st.markdown("---")
@@ -378,6 +444,11 @@ with week_tabs[3]:
             ax.set_ylim(1100, 1500)
             st.pyplot(fig)
 
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Inequalities like GPA ≥ 3.3 and SAT ≥ 1250 form a region on a graph (HSA.REI.D.12). The intersection of these regions shows eligibility. Jeremiah and Rose can adjust his scores to meet college goals!
+    """)
+
     # Real Estate Investment Inequalities with Toggle
     st.markdown("---")
     st.markdown("### 🏠 Real Estate Investment Constraints")
@@ -412,6 +483,16 @@ with week_tabs[3]:
         viable_count = np.sum(viable_properties)
         st.success(f"**Viable properties:** {viable_count} out of {n_properties} meet your criteria")
 
+    # Story: Jeremiah and Rose’s Investment Plan
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Rose, with her South African real estate expertise, taught Jeremiah about smart investments. They set a budget and ROI goals for a Jersey City property, laughing as they plotted points on a graph. “This is our future, Jeremiah!” Rose said, her eyes sparkling with ambition.
+    """)
+
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Inequalities (Price ≤ Budget, ROI ≥ Min ROI) define a feasible region (HSA.CED.A.2). Graphing these constraints helps identify viable options, a skill Jeremiah and Rose can use to build their real estate empire!
+    """)
+
 # --- Ask Dr. X Sidebar ---
 st.sidebar.title("🤖 Ask Dr. X")
 st.sidebar.markdown("*Your Personal Math Coach*")
@@ -434,7 +515,7 @@ with st.sidebar:
         st.rerun()
     if st.button("Clear Chat"):
         st.session_state.chat_history = [
-            {"role": "assistant", "content": "Hello Jeremiah! I'm Dr. X, your AI math coach. Ready to tackle some math problems?"}
+            {"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your AI math coach. Ready to tackle some math problems?"}
         ]
         st.rerun()
 
@@ -492,7 +573,7 @@ for topic, lessons in selected_week.items():
     with st.expander(f"📖 {topic} - IXL Practice"):
         for lesson in lessons:
             st.write(f"• {lesson}")
-        st.markdown(f"**💡 Practice Tip:** Complete these lessons to master {topic.lower()}!")
+        st.markdown(f"**💡 Practice Tip:** Complete these lessons to master {topic.lower()} with Jeremiah and Rose!")
 
 # --- Capstone Project ---
 st.header("🏆 Capstone: Real Estate Flip Challenge")
@@ -557,23 +638,34 @@ if selected_property:
             ax.ticklabel_format(style='plain', axis='y')
             st.pyplot(fig)
 
+    # Story: Jeremiah and Rose’s Big Flip
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Rose shared stories of flipping homes in South Africa, and now in Jersey City, they picked a property to transform. Jeremiah crunched the numbers, saying, “Mom, with this ROI, we’ll be real estate kings!” Rose hugged him, proud of their teamwork.
+    """)
+
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** Investment growth uses the compound interest formula: Future Value = Present Value × (1 + r)^t, where r is the appreciation rate and t is time. Adding rental income and calculating ROI (Return / Investment × 100) ties to HSF.BF.A.1 for modeling relationships—Jeremiah and Rose’s path to success!
+    """)
+
 # --- External Resources ---
 st.header("🌐 Additional Learning Resources")
 resources = {
     "📺 Video Tutorials": [
-        {"name": "Khan Academy - Algebra Basics", "url": "https://www.khanacademy.org/math/algebra-basics", "description": "Comprehensive algebra review perfect for 9th grade reinforcement"},
-        {"name": "Professor Leonard - Quadratic Functions", "url": "https://www.youtube.com/watch?v=bTHNH04lwas", "description": "Clear explanations of parabolas and vertex form"},
-        {"name": "PatrickJMT - Systems of Equations", "url": "https://www.youtube.com/watch?v=AqIrdW2-K6k", "description": "Multiple methods for solving systems"}
+        {"name": "Khan Academy - Algebra I Full Course", "url": "https://www.khanacademy.org/math/algebra", "description": "Dive into algebra basics with engaging video lessons tailored for 9th graders like Jeremiah!"},
+        {"name": "Crash Course Algebra", "url": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtMRoqW9W9gmL6v9bQ9vT5dC", "description": "Fun, fast-paced videos covering equations, quadratics, and more—perfect for Rose’s coaching style!"},
+        {"name": "PatrickJMT - Algebra Help", "url": "https://www.youtube.com/user/patrickjmt", "description": "Step-by-step problem-solving videos for systems and inequalities, ideal for real-world math!"}
     ],
     "💻 Interactive Tools": [
-        {"name": "Desmos Graphing Calculator", "url": "https://www.desmos.com/calculator", "description": "Perfect for visualizing functions and trajectories"},
-        {"name": "GeoGebra Algebra", "url": "https://www.geogebra.org/algebra", "description": "Interactive algebra and graphing tools"},
-        {"name": "Wolfram Alpha", "url": "https://www.wolframalpha.com/", "description": "Step-by-step equation solving"}
+        {"name": "Desmos Graphing Calculator", "url": "https://www.desmos.com/calculator", "description": "Explore graphs of parabolas and inequalities interactively—great for Jeremiah’s quarterback trajectories!"},
+        {"name": "GeoGebra Classroom", "url": "https://www.geogebra.org/classroom", "description": "Hands-on tools for graphing and solving equations, perfect for Rose’s real estate analysis!"},
+        {"name": "Wolfram Alpha Problem Generator", "url": "https://www.wolframalpha.com/examples/mathematics/algebra.html", "description": "Generate custom algebra problems with solutions for extra practice!"}
     ],
     "🎓 College Prep": [
-        {"name": "NJIT Admissions Requirements", "url": "https://www.njit.edu/admissions/undergraduate", "description": "Official admission standards and requirements"},
-        {"name": "RPI Undergraduate Admissions", "url": "https://admissions.rpi.edu/undergraduate", "description": "Requirements and application information"},
-        {"name": "College Board SAT Prep", "url": "https://www.collegeboard.org/sat", "description": "Official SAT preparation materials"}
+        {"name": "NJIT Admissions - Undergraduate", "url": "https://www.njit.edu/admissions/undergraduate", "description": "Check NJIT’s latest GPA and SAT requirements to plan Jeremiah’s college path!"},
+        {"name": "RPI Admissions - Apply", "url": "https://admissions.rpi.edu/apply", "description": "Explore RPI’s admission details and prepare with Rose’s guidance!"},
+        {"name": "College Board SAT Practice", "url": "https://satsuite.collegeboard.org/sat/practice", "description": "Official SAT practice tests and tips to boost Jeremiah’s scores!"},
+        {"name": "Khan Academy SAT Prep", "url": "https://www.khanacademy.org/sat", "description": "Free, personalized SAT prep aligned with College Board—perfect for college readiness!"}
     ]
 }
 resource_tabs = st.tabs(list(resources.keys()))

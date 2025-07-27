@@ -3,10 +3,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import requests
 import pandas as pd
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
 import time
+
+# Try to import Plotly, fall back to matplotlib if not available
+try:
+    import plotly.graph_objects as go
+    import plotly.express as px
+    from plotly.subplots import make_subplots
+    PLOTLY_AVAILABLE = True
+except ImportError:
+    PLOTLY_AVAILABLE = False
+    st.warning("Plotly not available. Using matplotlib for visualizations.")
 
 # --- Page Setup ---
 st.set_page_config(
@@ -208,37 +215,33 @@ if page_selection == "🏠 Home & Introduction":
     
     with col1:
         st.markdown("""
-        <div class="week-card">
-            <h3>Week 1: Linear Functions</h3>
-            <p>Segway Hills & Quarterback Math</p>
-            <small>Slope, rate of change, and real-world applications</small>
-        </div>
-        """, unsafe_allow_html=True)
+        ### Week 1: Linear Functions
+        **Segway Hills & Quarterback Math**
+        
+        Slope, rate of change, and real-world applications
+        """)
         
         st.markdown("""
-        <div class="week-card">
-            <h3>Week 3: Exponential Functions</h3>
-            <p>Growth & Real Estate Investment</p>
-            <small>Compound interest and performance modeling</small>
-        </div>
-        """, unsafe_allow_html=True)
+        ### Week 3: Exponential Functions
+        **Growth & Real Estate Investment**
+        
+        Compound interest and performance modeling
+        """)
     
     with col2:
         st.markdown("""
-        <div class="week-card">
-            <h3>Week 2: Quadratic Functions</h3>
-            <p>Football Trajectories & Sonic Jumps</p>
-            <small>Parabolic motion and optimization</small>
-        </div>
-        """, unsafe_allow_html=True)
+        ### Week 2: Quadratic Functions
+        **Football Trajectories & Sonic Jumps**
+        
+        Parabolic motion and optimization
+        """)
         
         st.markdown("""
-        <div class="week-card">
-            <h3>Week 4: Advanced Topics</h3>
-            <p>NJIT & RPI Preparation</p>
-            <small>Statistics, trigonometry, and college readiness</small>
-        </div>
-        """, unsafe_allow_html=True)
+        ### Week 4: Advanced Topics
+        **NJIT & RPI Preparation**
+        
+        Statistics, trigonometry, and college readiness
+        """)
 
 # Week 1 content
 elif page_selection == "📈 Week 1: Linear Functions":
@@ -332,35 +335,52 @@ elif page_selection == "📈 Week 1: Linear Functions":
             st.metric("Sonic is", f"{speed_ratio:.0f}x faster!")
         
         with col2:
-            # Create speed comparison graph with Plotly
-            fig = go.Figure()
-            
-            speeds = ['Jeremiah', 'Sonic']
-            values = [jeremiah_speed_mph, 767]
-            colors = ['#ff6b6b', '#4ecdc4']
-            
-            fig.add_trace(go.Bar(
-                x=speeds,
-                y=values,
-                marker_color=colors,
-                text=[f'{val:.1f} mph' for val in values],
-                textposition='auto',
-                hovertemplate='<b>%{x}</b><br>Speed: %{y:.1f} mph<extra></extra>'
-            ))
-            
-            fig.update_layout(
-                title='Interactive Speed Comparison: Jeremiah vs. Sonic',
-                xaxis_title='Character',
-                yaxis_title='Speed (mph)',
-                height=400,
-                showlegend=False,
-                hovermode='x'
-            )
-            
-            # Add animation on load
-            fig.update_traces(marker_line_width=2, marker_line_color="darkslategrey")
-            
-            st.plotly_chart(fig, use_container_width=True)
+            # Create speed comparison graph (fallback to matplotlib if Plotly unavailable)
+            if PLOTLY_AVAILABLE:
+                fig = go.Figure()
+                
+                speeds = ['Jeremiah', 'Sonic']
+                values = [jeremiah_speed_mph, 767]
+                colors = ['#ff6b6b', '#4ecdc4']
+                
+                fig.add_trace(go.Bar(
+                    x=speeds,
+                    y=values,
+                    marker_color=colors,
+                    text=[f'{val:.1f} mph' for val in values],
+                    textposition='auto',
+                    hovertemplate='<b>%{x}</b><br>Speed: %{y:.1f} mph<extra></extra>'
+                ))
+                
+                fig.update_layout(
+                    title='Interactive Speed Comparison: Jeremiah vs. Sonic',
+                    xaxis_title='Character',
+                    yaxis_title='Speed (mph)',
+                    height=400,
+                    showlegend=False,
+                    hovermode='x'
+                )
+                
+                fig.update_traces(marker_line_width=2, marker_line_color="darkslategrey")
+                st.plotly_chart(fig, use_container_width=True)
+            else:
+                # Matplotlib fallback
+                fig, ax = plt.subplots(figsize=(10, 6))
+                speeds = ['Jeremiah', 'Sonic']
+                values = [jeremiah_speed_mph, 767]
+                colors = ['#ff6b6b', '#4ecdc4']
+                
+                bars = ax.bar(speeds, values, color=colors)
+                ax.set_ylabel('Speed (mph)')
+                ax.set_title('Speed Comparison: Jeremiah vs. Sonic')
+                ax.set_ylim(0, 800)
+                
+                for bar, value in zip(bars, values):
+                    height = bar.get_height()
+                    ax.text(bar.get_x() + bar.get_width()/2., height + 10,
+                           f'{value:.1f} mph', ha='center', va='bottom', fontweight='bold')
+                
+                st.pyplot(fig)
         
         # Mathematical Analysis of Results
         st.markdown("---")
@@ -387,47 +407,6 @@ elif page_selection == "📈 Week 1: Linear Functions":
         every hour, which is a **constant rate of change** - the hallmark of linear functions.
         """)
         
-        # Lincoln Park Distance Problem
-        st.markdown("---")
-        st.markdown("### 🏃‍♂️ Lincoln Park Challenge")
-        
-        st.markdown("""
-        **🎯 Learning Objective:** Solve real-world problems using linear equations and rate calculations
-        
-        **📚 Mathematical Concept:** This problem demonstrates **direct variation** - as distance increases, 
-        time increases proportionally. The relationship between distance and time at constant speed is linear.
-        
-        **Key Insight:** When speed is constant, time varies directly with distance: t = d/v
-        """)
-        
-        park_distance = st.slider("Lincoln Park distance (miles):", 0.1, 2.0, 0.8, 0.1)
-        
-        # Calculate times
-        jeremiah_time_minutes = (park_distance / jeremiah_speed_mph) * 60
-        sonic_time_seconds = (park_distance / 767) * 3600
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("Jeremiah's Time", f"{jeremiah_time_minutes:.1f} minutes")
-        with col2:
-            st.metric("Sonic's Time", f"{sonic_time_seconds:.2f} seconds")
-        
-        # Mathematical Explanation
-        st.markdown(f"""
-        **📐 Mathematical Work:**
-        
-        **For Jeremiah:**
-        - Time = Distance ÷ Speed = {park_distance} miles ÷ {jeremiah_speed_mph:.1f} mph = {jeremiah_time_minutes:.3f} hours
-        - Converting to minutes: {jeremiah_time_minutes:.3f} hours × 60 = {jeremiah_time_minutes:.1f} minutes
-        
-        **For Sonic:**  
-        - Time = {park_distance} miles ÷ 767 mph = {(park_distance/767):.6f} hours
-        - Converting to seconds: {(park_distance/767):.6f} hours × 3,600 = {sonic_time_seconds:.2f} seconds
-        
-        **🎯 Key Insight:** Both calculations use the same formula (t = d/v), but different units require 
-        different conversion factors. This demonstrates the importance of **dimensional analysis** in mathematics.
-        """)
-        
         # Segway Slope Analysis
         st.markdown("---")
         st.markdown("### 🛴 Segway Slope Analysis")
@@ -441,7 +420,6 @@ elif page_selection == "📈 Week 1: Linear Functions":
         **Real-World Application:** Slope is crucial in engineering, construction, road design, 
         and understanding how physical forces affect motion on inclined surfaces.
         """)
-        st.markdown("**Mathematical Connection:** Jersey City hills and rate of change")
         
         rise = st.slider("Hill rise (feet):", 10, 100, 50)
         run = st.slider("Horizontal distance (feet):", 100, 500, 200)
@@ -467,92 +445,46 @@ elif page_selection == "📈 Week 1: Linear Functions":
         - **Undefined slope:** Vertical line (cliff face)
         """)
         
-        # Engineering Applications
-        st.markdown(f"""
-        **⚙️ Engineering Applications:**
-        - **Road Grade Standards:** Most highways limit grades to 6% ({slope * 100:.1f}% {'exceeds' if slope > 0.06 else 'meets'} this standard)
-        - **ADA Compliance:** Wheelchair ramps must have slopes ≤ 1:12 or 8.33% 
-        - **Segway Performance:** Steeper slopes require more power and reduce speed/range
-        """)
-        
-        st.markdown(f"**Slope = Rise/Run = {rise}/{run} = {slope:.3f}**")
-        st.markdown(f"**Slope percentage: {slope * 100:.1f}%**")
-        
-        # Create slope visualization with interactive Plotly
-        fig = go.Figure()
-        x_vals = np.linspace(0, run, 100)
-        y_vals = slope * x_vals
-        
-        # Main slope line
-        fig.add_trace(go.Scatter(
-            x=x_vals, 
-            y=y_vals, 
-            mode='lines',
-            name=f'Hill Profile (slope = {slope:.3f})',
-            line=dict(color='#2ecc71', width=4),
-            fill='tonexty',
-            fillcolor='rgba(46, 204, 113, 0.3)',
-            hovertemplate='Distance: %{x:.0f} ft<br>Height: %{y:.0f} ft<extra></extra>'
-        ))
-        
-        # Add rise and run indicators
-        fig.add_trace(go.Scatter(
-            x=[0, run, run], 
-            y=[0, 0, rise], 
-            mode='lines+markers+text',
-            name='Rise/Run',
-            line=dict(color='red', width=2, dash='dash'),
-            marker=dict(size=8, color='red'),
-            text=['Start', f'Run: {run} ft', f'Rise: {rise} ft'],
-            textposition=['bottom center', 'bottom center', 'middle right'],
-            hoverinfo='skip'
-        ))
-        
-        fig.update_layout(
-            title=f'Interactive Jersey City Hill Profile<br>Slope = {slope:.3f} ({slope*100:.1f}% grade)',
-            xaxis_title='Horizontal Distance (feet)',
-            yaxis_title='Vertical Rise (feet)',
-            height=500,
-            showlegend=True,
-            hovermode='x unified'
-        )
-        
-        # Add grid
-        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
-        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
-        
-        st.plotly_chart(fig, use_container_width=True)
-        
-        # Interactive slope calculator
-        st.markdown("---")
-        st.markdown("### 🎮 Interactive Slope Challenge")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            challenge_rise = st.number_input("Challenge: Enter rise (ft):", min_value=1, max_value=200, value=75)
-        with col2:
-            challenge_run = st.number_input("Enter run (ft):", min_value=10, max_value=1000, value=300)
-        with col3:
-            user_guess = st.number_input("Guess the slope:", min_value=0.0, max_value=2.0, value=0.25, step=0.001, format="%.3f")
-        
-        actual_slope = challenge_rise / challenge_run
-        error = abs(user_guess - actual_slope)
-        
-        if st.button("Check My Answer! 🎯"):
-            if error < 0.001:
-                st.success(f"🎉 Perfect! Slope = {actual_slope:.3f}")
-                st.balloons()
-                # Award points
-                st.session_state.total_points += 10
-                if "🎯 Slope Master" not in st.session_state.achievements:
-                    st.session_state.achievements.append("🎯 Slope Master")
-            elif error < 0.01:
-                st.success(f"👍 Very close! Actual slope = {actual_slope:.3f}, you guessed {user_guess:.3f}")
-                st.session_state.total_points += 5
-            else:
-                st.error(f"❌ Try again! Actual slope = {actual_slope:.3f}")
-                st.markdown("💡 **Hint:** Remember, slope = rise ÷ run")
+        # Create slope visualization
+        if PLOTLY_AVAILABLE:
+            fig = go.Figure()
+            x_vals = np.linspace(0, run, 100)
+            y_vals = slope * x_vals
+            
+            fig.add_trace(go.Scatter(
+                x=x_vals, 
+                y=y_vals, 
+                mode='lines',
+                name=f'Hill Profile (slope = {slope:.3f})',
+                line=dict(color='#2ecc71', width=4),
+                fill='tonexty',
+                fillcolor='rgba(46, 204, 113, 0.3)',
+                hovertemplate='Distance: %{x:.0f} ft<br>Height: %{y:.0f} ft<extra></extra>'
+            ))
+            
+            fig.update_layout(
+                title=f'Jersey City Hill Profile<br>Slope = {slope:.3f} ({slope*100:.1f}% grade)',
+                xaxis_title='Horizontal Distance (feet)',
+                yaxis_title='Vertical Rise (feet)',
+                height=500,
+                showlegend=True
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            # Matplotlib fallback
+            fig, ax = plt.subplots(figsize=(10, 6))
+            x_vals = np.linspace(0, run, 100)
+            y_vals = slope * x_vals
+            
+            ax.plot(x_vals, y_vals, linewidth=3, color='#2ecc71')
+            ax.fill_between(x_vals, y_vals, alpha=0.3, color='#2ecc71')
+            ax.set_xlabel('Horizontal Distance (feet)')
+            ax.set_ylabel('Vertical Rise (feet)')
+            ax.set_title(f'Jersey City Hill Profile (Slope = {slope:.3f})')
+            ax.grid(True, alpha=0.3)
+            
+            st.pyplot(fig)
 
 # Week 2 content
 elif page_selection == "📊 Week 2: Quadratics":
@@ -562,7 +494,7 @@ elif page_selection == "📊 Week 2: Quadratics":
     st.markdown("**📚 Common Core:** HSA.REI.B.4")
     st.markdown("**🎯 Focus:** Quadratic Functions and Vertex Form")
     
-    # Mathematical Vocabulary and Concepts for Week 2
+    # Mathematical Vocabulary for Week 2
     with st.expander("📖 Week 2 Mathematical Vocabulary"):
         st.markdown("""
         **📊 Quadratic Functions:**
@@ -578,31 +510,6 @@ elif page_selection == "📊 Week 2: Quadratics":
         - **Maximum Height:** The highest point reached by a projectile
         - **Range:** The horizontal distance traveled by a projectile
         - **Time of Flight:** The total time a projectile remains in the air
-        
-        **📐 Quadratic Forms:**
-        - **Standard Form:** f(x) = ax² + bx + c
-        - **Vertex Form:** f(x) = a(x - h)² + k where (h,k) is the vertex
-        - **Factored Form:** f(x) = a(x - r₁)(x - r₂) where r₁ and r₂ are roots
-        """)
-    
-    with st.expander("🧮 Quadratic Formulas & Properties"):
-        st.markdown("""
-        **Essential Quadratic Formulas:**
-        - **Quadratic Formula:** x = (-b ± √(b² - 4ac)) / 2a
-        - **Vertex x-coordinate:** x = -b / 2a
-        - **Axis of Symmetry:** x = -b / 2a
-        - **Discriminant:** Δ = b² - 4ac
-        
-        **Projectile Motion Formulas:**
-        - **Height:** h(t) = -16t² + v₀t + h₀ (in feet)
-        - **Horizontal Distance:** x(t) = v₀cos(θ)t
-        - **Vertical Velocity:** vᵧ(t) = v₀sin(θ) - 32t
-        - **Maximum Height:** h_max = h₀ + (v₀sin(θ))² / 64
-        
-        **Key Properties:**
-        - If a > 0, parabola opens upward (has minimum)
-        - If a < 0, parabola opens downward (has maximum)  
-        - |a| determines how wide or narrow the parabola is
         """)
     
     # Football Trajectory Calculator
@@ -623,9 +530,6 @@ elif page_selection == "📊 Week 2: Quadratics":
     - v₀ = initial vertical velocity (ft/s)
     - h₀ = initial height (feet)
     - t = time (seconds)
-    
-    **Why Quadratic?** Gravity causes constant acceleration, and when you integrate constant 
-    acceleration twice, you get a quadratic (second-degree) function.
     """)
     
     col1, col2 = st.columns(2)
@@ -654,7 +558,7 @@ elif page_selection == "📊 Week 2: Quadratics":
         st.metric("Flight Time", f"{flight_time:.2f} seconds")
     
     with col2:
-        # Create 3D trajectory plot with Plotly
+        # Create trajectory plot
         t_vals = np.linspace(0, flight_time, 100)
         x_vals = v_x * t_vals
         y_vals = initial_height + v_y * t_vals - 0.5 * 32.2 * t_vals**2
@@ -663,153 +567,56 @@ elif page_selection == "📊 Week 2: Quadratics":
         valid_indices = y_vals >= 0
         x_vals = x_vals[valid_indices]
         y_vals = y_vals[valid_indices]
-        t_vals = t_vals[valid_indices]
         
-        # Create animated trajectory
-        fig = go.Figure()
-        
-        # Full trajectory path
-        fig.add_trace(go.Scatter(
-            x=x_vals, 
-            y=y_vals,
-            mode='lines',
-            name='Flight Path',
-            line=dict(color='#e74c3c', width=4),
-            hovertemplate='Distance: %{x:.1f} ft<br>Height: %{y:.1f} ft<extra></extra>'
-        ))
-        
-        # Mark key points
-        # Launch point
-        fig.add_trace(go.Scatter(
-            x=[0], y=[initial_height],
-            mode='markers+text',
-            marker=dict(size=12, color='green', symbol='star'),
-            text=['Launch'],
-            textposition='top center',
-            name='Launch Point',
-            hovertemplate='Launch Point<br>Height: %{y:.1f} ft<extra></extra>'
-        ))
-        
-        # Peak point
-        vertex_x = max_distance / 2
-        fig.add_trace(go.Scatter(
-            x=[vertex_x], y=[max_height],
-            mode='markers+text',
-            marker=dict(size=12, color='gold', symbol='diamond'),
-            text=['Peak'],
-            textposition='top center',
-            name='Maximum Height',
-            hovertemplate='Peak<br>Distance: %{x:.1f} ft<br>Height: %{y:.1f} ft<extra></extra>'
-        ))
-        
-        # Landing point
-        fig.add_trace(go.Scatter(
-            x=[max_distance], y=[0],
-            mode='markers+text',
-            marker=dict(size=12, color='red', symbol='x'),
-            text=['Landing'],
-            textposition='top center',
-            name='Landing Point',
-            hovertemplate='Landing Point<br>Distance: %{x:.1f} ft<extra></extra>'
-        ))
-        
-        # Add field markings every 10 yards
-        yard_lines = np.arange(0, max_distance + 30, 30)  # Every 10 yards (30 feet)
-        for yard in yard_lines:
-            fig.add_vline(x=yard, line_dash="dot", line_color="gray", opacity=0.5)
-        
-        fig.update_layout(
-            title=f'🏈 Interactive Football Trajectory Analysis<br>θ={launch_angle}°, v₀={initial_velocity} ft/s',
-            xaxis_title='Horizontal Distance (feet)',
-            yaxis_title='Height (feet)',
-            height=500,
-            showlegend=True,
-            hovermode='x unified'
-        )
-        
-        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
-        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray', range=[0, max(y_vals) * 1.1])
-        
-        st.plotly_chart(fig, use_container_width=True)
-    
-    # Animated trajectory simulation
-    st.markdown("---")
-    st.markdown("### 🎬 Trajectory Animation")
-    
-    if st.button("🚀 Launch Football Animation"):
-        animation_placeholder = st.empty()
-        progress_bar = st.progress(0)
-        
-        # Animation parameters
-        animation_steps = 50
-        
-        for step in range(animation_steps + 1):
-            progress = step / animation_steps
-            current_time = progress * flight_time
+        if PLOTLY_AVAILABLE:
+            fig = go.Figure()
             
-            # Calculate position at current time
-            if current_time <= flight_time:
-                current_x = v_x * current_time
-                current_y = max(0, initial_height + v_y * current_time - 0.5 * 32.2 * current_time**2)
-            else:
-                current_x = max_distance
-                current_y = 0
-            
-            # Create animation frame
-            anim_fig = go.Figure()
-            
-            # Full trajectory (faded)
-            anim_fig.add_trace(go.Scatter(
-                x=x_vals, y=y_vals,
+            fig.add_trace(go.Scatter(
+                x=x_vals, 
+                y=y_vals,
                 mode='lines',
-                line=dict(color='lightgray', width=2),
-                name='Full Path',
-                showlegend=False
+                name='Flight Path',
+                line=dict(color='#e74c3c', width=4),
+                hovertemplate='Distance: %{x:.1f} ft<br>Height: %{y:.1f} ft<extra></extra>'
             ))
             
-            # Current position (highlighted)
-            anim_fig.add_trace(go.Scatter(
-                x=[current_x], y=[current_y],
-                mode='markers',
-                marker=dict(size=20, color='red', symbol='circle'),
-                name='Football',
-                showlegend=False
+            # Mark peak point
+            vertex_x = max_distance / 2
+            fig.add_trace(go.Scatter(
+                x=[vertex_x], y=[max_height],
+                mode='markers+text',
+                marker=dict(size=12, color='gold', symbol='diamond'),
+                text=['Peak'],
+                textposition='top center',
+                name='Maximum Height',
+                hovertemplate='Peak<br>Distance: %{x:.1f} ft<br>Height: %{y:.1f} ft<extra></extra>'
             ))
             
-            # Trajectory so far (colored)
-            if step > 0:
-                t_so_far = np.linspace(0, current_time, step)
-                x_so_far = v_x * t_so_far
-                y_so_far = np.maximum(0, initial_height + v_y * t_so_far - 0.5 * 32.2 * t_so_far**2)
-                
-                anim_fig.add_trace(go.Scatter(
-                    x=x_so_far, y=y_so_far,
-                    mode='lines',
-                    line=dict(color='#e74c3c', width=4),
-                    name='Flight Path',
-                    showlegend=False
-                ))
-            
-            anim_fig.update_layout(
-                title=f'🏈 Football in Flight - Time: {current_time:.2f}s<br>Position: ({current_x:.1f}, {current_y:.1f}) ft',
-                xaxis_title='Distance (feet)',
+            fig.update_layout(
+                title=f'🏈 Football Trajectory Analysis<br>θ={launch_angle}°, v₀={initial_velocity} ft/s',
+                xaxis_title='Horizontal Distance (feet)',
                 yaxis_title='Height (feet)',
-                height=400,
-                xaxis=dict(range=[0, max_distance * 1.1]),
-                yaxis=dict(range=[0, max_height * 1.2])
+                height=500,
+                showlegend=True
             )
             
-            animation_placeholder.plotly_chart(anim_fig, use_container_width=True)
-            progress_bar.progress(progress)
-            time.sleep(0.1)
-        
-        st.success("🎯 Touchdown! Animation complete!")
-        
-        # Award achievement points
-        st.session_state.total_points += 15
-        if "🏈 Trajectory Master" not in st.session_state.achievements:
-            st.session_state.achievements.append("🏈 Trajectory Master")
-        st.session_state.week_progress['Week 2'] = min(100, st.session_state.week_progress['Week 2'] + 25)
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            # Matplotlib fallback
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.plot(x_vals, y_vals, linewidth=3, color='#e74c3c')
+            ax.fill_between(x_vals, y_vals, alpha=0.3, color='#e74c3c')
+            ax.set_xlabel('Horizontal Distance (feet)')
+            ax.set_ylabel('Height (feet)')
+            ax.set_title(f'Football Trajectory (θ={launch_angle}°, v₀={initial_velocity} ft/s)')
+            ax.grid(True, alpha=0.3)
+            
+            # Mark maximum height
+            vertex_x = max_distance / 2
+            ax.plot(vertex_x, max_height, 'go', markersize=8, label=f'Peak: ({vertex_x:.1f}, {max_height:.1f})')
+            ax.legend()
+            
+            st.pyplot(fig)
 
 # Week 3 content  
 elif page_selection == "📈 Week 3: Exponential & Radicals":
@@ -860,54 +667,53 @@ elif page_selection == "📈 Week 3: Exponential & Radicals":
         exponential_values = initial_value * ((1 + growth_decimal) ** time_vals)
         linear_values = initial_value + (initial_value * growth_decimal * time_vals)
         
-        # Create interactive comparison plot
-        fig = go.Figure()
-        
-        # Exponential growth
-        fig.add_trace(go.Scatter(
-            x=time_vals, y=exponential_values,
-            mode='lines',
-            name=f'Exponential Growth ({growth_rate}%)',
-            line=dict(color='#e74c3c', width=4),
-            hovertemplate=f'Time: %{{x:.1f}}<br>{y_label}: %{{y:,.0f}}<extra></extra>'
-        ))
-        
-        # Linear growth comparison
-        fig.add_trace(go.Scatter(
-            x=time_vals, y=linear_values,
-            mode='lines',
-            name=f'Linear Growth (for comparison)',
-            line=dict(color='#3498db', width=3, dash='dash'),
-            hovertemplate=f'Time: %{{x:.1f}}<br>{y_label}: %{{y:,.0f}}<extra></extra>'
-        ))
-        
-        # Mark key points
-        final_exponential = initial_value * ((1 + growth_decimal) ** time_period)
-        final_linear = initial_value + (initial_value * growth_decimal * time_period)
-        
-        fig.add_trace(go.Scatter(
-            x=[time_period], y=[final_exponential],
-            mode='markers+text',
-            marker=dict(size=12, color='red', symbol='star'),
-            text=[f'Final: {final_exponential:,.0f}'],
-            textposition='top center',
-            name='Exponential End Point',
-            showlegend=False
-        ))
-        
-        time_unit = "weeks" if growth_type == "Athletic Performance" else "years"
-        fig.update_layout(
-            title=f'📊 {growth_type}: Exponential vs Linear Growth',
-            xaxis_title=f'Time ({time_unit})',
-            yaxis_title=y_label,
-            height=500,
-            hovermode='x unified'
-        )
-        
-        st.plotly_chart(fig, use_container_width=True)
+        # Create comparison plot
+        if PLOTLY_AVAILABLE:
+            fig = go.Figure()
+            
+            fig.add_trace(go.Scatter(
+                x=time_vals, y=exponential_values,
+                mode='lines',
+                name=f'Exponential Growth ({growth_rate}%)',
+                line=dict(color='#e74c3c', width=4),
+                hovertemplate=f'Time: %{{x:.1f}}<br>{y_label}: %{{y:,.0f}}<extra></extra>'
+            ))
+            
+            fig.add_trace(go.Scatter(
+                x=time_vals, y=linear_values,
+                mode='lines',
+                name=f'Linear Growth (for comparison)',
+                line=dict(color='#3498db', width=3, dash='dash'),
+                hovertemplate=f'Time: %{{x:.1f}}<br>{y_label}: %{{y:,.0f}}<extra></extra>'
+            ))
+            
+            time_unit = "weeks" if growth_type == "Athletic Performance" else "years"
+            fig.update_layout(
+                title=f'📊 {growth_type}: Exponential vs Linear Growth',
+                xaxis_title=f'Time ({time_unit})',
+                yaxis_title=y_label,
+                height=500,
+                hovermode='x unified'
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            # Matplotlib fallback
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.plot(time_vals, exponential_values, label=f'Exponential ({growth_rate}%)', linewidth=3, color='#e74c3c')
+            ax.plot(time_vals, linear_values, label='Linear (comparison)', linewidth=3, color='#3498db', linestyle='--')
+            ax.set_xlabel(f'Time ({"weeks" if growth_type == "Athletic Performance" else "years"})')
+            ax.set_ylabel(y_label)
+            ax.set_title(f'{growth_type}: Exponential vs Linear Growth')
+            ax.legend()
+            ax.grid(True, alpha=0.3)
+            st.pyplot(fig)
         
         # Show mathematical analysis
+        final_exponential = initial_value * ((1 + growth_decimal) ** time_period)
+        final_linear = initial_value + (initial_value * growth_decimal * time_period)
         difference = final_exponential - final_linear
+        
         st.success(f"""
         **📊 Growth Analysis:**
         - **Exponential Final Value:** {final_exponential:,.0f}
@@ -940,76 +746,67 @@ elif page_selection == "🎓 Week 4: College Prep":
         njit_sat_min = 1250
         rpi_gpa_min = 3.7
         rpi_sat_min = 1350
+        
+        # Calculate readiness scores
+        njit_gpa_ready = current_gpa >= njit_gpa_min
+        njit_sat_ready = target_sat >= njit_sat_min
+        rpi_gpa_ready = current_gpa >= rpi_gpa_min
+        rpi_sat_ready = target_sat >= rpi_sat_min
+        
+        st.markdown("**College Requirements:**")
+        st.markdown(f"• NJIT: GPA ≥ {njit_gpa_min}, SAT ≥ {njit_sat_min}")
+        st.markdown(f"• RPI: GPA ≥ {rpi_gpa_min}, SAT ≥ {rpi_sat_min}")
+        
+        st.markdown("**Your Status:**")
+        st.markdown(f"• NJIT GPA: {'✅' if njit_gpa_ready else '❌'} ({current_gpa} {'≥' if njit_gpa_ready else '<'} {njit_gpa_min})")
+        st.markdown(f"• NJIT SAT: {'✅' if njit_sat_ready else '❌'} ({target_sat} {'≥' if njit_sat_ready else '<'} {njit_sat_min})")
+        st.markdown(f"• RPI GPA: {'✅' if rpi_gpa_ready else '❌'} ({current_gpa} {'≥' if rpi_gpa_ready else '<'} {rpi_gpa_min})")
+        st.markdown(f"• RPI SAT: {'✅' if rpi_sat_ready else '❌'} ({target_sat} {'≥' if rpi_sat_ready else '<'} {rpi_sat_min})")
     
     with col2:
-        # Create interactive college readiness radar chart
-        categories = ['GPA', 'SAT Score', 'Extracurriculars', 'Leadership', 'Overall Score']
-        
-        # Normalize scores to 0-100 scale
-        gpa_score = min(100, (current_gpa / 4.0) * 100)
-        sat_score = min(100, ((target_sat - 1000) / 600) * 100)
-        extra_score = min(100, (extracurriculars / 8) * 100)
-        leadership_score = min(100, (leadership_roles / 4) * 100)
-        overall_score = (gpa_score + sat_score + extra_score + leadership_score) / 4
-        
-        current_scores = [gpa_score, sat_score, extra_score, leadership_score, overall_score]
-        
-        # NJIT requirements normalized
-        njit_gpa_score = (njit_gpa_min / 4.0) * 100
-        njit_sat_score = ((njit_sat_min - 1000) / 600) * 100
-        njit_scores = [njit_gpa_score, njit_sat_score, 60, 50, 60]  # Estimated requirements
-        
-        # RPI requirements normalized  
-        rpi_gpa_score = (rpi_gpa_min / 4.0) * 100
-        rpi_sat_score = ((rpi_sat_min - 1000) / 600) * 100
-        rpi_scores = [rpi_gpa_score, rpi_sat_score, 75, 65, 75]  # Estimated requirements
-        
-        fig = go.Figure()
-        
-        # Current profile
-        fig.add_trace(go.Scatterpolar(
-            r=current_scores + [current_scores[0]],  # Close the polygon
-            theta=categories + [categories[0]],
-            fill='toself',
-            name='Your Current Profile',
-            line_color='#3498db',
-            fillcolor='rgba(52, 152, 219, 0.3)'
-        ))
-        
-        # NJIT requirements
-        fig.add_trace(go.Scatterpolar(
-            r=njit_scores + [njit_scores[0]],
-            theta=categories + [categories[0]],
-            fill='toself',
-            name='NJIT Requirements',
-            line_color='#2ecc71',
-            fillcolor='rgba(46, 204, 113, 0.2)'
-        ))
-        
-        # RPI requirements
-        fig.add_trace(go.Scatterpolar(
-            r=rpi_scores + [rpi_scores[0]],
-            theta=categories + [categories[0]],
-            fill='toself',
-            name='RPI Requirements',
-            line_color='#e74c3c',
-            fillcolor='rgba(231, 76, 60, 0.2)'
-        ))
-        
-        fig.update_layout(
-            polar=dict(
-                radialaxis=dict(
-                    visible=True,
-                    range=[0, 100]
-                )),
-            showlegend=True,
-            title="🎯 College Readiness Radar",
-            height=500
-        )
-        
-        st.plotly_chart(fig, use_container_width=True)
+        if PLOTLY_AVAILABLE:
+            # Create college readiness radar chart
+            categories = ['GPA', 'SAT Score', 'Extracurriculars', 'Leadership', 'Overall Score']
+            
+            # Normalize scores to 0-100 scale
+            gpa_score = min(100, (current_gpa / 4.0) * 100)
+            sat_score = min(100, ((target_sat - 1000) / 600) * 100)
+            extra_score = min(100, (extracurriculars / 8) * 100)
+            leadership_score = min(100, (leadership_roles / 4) * 100)
+            overall_score = (gpa_score + sat_score + extra_score + leadership_score) / 4
+            
+            current_scores = [gpa_score, sat_score, extra_score, leadership_score, overall_score]
+            
+            fig = go.Figure()
+            
+            fig.add_trace(go.Scatterpolar(
+                r=current_scores + [current_scores[0]],
+                theta=categories + [categories[0]],
+                fill='toself',
+                name='Your Current Profile',
+                line_color='#3498db',
+                fillcolor='rgba(52, 152, 219, 0.3)'
+            ))
+            
+            fig.update_layout(
+                polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
+                showlegend=True,
+                title="🎯 College Readiness Profile",
+                height=500
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            # Simplified readiness display
+            st.markdown("### 📊 Readiness Summary")
+            overall_njit = (njit_gpa_ready + njit_sat_ready) / 2 * 100
+            overall_rpi = (rpi_gpa_ready + rpi_sat_ready) / 2 * 100
+            
+            st.metric("NJIT Readiness", f"{overall_njit:.0f}%")
+            st.metric("RPI Readiness", f"{overall_rpi:.0f}%")
+            st.metric("Extracurricular Score", f"{min(100, extracurriculars * 10):.0f}%")
 
-# Ask Dr. X page with enhanced features
+# Ask Dr. X page
 elif page_selection == "🤖 Ask Dr. X":
     st.title("🤖 Ask Dr. X - Your AI Math Tutor")
     
@@ -1023,10 +820,56 @@ elif page_selection == "🤖 Ask Dr. X":
     </div>
     """, unsafe_allow_html=True)
     
-    # Display chat history with better formatting
+    # Quick help buttons
+    st.markdown("### 🎯 Quick Help Topics")
+    help_topics = st.columns(4)
+    
+    with help_topics[0]:
+        if st.button("🏈 Football Math"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "Help me understand the math behind football trajectories and optimal throwing angles."
+            })
+            response = ask_drx("Help me understand the math behind football trajectories and optimal throwing angles.")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+            st.rerun()
+    
+    with help_topics[1]:
+        if st.button("🏠 Real Estate"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "Explain how to calculate real estate ROI and commission structures."
+            })
+            response = ask_drx("Explain how to calculate real estate ROI and commission structures.")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+            st.rerun()
+    
+    with help_topics[2]:
+        if st.button("📊 Quadratics"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "I need help understanding vertex form and completing the square."
+            })
+            response = ask_drx("I need help understanding vertex form and completing the square.")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+            st.rerun()
+    
+    with help_topics[3]:
+        if st.button("🎓 College Prep"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "What math skills do I need for NJIT and RPI admissions?"
+            })
+            response = ask_drx("What math skills do I need for NJIT and RPI admissions?")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+            st.rerun()
+    
+    # Display chat history
+    st.markdown("### 💬 Chat with Dr. X")
+    
     chat_container = st.container()
     with chat_container:
-        for i, message in enumerate(st.session_state.chat_history):
+        for message in st.session_state.chat_history:
             if message["role"] == "user":
                 st.markdown(f"""
                 <div style="background: #e3f2fd; padding: 10px; border-radius: 10px; margin: 5px 0;">
@@ -1043,23 +886,34 @@ elif page_selection == "🤖 Ask Dr. X":
     # Chat input
     user_input = st.text_input("Ask Dr. X:", placeholder="e.g., How do I find the vertex of a parabola?")
     
-    if st.button("Send 📤") and user_input:
-        # Add user message
-        st.session_state.chat_history.append({"role": "user", "content": user_input})
-        
-        # Get Dr. X response
-        with st.spinner("Dr. X is thinking..."):
-            response = ask_drx(user_input)
-        
-        # Add response
-        st.session_state.chat_history.append({"role": "assistant", "content": response})
-        st.rerun()
+    col1, col2 = st.columns([4, 1])
     
-    if st.button("🗑️ Clear Chat"):
-        st.session_state.chat_history = [
-            {"role": "assistant", "content": "Hello Jeremiah! I'm Dr. X, your AI math coach. Ready to tackle some math problems?"}
-        ]
-        st.rerun()
+    with col1:
+        if st.button("Send 📤") and user_input:
+            # Add user message
+            st.session_state.chat_history.append({"role": "user", "content": user_input})
+            
+            # Get Dr. X response
+            with st.spinner("Dr. X is thinking..."):
+                response = ask_drx(user_input)
+            
+            # Add response
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+            
+            # Award points for asking questions
+            st.session_state.total_points += 2
+            if len([msg for msg in st.session_state.chat_history if msg["role"] == "user"]) >= 10:
+                if "💬 Chat Champion" not in st.session_state.achievements:
+                    st.session_state.achievements.append("💬 Chat Champion")
+            
+            st.rerun()
+    
+    with col2:
+        if st.button("🗑️ Clear Chat"):
+            st.session_state.chat_history = [
+                {"role": "assistant", "content": "Hello Jeremiah! I'm Dr. X, your AI math coach. Ready to tackle some math problems?"}
+            ]
+            st.rerun()
 
 # Progress Dashboard
 elif page_selection == "📊 Progress Dashboard":
@@ -1084,31 +938,69 @@ elif page_selection == "📊 Progress Dashboard":
     st.markdown("---")
     st.markdown("### 📈 Weekly Progress Tracking")
     
-    # Create interactive progress chart
     weeks = list(st.session_state.week_progress.keys())
     progress_values = list(st.session_state.week_progress.values())
     
-    fig = go.Figure()
+    if PLOTLY_AVAILABLE:
+        fig = go.Figure()
+        
+        fig.add_trace(go.Bar(
+            x=weeks,
+            y=progress_values,
+            marker_color=['#2ecc71' if p >= 100 else '#3498db' if p >= 50 else '#e74c3c' for p in progress_values],
+            text=[f'{p}%' for p in progress_values],
+            textposition='auto',
+            hovertemplate='Week: %{x}<br>Progress: %{y}%<extra></extra>'
+        ))
+        
+        fig.update_layout(
+            title='📊 Weekly Progress Overview',
+            xaxis_title='Week',
+            yaxis_title='Completion Percentage',
+            height=400,
+            yaxis=dict(range=[0, 120])
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        # Matplotlib fallback
+        fig, ax = plt.subplots(figsize=(10, 6))
+        colors = ['#2ecc71' if p >= 100 else '#3498db' if p >= 50 else '#e74c3c' for p in progress_values]
+        bars = ax.bar(weeks, progress_values, color=colors)
+        
+        for bar, value in zip(bars, progress_values):
+            height = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2., height + 1,
+                   f'{value}%', ha='center', va='bottom', fontweight='bold')
+        
+        ax.set_ylabel('Completion Percentage')
+        ax.set_title('Weekly Progress Overview')
+        ax.set_ylim(0, 120)
+        ax.grid(True, alpha=0.3)
+        
+        st.pyplot(fig)
     
-    # Progress bars
-    fig.add_trace(go.Bar(
-        x=weeks,
-        y=progress_values,
-        marker_color=['#2ecc71' if p >= 100 else '#3498db' if p >= 50 else '#e74c3c' for p in progress_values],
-        text=[f'{p}%' for p in progress_values],
-        textposition='auto',
-        hovertemplate='Week: %{x}<br>Progress: %{y}%<extra></extra>'
-    ))
+    # Achievement showcase
+    st.markdown("---")
+    st.markdown("### 🏆 Achievement Gallery")
     
-    fig.update_layout(
-        title='📊 Weekly Progress Overview',
-        xaxis_title='Week',
-        yaxis_title='Completion Percentage',
-        height=400,
-        yaxis=dict(range=[0, 120])
-    )
+    all_achievements = {
+        "🦔 Speed Demon": "Complete Week 1 Linear Functions",
+        "🏈 Trajectory Master": "Complete Week 2 Quadratics", 
+        "🔄 Systems Solver": "Complete Week 3 Systems",
+        "🎓 College Ready": "Complete Week 4 Advanced Topics",
+        "💬 Chat Champion": "Ask Dr. X 10 questions",
+        "🎯 Perfect Shot": "Optimize a football trajectory"
+    }
     
-    st.plotly_chart(fig, use_container_width=True)
+    achievement_cols = st.columns(3)
+    
+    for i, (achievement, description) in enumerate(all_achievements.items()):
+        with achievement_cols[i % 3]:
+            if achievement in st.session_state.achievements:
+                st.success(f"✅ **{achievement}**\n\n{description}")
+            else:
+                st.info(f"🔒 **{achievement}**\n\n{description}")
 
 # Footer
 st.markdown("---")

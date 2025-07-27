@@ -7,13 +7,6 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 import time
-import altair as alt
-from streamlit_option_menu import option_menu
-from streamlit_lottie import st_lottie
-try:
-    from streamlit_plotly_events import plotly_events
-except ImportError:
-    plotly_events = None
 
 # --- Page Setup ---
 st.set_page_config(
@@ -129,18 +122,14 @@ def ask_drx(message):
     except Exception as e:
         return "I'm having trouble connecting right now. Please try again."
 
-# --- Sidebar navigation with enhanced menu ---
+# --- Sidebar navigation ---
 st.sidebar.title("📚 Navigation")
 
-# Enhanced navigation menu
-with st.sidebar:
-    selected = option_menu(
-        "MathCraft Sections",
-        ["🏠 Home", "📈 Week 1", "📊 Week 2", "🔄 Week 3", "🎓 Week 4", "🤖 Dr. X", "📊 Progress"],
-        icons=['house', 'graph-up', 'bar-chart', 'arrow-repeat', 'mortarboard', 'robot', 'trophy'],
-        menu_icon="calculator",
-        default_index=0,
-    )
+# Simple navigation menu
+selected = st.sidebar.selectbox(
+    "Choose a section:",
+    ["🏠 Home", "📈 Week 1", "📊 Week 2", "🔄 Week 3", "🎓 Week 4", "🤖 Dr. X", "📊 Progress"]
+)
 
 # Gamified Progress Tracker
 st.sidebar.markdown("---")

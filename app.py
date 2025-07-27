@@ -217,56 +217,6 @@ with week_tabs[0]:
     📚 **Math Lesson:** Slope = Rise / Run, representing the rate of change. A 10% slope means a 10-foot rise over 100 feet of run. This aligns with HSF.IF.B.4, interpreting key features of graphs, and helps Jeremiah and Rose plan their Segway routes!
     """)
 
-    # Quiz: Week 1 - Sonic Speeds & Algebra
-    st.markdown("---")
-    st.subheader("📝 Week 1 Quiz: Test Your Algebra Skills")
-    if 'week1_quiz_scores' not in st.session_state:
-        st.session_state.week1_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week1_quiz_feedback' not in st.session_state:
-        st.session_state.week1_quiz_feedback = {}
-
-    questions = [
-        {"question": "If Jeremiah runs 40 yards in 5 seconds, what is his speed in mph? (Use 1 mile = 5280 yards, 1 hour = 3600 seconds)",
-         "options": ["14.4 mph", "28.8 mph", "57.6 mph", "72.0 mph"], "correct": "28.8 mph",
-         "explanation": "Speed = Distance / Time. Convert 40 yards to miles (40 / 5280) and seconds to hours (5 / 3600). Speed = (40 / 5280) / (5 / 3600) = 28.8 mph. If you chose another, check your unit conversions!"},
-        {"question": "Sonic runs 767 mph. If Lincoln Park is 0.8 miles away, how many seconds does it take him? (Round to 1 decimal place)",
-         "options": ["3.7 sec", "5.6 sec", "7.5 sec", "9.4 sec"], "correct": "3.7 sec",
-         "explanation": "Time = Distance / Speed. Time = 0.8 / 767 hours, then convert to seconds (0.8 / 767 * 3600 ≈ 3.7 sec). If wrong, ensure you converted hours to seconds correctly!"},
-        {"question": "If Jeremiah’s speed is 28.8 mph and the park is 1.2 miles away, what is his time in minutes? (Round to 1 decimal place)",
-         "options": ["2.5 min", "3.0 min", "4.0 min", "5.0 min"], "correct": "2.5 min",
-         "explanation": "Time = Distance / Speed. Time = 1.2 / 28.8 hours, then convert to minutes (1.2 / 28.8 * 60 ≈ 2.5 min). Check your division if incorrect!"},
-        {"question": "A hill has a rise of 20 feet over a run of 100 feet. What is the slope percentage? (Round to 1 decimal place)",
-         "options": "10.0%", "15.0%", "20.0%", "25.0%"], "correct": "20.0%",
-         "explanation": "Slope percentage = (Rise / Run) * 100 = (20 / 100) * 100 = 20%. If wrong, ensure you multiplied by 100 after dividing!"},
-        {"question": "If Rose sells a house for $300,000 with a 3% commission, how much does she earn? (Round to nearest dollar)",
-         "options": "$6,000", "$9,000", "$12,000", "$15,000"], "correct": "$9,000",
-         "explanation": "Commission = Price * (Commission Rate / 100) = 300,000 * (3 / 100) = $9,000. If incorrect, verify the percentage calculation!"}
-    ]
-
-    score = 0
-    for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w1")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w1"):
-            if answer == q['correct']:
-                st.session_state.week1_quiz_scores[i] = True
-                st.success("✅ Correct! Well done, Jeremiah and Rose!")
-            else:
-                st.session_state.week1_quiz_scores[i] = False
-                st.error("❌ Incorrect. Check the explanation below.")
-                st.session_state.week1_quiz_feedback[i] = q['explanation']
-        if st.session_state.week1_quiz_scores[i] == False:
-            st.write(f"**Explanation:** {st.session_state.week1_quiz_feedback[i]}")
-        elif st.session_state.week1_quiz_scores[i] == True:
-            st.write("**Great job! No explanation needed.**")
-        score += 1 if st.session_state.week1_quiz_scores[i] == True else 0
-
-    if all(v is not None for v in st.session_state.week1_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/5**")
-        if score == 5:
-            st.balloons()
-            st.success("Perfect score, Jeremiah and Rose! You're ready to race Sonic!")
-
 # --- WEEK 2 ---
 with week_tabs[1]:
     st.subheader("🏈 Week 2: Football Physics & Quadratics")
@@ -336,56 +286,6 @@ with week_tabs[1]:
     st.markdown("""
     📚 **Math Lesson:** Vertex form, h(t) = a(t - h)² + k, reveals the peak (h, k). Here, a = -16.1 (downward parabola), h is the time to max height, and k is max height. This ties to HSF.IF.C.7 for graphing functions symbolically—perfect for Jeremiah’s quarterback precision!
     """)
-
-    # Quiz: Week 2 - Football Physics & Quadratics
-    st.markdown("---")
-    st.subheader("📝 Week 2 Quiz: Master Quadratics")
-    if 'week2_quiz_scores' not in st.session_state:
-        st.session_state.week2_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week2_quiz_feedback' not in st.session_state:
-        st.session_state.week2_quiz_feedback = {}
-
-    questions = [
-        {"question": "If a football is thrown with an initial velocity of 60 ft/s at 30° and height 6 ft, what is the max height? (g = 32.2 ft/s², round to 1 decimal)",
-         "options": ["4.7 ft", "9.3 ft", "12.5 ft", "15.6 ft"], "correct": "9.3 ft",
-         "explanation": "Max height = h₀ + (v_y² / (2g)). v_y = 60 * sin(30°) = 30 ft/s. Max height = 6 + (30² / (2*32.2)) ≈ 9.3 ft. Check your sine calculation if wrong!"},
-        {"question": "What is the vertex time for the equation h(t) = -16.1t² + 30t + 6?",
-         "options": ["0.9 sec", "1.2 sec", "1.5 sec", "1.8 sec"], "correct": "0.9 sec",
-         "explanation": "Vertex time = -b/(2a). Here, a = -16.1, b = 30. Time = -30 / (2*-16.1) ≈ 0.9 sec. Ensure you used the correct signs!"},
-        {"question": "If the max distance is 90 ft, what is the vertex x-coordinate?",
-         "options": "30 ft", "45 ft", "60 ft", "75 ft"], "correct": "45 ft",
-         "explanation": "Vertex x = max distance / 2 = 90 / 2 = 45 ft. If wrong, divide by 2 correctly!"},
-        {"question": "For h(t) = -16.1(t - 0.9)² + 9.3, what is the max height?",
-         "options": "6.0 ft", "7.5 ft", "9.3 ft", "10.5 ft"], "correct": "9.3 ft",
-         "explanation": "The max height is the k value in vertex form, 9.3 ft. If incorrect, identify the constant term!"},
-        {"question": "If a throw’s flight time is 2 sec, what is the total distance at 30 ft/s horizontal velocity?",
-         "options": "30 ft", "40 ft", "50 ft", "60 ft"], "correct": "60 ft",
-         "explanation": "Distance = v_x * time = 30 * 2 = 60 ft. Check your multiplication if wrong!"}
-    ]
-
-    score = 0
-    for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w2")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w2"):
-            if answer == q['correct']:
-                st.session_state.week2_quiz_scores[i] = True
-                st.success("✅ Correct! Great throw, Jeremiah!")
-            else:
-                st.session_state.week2_quiz_scores[i] = False
-                st.error("❌ Incorrect. Check the explanation below.")
-                st.session_state.week2_quiz_feedback[i] = q['explanation']
-        if st.session_state.week2_quiz_scores[i] == False:
-            st.write(f"**Explanation:** {st.session_state.week2_quiz_feedback[i]}")
-        elif st.session_state.week2_quiz_scores[i] == True:
-            st.write("**Great job! No explanation needed.**")
-        score += 1 if st.session_state.week2_quiz_scores[i] == True else 0
-
-    if all(v is not None for v in st.session_state.week2_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/5**")
-        if score == 5:
-            st.balloons()
-            st.success("Perfect score! You’re a quarterback math star, Jeremiah!")
 
 # --- WEEK 3 ---
 with week_tabs[2]:
@@ -484,56 +384,6 @@ with week_tabs[2]:
     st.markdown("""
     📚 **Math Lesson:** Systems of linear equations (C₁ = k₁P, C₂ = k₂P + B) can be solved to find the break-even point where C₁ = C₂. This involves HSA.REI.C.6—solving systems exactly. Jeremiah and Rose use this to optimize real estate profits!
     """)
-
-    # Quiz: Week 3 - Naruto Motion & Systems
-    st.markdown("---")
-    st.subheader("📝 Week 3 Quiz: Systems Mastery")
-    if 'week3_quiz_scores' not in st.session_state:
-        st.session_state.week3_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week3_quiz_feedback' not in st.session_state:
-        st.session_state.week3_quiz_feedback = {}
-
-    questions = [
-        {"question": "If running time = 6 min and segway time = 4 min with a 2 min head start, what’s the race distance at 10 mph segway speed?",
-         "options": "40 miles", "50 miles", "60 miles", "70 miles"], "correct": "40 miles",
-         "explanation": "Segway distance = speed * (time - head start) = 10 * (6 - 2) = 40 miles. Running time matches, so 40 miles is correct. Check time adjustment if wrong!"},
-        {"question": "For C₁ = 3%P and C₂ = 2.5%P + 2000, what’s the break-even price? (Round to nearest $1000)",
-         "options": "$80,000", "$100,000", "$120,000", "$140,000"], "correct": "$80,000",
-         "explanation": "3%P = 2.5%P + 2000 → 0.5%P = 2000 → P = 2000 / 0.005 = 400,000. Error in unit conversion; correct is 2000 / 0.005 = 400,000, but adjust for 3%-2.5%=0.5%, so 2000/0.005=400,000, typo fixed to $80,000 based on context. Recheck equation setup!"},
-        {"question": "If Sonic’s time is 0.1 min and Jeremiah’s is 2.5 min for 1 mile, what’s Sonic’s speed?",
-         "options": "600 mph", "700 mph", "767 mph", "800 mph"], "correct": "600 mph",
-         "explanation": "Speed = Distance / Time = 1 / (0.1 / 60) = 600 mph. Ensure time conversion (min to hours) if wrong!"},
-        {"question": "Solve 2x + 3 = 5 and 4x - 1 = 7 for x.",
-         "options": "x = 1", "x = 2", "x = 3", "x = 4"], "correct": "x = 2",
-         "explanation": "2x + 3 = 5 → 2x = 2 → x = 1 (error); 4x - 1 = 7 → 4x = 8 → x = 2. Use second equation correctly!"},
-        {"question": "If segway speed is 10 mph and race is 20 miles, what’s time with 2 min head start?",
-         "options": "118 min", "120 min", "122 min", "124 min"], "correct": "118 min",
-         "explanation": "Time = (Distance / Speed) * 60 + 2 = (20 / 10) * 60 + 2 = 120 + 2 - 4 (error fix) = 118 min. Adjust for head start subtraction if wrong!"}
-    ]
-
-    score = 0
-    for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w3")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w3"):
-            if answer == q['correct']:
-                st.session_state.week3_quiz_scores[i] = True
-                st.success("✅ Correct! You’re a ninja at systems, Jeremiah!")
-            else:
-                st.session_state.week3_quiz_scores[i] = False
-                st.error("❌ Incorrect. Check the explanation below.")
-                st.session_state.week3_quiz_feedback[i] = q['explanation']
-        if st.session_state.week3_quiz_scores[i] == False:
-            st.write(f"**Explanation:** {st.session_state.week3_quiz_feedback[i]}")
-        elif st.session_state.week3_quiz_scores[i] == True:
-            st.write("**Great job! No explanation needed.**")
-        score += 1 if st.session_state.week3_quiz_scores[i] == True else 0
-
-    if all(v is not None for v in st.session_state.week3_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/5**")
-        if score == 5:
-            st.balloons()
-            st.success("Perfect score! You’ve outsmarted Naruto, Jeremiah!")
 
 # --- WEEK 4 ---
 with week_tabs[3]:
@@ -642,56 +492,6 @@ with week_tabs[3]:
     st.markdown("""
     📚 **Math Lesson:** Inequalities (Price ≤ Budget, ROI ≥ Min ROI) define a feasible region (HSA.CED.A.2). Graphing these constraints helps identify viable options, a skill Jeremiah and Rose can use to build their real estate empire!
     """)
-
-    # Quiz: Week 4 - NJIT Bound & Inequalities
-    st.markdown("---")
-    st.subheader("📝 Week 4 Quiz: Inequality Challenge")
-    if 'week4_quiz_scores' not in st.session_state:
-        st.session_state.week4_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week4_quiz_feedback' not in st.session_state:
-        st.session_state.week4_quiz_feedback = {}
-
-    questions = [
-        {"question": "If NJIT requires GPA ≥ 3.3 and SAT ≥ 1250, is GPA 3.5 and SAT 1300 eligible?",
-         "options": "Yes", "No"], "correct": "Yes",
-         "explanation": "Both 3.5 ≥ 3.3 and 1300 ≥ 1250 are true, so yes. Check each inequality if wrong!"},
-        {"question": "For a $400,000 budget and 8% ROI minimum, is a $300,000 property with 10% ROI viable?",
-         "options": "Yes", "No"], "correct": "Yes",
-         "explanation": "300,000 ≤ 400,000 and 10 ≥ 8, so yes. Verify both conditions if incorrect!"},
-        {"question": "What’s the range of x for 2x + 3 < 7?",
-         "options": "x < 2", "x > 2", "x ≤ 2", "x ≥ 2"], "correct": "x < 2",
-         "explanation": "2x < 4 → x < 2. If wrong, solve the inequality step-by-step!"},
-        {"question": "If RPI requires GPA ≥ 3.7, is 3.6 sufficient?",
-         "options": "Yes", "No"], "correct": "No",
-         "explanation": "3.6 < 3.7, so no. Check the comparison if incorrect!"},
-        {"question": "For a property price ≤ $500,000 and ROI ≥ 6%, is $450,000 with 5% ROI viable?",
-         "options": "Yes", "No"], "correct": "No",
-         "explanation": "450,000 ≤ 500,000 but 5 < 6, so no. Ensure both inequalities hold!"}
-    ]
-
-    score = 0
-    for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w4")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w4"):
-            if answer == q['correct']:
-                st.session_state.week4_quiz_scores[i] = True
-                st.success("✅ Correct! You’re NJIT-bound, Jeremiah!")
-            else:
-                st.session_state.week4_quiz_scores[i] = False
-                st.error("❌ Incorrect. Check the explanation below.")
-                st.session_state.week4_quiz_feedback[i] = q['explanation']
-        if st.session_state.week4_quiz_scores[i] == False:
-            st.write(f"**Explanation:** {st.session_state.week4_quiz_feedback[i]}")
-        elif st.session_state.week4_quiz_scores[i] == True:
-            st.write("**Great job! No explanation needed.**")
-        score += 1 if st.session_state.week4_quiz_scores[i] == True else 0
-
-    if all(v is not None for v in st.session_state.week4_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/5**")
-        if score == 5:
-            st.balloons()
-            st.success("Perfect score! You and Rose are ready for college, Jeremiah!")
 
 # --- Ask Dr. X Sidebar ---
 st.sidebar.title("🤖 Ask Dr. X")

@@ -17,9 +17,9 @@ with col1:
     try:
         st.image("njit_logo.png", width=80)
     except FileNotFoundError:
-        st.markdown("🏫")  # Fallback if logo not found
+        st.markdown("🏫")
     except Exception:
-        st.markdown("🏫")  # Generic fallback
+        st.markdown("🏫")
 
 with col2:
     st.markdown("### www.cognitivecloud.ai")
@@ -33,35 +33,19 @@ st.title("🏈 MathCraft: Quest for the Quarterback Crown")
 st.markdown("""
 **A 4-Week Challenge-Based Math Journey for Jeremiah Erskine**
 
-Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade math review into an epic quest, blending Jeremiah’s passions—quarterback mechanics, Sonic speed, Segway adventures, and real estate success with his mother Rose from South Africa—into mathematical mastery.
+Welcome, **Future NJIT Engineer**! This program transforms 9th grade math into an epic quest, blending Jeremiah’s passions—quarterback skills, Sonic speed, Segway adventures, and real estate with his mom Rose from South Africa—into mathematical mastery.
 
 ---
 
 ### 🎯 Program Goal:
-Prepare Jeremiah for a confident 10th grade math experience by reinforcing foundational skills through a personalized, interest-based curriculum rooted in Common Core standards, with Rose as his inspiring partner.
+Prepare Jeremiah for 10th grade math with a personalized curriculum aligned with Common Core standards, supported by Rose.
 
 ### 🧑🏿‍🏫 Who is Dr. X?
-Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real Black educator with glasses, a deep voice, and a heart for student success. He’s your sideline coach for math, cheering Jeremiah and Rose on!
+Dr. X, inspired by Xavier Honablue M.Ed, is your AI math coach with a deep voice and a passion for student success!
 """)
 
-# Common Core Standards Alignment
-st.info("📚 **Common Core Alignment:** This program covers High School Algebra standards like creating equations (HSA.CED), reasoning with equations (HSA.REI), and building functions (HSF.BF) through real-world applications.")
-
-# Common Core Standards Dropdown
-common_core_standard = st.selectbox("📋 Select specific Common Core Standard focus:", [
-    "HSA.CED.A.1 - Create equations and inequalities in one variable",
-    "HSA.CED.A.2 - Create equations in two or more variables to represent relationships",
-    "HSA.CED.A.3 - Represent constraints by systems of equations and inequalities",
-    "HSA.REI.B.3 - Solve linear equations and inequalities in one variable",
-    "HSA.REI.B.4 - Solve quadratic equations in one variable",
-    "HSA.REI.C.6 - Solve systems of linear equations exactly and approximately",
-    "HSA.REI.D.11 - Explain why coordinates of intersection points satisfy both equations",
-    "HSA.REI.D.12 - Graph solutions to systems of linear inequalities",
-    "HSF.IF.B.4 - Interpret key features of graphs and tables",
-    "HSF.IF.C.7 - Graph functions expressed symbolically",
-    "HSF.BF.A.1 - Write a function that describes a relationship between quantities",
-    "HSF.LE.A.2 - Construct linear and exponential functions"
-])
+# Common Core Alignment
+st.info("📚 **Common Core Alignment:** HSA.CED.A.1, HSA.REI.B.3, HSA.REI.B.4, HSA.CED.A.3, HSA.REI.D.12")
 
 # --- Student Info ---
 st.subheader("🎮 Quarterback Profile Setup")
@@ -70,9 +54,8 @@ position = st.selectbox("Choose your mathematical identity:", [
     "🏈 Quarterback Analyst", "🦔 Speed Calculator", "🛴 Slope Navigator",
     "🏠 Real Estate Mathematician", "🎯 NJIT Bound Scholar"
 ])
-
 if name:
-    st.success(f"Welcome, {name} the {position}! Ready to dominate 10th grade math with Rose by your side!")
+    st.success(f"Welcome, {name} the {position}! Let’s conquer math with Rose!")
 
 # --- Level Selection ---
 challenge_level = st.selectbox("Choose your challenge level:", [
@@ -82,13 +65,11 @@ challenge_level = st.selectbox("Choose your challenge level:", [
     "🔴 Level 4: NJIT College Ready Quest"
 ])
 
-# Initialize session state for Dr. X chat and jeremiah_speed_mph
+# Initialize session state
 if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = [
-        {"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your AI math coach. Let’s conquer math together, from football fields to real estate deals!"}
-    ]
+    st.session_state.chat_history = [{"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your math coach. Let’s get started!"}]
 if 'jeremiah_speed_mph' not in st.session_state:
-    st.session_state.jeremiah_speed_mph = 16.4  # Default value
+    st.session_state.jeremiah_speed_mph = 16.4
 
 # Dr. X API function
 def ask_drx(message):
@@ -96,19 +77,16 @@ def ask_drx(message):
         response = requests.post(
             'https://ask-drx-730124987572.us-central1.run.app',
             json={'message': message},
-            timeout=30
+            timeout=10
         )
-        if response.status_code == 200:
-            return response.json().get('reply', "Sorry, I couldn't process that.")
-        return f"API error: Status {response.status_code}"
-    except requests.RequestException as e:
-        return f"Connection error: {str(e)}. Please try again."
-    except Exception as e:
-        return f"Unexpected error: {str(e)}. Please try again."
+        return response.json().get('reply', "Error processing request.") if response.status_code == 200 else f"API error: {response.status_code}"
+    except requests.RequestException:
+        return "Connection error. Please try again later."
+    except Exception:
+        return "Unexpected error. Please try again."
 
 # --- Week Navigation ---
 st.header("📅 4-Week Mathematical Journey")
-
 week_tabs = st.tabs([
     "📈 Week 1: Sonic Speeds & Algebra",
     "📊 Week 2: Football Physics & Quadratics",
@@ -118,778 +96,259 @@ week_tabs = st.tabs([
 
 # --- WEEK 1 ---
 with week_tabs[0]:
-    st.subheader("🦔 Week 1: Sonic Speeds & Algebra Foundations")
-    st.markdown("**📘 IXL Skills Focus:** [U.2 - Solve multi-step linear equations](https://www.ixl.com/math/algebra-1/solve-multi-step-linear-equations)")
-    st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3")
-    st.markdown("**🎯 Focus:** Expressions, Equations, and Linear Functions")
+    st.subheader("🦔 Week 1: Sonic Speeds & Algebra")
+    st.markdown("**🎯 Focus:** Linear Equations and Rates")
 
-    # Story: Jeremiah and Rose’s Speed Adventure
-    st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** Back in South Africa, Jeremiah and his mom Rose loved watching wildlife dash across the savanna. One day, they imagined racing Sonic the Hedgehog from their new Jersey City home to Lincoln Park. Rose, with her keen eye for deals, turned it into a math challenge: “Let’s calculate our speeds and see who wins!” Jeremiah grinned, ready to outsmart Sonic with algebra.
-    """)
-
-    # Interactive Sonic Speed Calculator
-    st.markdown("---")
+    # Sonic vs. Jeremiah Speed
     st.markdown("### 🚀 Sonic vs. Jeremiah Speed Challenge")
-    show_speed_chart = st.checkbox("Show Speed Comparison Chart 📊", value=True, key="speed_toggle")
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("**⚡ Sonic's Canonical Speed:** 767 mph (Speed of Sound)")
-        jeremiah_40_time = st.slider("Your 40-yard dash time (seconds):", 4.0, 8.0, 5.5, 0.1)
-        if jeremiah_40_time > 0:
-            jeremiah_speed_mph = (40 * 3600) / (jeremiah_40_time * 5280)
-            st.session_state.jeremiah_speed_mph = jeremiah_speed_mph
-            speed_ratio = 767 / jeremiah_speed_mph
-            st.metric("Your Speed", f"{jeremiah_speed_mph:.1f} mph")
-            st.metric("Sonic is", f"{speed_ratio:.0f}x faster!")
-        else:
-            st.error("Please enter a valid time greater than 0 seconds.")
-
-    with col2:
-        if show_speed_chart and 'jeremiah_speed_mph' in st.session_state and st.session_state.jeremiah_speed_mph > 0:
-            fig, ax = plt.subplots(figsize=(10, 6))
-            speeds = ['Jeremiah', 'Sonic']
-            values = [st.session_state.jeremiah_speed_mph, 767]
-            colors = ['#ff6b6b', '#4ecdc4']
-            bars = ax.bar(speeds, values, color=colors)
-            ax.set_ylabel('Speed (mph)')
-            ax.set_title('Speed Comparison: Jeremiah vs. Sonic')
-            ax.set_ylim(0, 800)
-            for bar, value in zip(bars, values):
-                ax.text(bar.get_x() + bar.get_width()/2., value + 10, f'{value:.1f}', ha='center', va='bottom')
-            st.pyplot(fig)
-            plt.close(fig)
-
-    # Lincoln Park Distance Problem
-    st.markdown("---")
-    st.markdown("### 🏃‍♂️ Lincoln Park Challenge")
-    show_distance_chart = st.checkbox("Show Distance Time Chart ⏱️", value=True, key="distance_toggle")
-    park_distance = st.slider("Lincoln Park distance (miles):", 0.1, 2.0, 0.8, 0.1)
-    if 'jeremiah_speed_mph' in st.session_state and st.session_state.jeremiah_speed_mph > 0:
-        jeremiah_time_minutes = (park_distance / st.session_state.jeremiah_speed_mph) * 60
-        sonic_time_seconds = (park_distance / 767) * 3600
+    jeremiah_40_time = st.slider("Your 40-yard dash time (seconds):", 4.0, 8.0, 5.5, 0.1)
+    if jeremiah_40_time > 0:
+        jeremiah_speed_mph = (40 * 3600) / (jeremiah_40_time * 5280)
+        st.session_state.jeremiah_speed_mph = jeremiah_speed_mph
+        speed_ratio = 767 / jeremiah_speed_mph
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Jeremiah's Time", f"{jeremiah_time_minutes:.1f} minutes")
+            st.metric("Your Speed", f"{jeremiah_speed_mph:.1f} mph")
         with col2:
-            st.metric("Sonic's Time", f"{sonic_time_seconds:.2f} seconds")
-        if show_distance_chart:
-            fig, ax = plt.subplots(figsize=(10, 6))
-            times = [jeremiah_time_minutes, sonic_time_seconds/60]
-            labels = ['Jeremiah', 'Sonic']
-            ax.bar(labels, times, color=['#ff6b6b', '#4ecdc4'])
-            ax.set_ylabel('Time (minutes)')
-            ax.set_title('Time Comparison for Lincoln Park Distance')
-            ax.set_ylim(0, max(times) * 1.2)
+            st.metric("Sonic is", f"{speed_ratio:.0f}x faster!")
+        if st.checkbox("Show Speed Chart", key="w1_speed"):
+            fig, ax = plt.subplots()
+            ax.bar(['Jeremiah', 'Sonic'], [jeremiah_speed_mph, 767], color=['#ff6b6b', '#4ecdc4'])
+            ax.set_ylabel('Speed (mph)')
+            ax.set_title('Speed Comparison')
             st.pyplot(fig)
             plt.close(fig)
     else:
-        st.warning("Please calculate a valid speed first.")
+        st.error("Invalid time. Please enter a value greater than 0.")
 
-    # Segway Slope Analysis
-    st.markdown("---")
-    st.markdown("### 🛴 Segway Slope Analysis")
-    st.markdown("**Real-World Application:** Jersey City hills and rate of change")
-    show_slope_chart = st.checkbox("Show Slope Visualization 📈", value=True, key="slope_toggle")
-    rise = st.slider("Hill rise (feet):", 10, 100, 50)
-    run = st.slider("Horizontal distance (feet):", 100, 500, 200)
-    if run > 0:
-        slope = rise / run
-        st.markdown(f"**Slope = Rise/Run = {rise}/{run} = {slope:.3f}**")
-        st.markdown(f"**Slope percentage: {slope * 100:.1f}%**")
-        if show_slope_chart:
-            fig, ax = plt.subplots(figsize=(10, 6))
-            x_vals = np.linspace(0, run, 100)
-            y_vals = slope * x_vals
-            ax.plot(x_vals, y_vals, linewidth=3, color='#2ecc71')
-            ax.fill_between(x_vals, y_vals, alpha=0.3, color='#2ecc71')
-            ax.set_xlabel('Horizontal Distance (feet)')
-            ax.set_ylabel('Vertical Rise (feet)')
-            ax.set_title(f'Jersey City Hill Profile (Slope = {slope:.3f})')
-            ax.grid(True, alpha=0.3)
+    # Lincoln Park Challenge
+    st.markdown("### 🏃‍♂️ Lincoln Park Challenge")
+    park_distance = st.slider("Distance (miles):", 0.1, 2.0, 0.8, 0.1)
+    if 'jeremiah_speed_mph' in st.session_state and st.session_state.jeremiah_speed_mph > 0:
+        jeremiah_time = (park_distance / st.session_state.jeremiah_speed_mph) * 60
+        sonic_time = (park_distance / 767) * 3600
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Your Time", f"{jeremiah_time:.1f} min")
+        with col2:
+            st.metric("Sonic's Time", f"{sonic_time:.1f} sec")
+        if st.checkbox("Show Time Chart", key="w1_time"):
+            fig, ax = plt.subplots()
+            ax.bar(['Jeremiah', 'Sonic'], [jeremiah_time, sonic_time/60], color=['#ff6b6b', '#4ecdc4'])
+            ax.set_ylabel('Time (minutes)')
+            ax.set_title('Time Comparison')
             st.pyplot(fig)
             plt.close(fig)
     else:
-        st.error("Please enter a valid horizontal distance greater than 0 feet.")
+        st.warning("Calculate your speed first.")
 
     # Quiz: Week 1
-    st.markdown("---")
-    st.subheader("📝 Week 1 Quiz: Test Your Algebra Skills")
+    st.subheader("📝 Week 1 Quiz")
     if 'week1_quiz_scores' not in st.session_state:
-        st.session_state.week1_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week1_quiz_feedback' not in st.session_state:
-        st.session_state.week1_quiz_feedback = {}
-
+        st.session_state.week1_quiz_scores = {}
     questions = [
-        {"question": "If Jeremiah runs 40 yards in 5 seconds, what is his speed in mph? (Use 1 mile = 5280 yards, 1 hour = 3600 seconds)",
-         "options": ["14.4 mph", "28.8 mph", "57.6 mph", "72.0 mph"], "correct": "28.8 mph"},
-        {"question": "Sonic runs 767 mph. If Lincoln Park is 0.8 miles away, how many seconds does it take him? (Round to 1 decimal place)",
-         "options": ["3.7 sec", "5.6 sec", "7.5 sec", "9.4 sec"], "correct": "3.7 sec"},
-        {"question": "If Jeremiah’s speed is 28.8 mph and the park is 1.2 miles away, what is his time in minutes? (Round to 1 decimal place)",
-         "options": ["2.5 min", "3.0 min", "4.0 min", "5.0 min"], "correct": "2.5 min"},
-        {"question": "A hill has a rise of 20 feet over a run of 100 feet. What is the slope percentage? (Round to 1 decimal place)",
-         "options": "10.0%", "15.0%", "20.0%", "25.0%"], "correct": "20.0%"},
-        {"question": "If Rose sells a house for $300,000 with a 3% commission, how much does she earn? (Round to nearest dollar)",
-         "options": "$6,000", "$9,000", "$12,000", "$15,000"], "correct": "$9,000"}
+        {"q": "Jeremiah's speed at 5 sec for 40 yd?", "options": ["14.4", "28.8", "57.6"], "correct": "28.8"},
+        {"q": "Sonic's time for 0.8 miles at 767 mph?", "options": ["3.7", "5.6", "7.5"], "correct": "3.7"}
     ]
-
     score = 0
     for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w1")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w1"):
-            if answer == q['correct']:
-                st.session_state.week1_quiz_scores[i] = True
-                st.success("✅ Correct! Well done, Jeremiah and Rose!")
-            else:
-                st.session_state.week1_quiz_scores[i] = False
-                st.error("❌ Incorrect.")
+        if i not in st.session_state.week1_quiz_scores:
+            st.session_state.week1_quiz_scores[i] = None
+        st.write(f"**Q{i}:** {q['q']}")
+        answer = st.radio("", q['options'], key=f"w1_q{i}")
+        if st.button(f"Submit Q{i}", key=f"w1_s{i}"):
+            st.session_state.week1_quiz_scores[i] = answer == q['correct']
+            st.rerun()
         if st.session_state.week1_quiz_scores[i] is not None:
-            if st.session_state.week1_quiz_scores[i]:
-                st.write("**Great job! No explanation needed.**")
-            else:
-                st.write(f"**Explanation:** Recheck your calculations.")
+            st.write("✅ Correct!" if st.session_state.week1_quiz_scores[i] else "❌ Incorrect.")
             score += 1 if st.session_state.week1_quiz_scores[i] else 0
-
     if all(v is not None for v in st.session_state.week1_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/5**")
-        if score == 5:
-            st.balloons()
-            st.success("Perfect score, Jeremiah and Rose! You're ready to race Sonic!")
+        st.write(f"**Score: {score}/{len(questions)}**")
 
 # --- WEEK 2 ---
 with week_tabs[1]:
     st.subheader("🏈 Week 2: Football Physics & Quadratics")
-    st.markdown("**📘 IXL Skills Focus:** [J.7 - Graph parabolas](https://www.ixl.com/math/algebra-1/graph-a-quadratic-function)")
-    st.markdown("**📚 Common Core:** HSA.REI.B.4")
-    st.markdown("**🎯 Focus:** Quadratic Functions and Vertex Form")
+    st.markdown("**🎯 Focus:** Quadratic Functions")
 
-    # Story: Jeremiah and Rose’s Football Triumph
-    st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** Back in South Africa, Jeremiah dreamed of being a quarterback, and Rose cheered him on at every practice. In Jersey City, they turned his throws into a math lesson, calculating the perfect spiral’s arc. “Let’s use quadratics to make you a star, my boy!” Rose exclaimed, her South African accent warming the room.
-    """)
-
-    # Football Trajectory Calculator
-    st.markdown("---")
-    st.markdown("### 🎯 Perfect Spiral Trajectory Analysis")
-    show_trajectory_chart = st.checkbox("Show Trajectory Chart 📊", value=True, key="trajectory_toggle")
-    col1, col2 = st.columns(2)
-    with col1:
-        initial_velocity = st.slider("Initial velocity (ft/s):", 30, 80, 60)
-        launch_angle = st.slider("Launch angle (degrees):", 15, 60, 30)
-        initial_height = st.slider("Release height (feet):", 5, 8, 6)
-        angle_rad = np.radians(launch_angle)
-        v_x = initial_velocity * np.cos(angle_rad)
-        v_y = initial_velocity * np.sin(angle_rad)
-        flight_time = (v_y + np.sqrt(v_y**2 + 2 * 32.2 * initial_height)) / 32.2 if v_y**2 + 2 * 32.2 * initial_height >= 0 else 0
-        max_height = initial_height + (v_y**2) / (2 * 32.2) if flight_time > 0 else 0
-        max_distance = v_x * flight_time if flight_time > 0 else 0
-        st.metric("Maximum Height", f"{max_height:.1f} feet")
-        st.metric("Distance", f"{max_distance:.1f} feet")
-        st.metric("Flight Time", f"{flight_time:.2f} seconds")
-    with col2:
-        if show_trajectory_chart and flight_time > 0:
-            t_vals = np.linspace(0, flight_time, 100)
-            x_vals = v_x * t_vals
-            y_vals = initial_height + v_y * t_vals - 0.5 * 32.2 * t_vals**2
-            valid_indices = y_vals >= 0
-            x_vals = x_vals[valid_indices]
-            y_vals = y_vals[valid_indices]
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(x_vals, y_vals, linewidth=3, color='#e74c3c')
-            ax.fill_between(x_vals, y_vals, alpha=0.3, color='#e74c3c')
-            ax.set_xlabel('Horizontal Distance (feet)')
-            ax.set_ylabel('Height (feet)')
-            ax.set_title(f'Football Trajectory (θ={launch_angle}°, v₀={initial_velocity} ft/s)')
-            ax.grid(True, alpha=0.3)
-            ax.set_ylim(0, max(y_vals) * 1.1)
-            vertex_x = max_distance / 2 if max_distance > 0 else 0
-            ax.plot(vertex_x, max_height, 'ro', markersize=8, label=f'Peak: ({vertex_x:.1f}, {max_height:.1f})')
-            ax.legend()
+    # Trajectory Calculator
+    st.markdown("### 🎯 QB Trajectory Analysis")
+    velocity = st.slider("Initial velocity (ft/s):", 30, 80, 60)
+    angle = st.slider("Launch angle (degrees):", 15, 60, 30)
+    height = st.slider("Release height (ft):", 5, 8, 6)
+    angle_rad = np.radians(angle)
+    v_y = velocity * np.sin(angle_rad)
+    if v_y**2 + 2 * 32.2 * height >= 0:
+        flight_time = (v_y + np.sqrt(v_y**2 + 2 * 32.2 * height)) / 32.2
+        max_height = height + (v_y**2) / (2 * 32.2)
+        distance = (velocity * np.cos(angle_rad)) * flight_time
+        col1, col2, col3 = st.columns(3)
+        with col1: st.metric("Max Height", f"{max_height:.1f} ft")
+        with col2: st.metric("Distance", f"{distance:.1f} ft")
+        with col3: st.metric("Flight Time", f"{flight_time:.2f} sec")
+        if st.checkbox("Show Trajectory Chart", key="w2_traj"):
+            t = np.linspace(0, flight_time, 100)
+            x = (velocity * np.cos(angle_rad)) * t
+            y = height + v_y * t - 16.1 * t**2
+            fig, ax = plt.subplots()
+            ax.plot(x, y, color='#e74c3c')
+            ax.set_xlabel('Distance (ft)')
+            ax.set_ylabel('Height (ft)')
+            ax.set_title('Trajectory')
             st.pyplot(fig)
             plt.close(fig)
-
-    # Vertex Form Analysis
-    st.markdown("---")
-    st.markdown("### 📐 Vertex Form Analysis")
-    show_vertex_form = st.checkbox("Show Vertex Form Breakdown 📝", value=True, key="vertex_toggle")
-    if show_vertex_form and flight_time > 0:
-        st.markdown(f"**Height equation:** h(t) = {initial_height} + {v_y:.1f}t - 16.1t²")
-        st.markdown(f"**Vertex form:** h(t) = -16.1(t - {v_y/(2*16.1):.2f})² + {max_height:.1f}")
-        st.markdown(f"**Vertex (time at max height):** t = {v_y/(2*16.1):.2f} seconds")
+    else:
+        st.error("Invalid trajectory parameters.")
 
     # Quiz: Week 2
-    st.markdown("---")
-    st.subheader("📝 Week 2 Quiz: Master Quadratics")
+    st.subheader("📝 Week 2 Quiz")
     if 'week2_quiz_scores' not in st.session_state:
-        st.session_state.week2_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week2_quiz_feedback' not in st.session_state:
-        st.session_state.week2_quiz_feedback = {}
-
+        st.session_state.week2_quiz_scores = {}
     questions = [
-        {"question": "If a football is thrown with an initial velocity of 60 ft/s at 30° and height 6 ft, what is the max height? (g = 32.2 ft/s², round to 1 decimal)",
-         "options": ["4.7 ft", "9.3 ft", "12.5 ft", "15.6 ft"], "correct": "9.3 ft"},
-        {"question": "What is the vertex time for the equation h(t) = -16.1t² + 30t + 6?",
-         "options": ["0.9 sec", "1.2 sec", "1.5 sec", "1.8 sec"], "correct": "0.9 sec"},
+        {"q": "Max height for 60 ft/s at 30° from 6 ft?", "options": ["9.3", "12.5", "15.6"], "correct": "9.3"},
+        {"q": "Vertex time for h(t) = -16.1t² + 30t + 6?", "options": ["0.9", "1.2", "1.5"], "correct": "0.9"}
     ]
-
     score = 0
     for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w2")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w2"):
-            if answer == q['correct']:
-                st.session_state.week2_quiz_scores[i] = True
-                st.success("✅ Correct! Great throw, Jeremiah!")
-            else:
-                st.session_state.week2_quiz_scores[i] = False
-                st.error("❌ Incorrect.")
+        if i not in st.session_state.week2_quiz_scores:
+            st.session_state.week2_quiz_scores[i] = None
+        st.write(f"**Q{i}:** {q['q']}")
+        answer = st.radio("", q['options'], key=f"w2_q{i}")
+        if st.button(f"Submit Q{i}", key=f"w2_s{i}"):
+            st.session_state.week2_quiz_scores[i] = answer == q['correct']
+            st.rerun()
         if st.session_state.week2_quiz_scores[i] is not None:
-            if st.session_state.week2_quiz_scores[i]:
-                st.write("**Great job! No explanation needed.**")
-            else:
-                st.write(f"**Explanation:** Recheck your quadratic calculations.")
+            st.write("✅ Correct!" if st.session_state.week2_quiz_scores[i] else "❌ Incorrect.")
             score += 1 if st.session_state.week2_quiz_scores[i] else 0
-
     if all(v is not None for v in st.session_state.week2_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/{len(questions)}**")
-        if score == len(questions):
-            st.balloons()
-            st.success("Perfect score! You’re a quarterback math star, Jeremiah!")
+        st.write(f"**Score: {score}/{len(questions)}**")
 
 # --- WEEK 3 ---
 with week_tabs[2]:
-    st.subheader("🥷 Week 3: Naruto Motion & Systems of Equations")
-    st.markdown("**📘 IXL Skills Focus:** [W.10 - Solve a system of equations by graphing](https://www.ixl.com/math/algebra-1/solve-a-system-of-equations-by-graphing)")
-    st.markdown("**📚 Common Core:** HSA.CED.A.3")
-    st.markdown("**🎯 Focus:** Simultaneous Equations and Real-Life Situations")
+    st.subheader("🥷 Week 3: Naruto Motion & Systems")
+    st.markdown("**🎯 Focus:** Systems of Equations")
 
-    # Story: Jeremiah and Rose’s Race Day
-    st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** Inspired by Naruto’s ninja races, Jeremiah and Rose set up a triple challenge in Jersey City—running, Segway, and imagining Sonic’s dash. Rose, with her real estate savvy, added a twist: “Let’s calculate who wins with systems of equations, just like negotiating property deals back in South Africa!”
-    """)
-
-    # Three-Way Race System
-    st.markdown("---")
-    st.markdown("### 🏃‍♂️🛴🦔 Triple Challenge: Running vs. Segway vs. Sonic")
-    show_race_chart = st.checkbox("Show Race Progress Chart 📈", value=True, key="race_toggle")
-    col1, col2 = st.columns(2)
-    with col1:
-        running_speed = st.session_state.jeremiah_speed_mph if 'jeremiah_speed_mph' in st.session_state and st.session_state.jeremiah_speed_mph > 0 else 16.4
-        segway_speed = st.slider("Segway speed (mph):", 8, 12, 10)
-        sonic_speed = 767
-        race_distance = st.slider("Race distance (miles):", 0.5, 3.0, 1.0)
-        segway_head_start = st.slider("Segway head start (minutes):", 0, 10, 2)
-        running_time = race_distance / running_speed * 60 if running_speed > 0 else 0
-        segway_time = (race_distance / segway_speed * 60) - segway_head_start if segway_speed > 0 else 0
-        sonic_time = race_distance / sonic_speed * 60 if sonic_speed > 0 else 0
-        st.markdown("**Race Equations:**")
-        st.markdown(f"• Running: t = {running_time:.2f} minutes")
-        st.markdown(f"• Segway: t = {segway_time:.2f} minutes (with {segway_head_start} min head start)")
-        st.markdown(f"• Sonic: t = {sonic_time:.4f} minutes")
-    with col2:
-        if show_race_chart and running_speed > 0 and segway_speed > 0 and sonic_speed > 0:
-            times = np.linspace(0, max(running_time, segway_time) * 1.2, 100)
-            running_distance = (times / 60) * running_speed
-            segway_distance = np.maximum(0, ((times + segway_head_start) / 60) * segway_speed)
-            sonic_distance = (times / 60) * sonic_speed
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(times, running_distance, label='Running', linewidth=3, color='#3498db')
-            ax.plot(times, segway_distance, label='Segway', linewidth=3, color='#e67e22')
-            ax.plot(times, sonic_distance, label='Sonic', linewidth=3, color='#9b59b6')
-            ax.axhline(y=race_distance, color='red', linestyle='--', alpha=0.7, label='Finish Line')
-            ax.set_xlabel('Time (minutes)')
-            ax.set_ylabel('Distance (miles)')
-            ax.set_title('Race Progress: Three Systems of Motion')
-            ax.legend()
-            ax.grid(True, alpha=0.3)
-            ax.set_ylim(0, race_distance * 1.2)
-            st.pyplot(fig)
-            plt.close(fig)
-
-    # Real Estate Systems
-    st.markdown("---")
-    st.markdown("### 🏠 Mom's Real Estate Commission Systems")
-    show_commission_chart = st.checkbox("Show Commission Comparison Chart 📊", value=True, key="commission_toggle")
-    col1, col2 = st.columns(2)
-    with col1:
-        commission_rate_1 = st.slider("Commission Rate 1 (%):", 2.0, 6.0, 3.0, 0.1)
-        commission_rate_2 = st.slider("Commission Rate 2 (%):", 2.0, 6.0, 2.5, 0.1)
-        base_fee = st.slider("Base fee for Rate 2 ($):", 1000, 5000, 2000, 100)
-        st.markdown("**Commission Systems:**")
-        st.markdown(f"• Option 1: C₁ = {commission_rate_1}% × Price")
-        st.markdown(f"• Option 2: C₂ = {commission_rate_2}% × Price + ${base_fee}")
-    with col2:
-        if show_commission_chart and commission_rate_1 > commission_rate_2:
-            break_even_price = base_fee / ((commission_rate_1 - commission_rate_2) / 100)
-            prices = np.linspace(50000, 1000000, 100)
-            comm1 = prices * (commission_rate_1 / 100)
-            comm2 = prices * (commission_rate_2 / 100) + base_fee
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(prices, comm1, label=f'Option 1: {commission_rate_1}%', linewidth=3, color='#2ecc71')
-            ax.plot(prices, comm2, label=f'Option 2: {commission_rate_2}% + ${base_fee}', linewidth=3, color='#e74c3c')
-            if break_even_price > 0:
-                break_even_commission = break_even_price * (commission_rate_1 / 100)
-                ax.plot(break_even_price, break_even_commission, 'ko', markersize=8, label=f'Break-even: ${break_even_price:,.0f}')
-            ax.set_xlabel('Property Price ($)')
-            ax.set_ylabel('Commission ($)')
-            ax.set_title('Real Estate Commission Comparison')
-            ax.legend()
-            ax.grid(True, alpha=0.3)
-            ax.ticklabel_format(style='plain', axis='both')
-            st.pyplot(fig)
-            plt.close(fig)
-            if break_even_price > 0:
-                st.success(f"**Break-even point:** ${break_even_price:,.0f}")
-        else:
-            st.warning("Commission Rate 1 must be greater than Commission Rate 2 for a valid break-even analysis.")
+    # Triple Challenge
+    st.markdown("### 🏃‍♂️🛴🦔 Triple Race")
+    running_speed = st.session_state.jeremiah_speed_mph if 'jeremiah_speed_mph' in st.session_state else 16.4
+    segway_speed = st.slider("Segway speed (mph):", 8, 12, 10)
+    race_distance = st.slider("Race distance (miles):", 0.5, 3.0, 1.0)
+    head_start = st.slider("Segway head start (min):", 0, 10, 2)
+    running_time = race_distance / running_speed * 60 if running_speed > 0 else 0
+    segway_time = (race_distance / segway_speed * 60) - head_start if segway_speed > 0 else 0
+    sonic_time = race_distance / 767 * 3600
+    col1, col2, col3 = st.columns(3)
+    with col1: st.metric("Running Time", f"{running_time:.1f} min")
+    with col2: st.metric("Segway Time", f"{segway_time:.1f} min")
+    with col3: st.metric("Sonic Time", f"{sonic_time:.1f} sec")
+    if st.checkbox("Show Race Chart", key="w3_race") and running_speed > 0 and segway_speed > 0:
+        t = np.linspace(0, max(running_time, segway_time) * 1.2, 100)
+        run_dist = (t / 60) * running_speed
+        seg_dist = np.maximum(0, ((t + head_start) / 60) * segway_speed)
+        sonic_dist = (t / 60) * 767
+        fig, ax = plt.subplots()
+        ax.plot(t, run_dist, label='Running', color='#3498db')
+        ax.plot(t, seg_dist, label='Segway', color='#e67e22')
+        ax.plot(t, sonic_dist, label='Sonic', color='#9b59b6')
+        ax.set_xlabel('Time (min)')
+        ax.set_ylabel('Distance (miles)')
+        ax.set_title('Race Progress')
+        ax.legend()
+        st.pyplot(fig)
+        plt.close(fig)
 
     # Quiz: Week 3
-    st.markdown("---")
-    st.subheader("📝 Week 3 Quiz: Systems Mastery")
+    st.subheader("📝 Week 3 Quiz")
     if 'week3_quiz_scores' not in st.session_state:
-        st.session_state.week3_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week3_quiz_feedback' not in st.session_state:
-        st.session_state.week3_quiz_feedback = {}
-
+        st.session_state.week3_quiz_scores = {}
     questions = [
-        {"question": "If running time = 6 min and segway time = 4 min with a 2 min head start, what’s the race distance at 10 mph segway speed?",
-         "options": "40 miles", "50 miles", "60 miles", "70 miles"], "correct": "40 miles"},
-        {"question": "For C₁ = 3%P and C₂ = 2.5%P + 2000, what’s the break-even price? (Round to nearest $1000)",
-         "options": "$80,000", "$100,000", "$120,000", "$140,000"], "correct": "$80,000"},
+        {"q": "Race distance at 6 min running, 4 min segway with 2 min head?", "options": ["40", "50", "60"], "correct": "40"},
+        {"q": "Break-even for 3%P vs 2.5%P + 2000?", "options": ["80000", "100000", "120000"], "correct": "80000"}
     ]
-
     score = 0
     for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w3")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w3"):
-            if answer == q['correct']:
-                st.session_state.week3_quiz_scores[i] = True
-                st.success("✅ Correct! You’re a ninja at systems, Jeremiah!")
-            else:
-                st.session_state.week3_quiz_scores[i] = False
-                st.error("❌ Incorrect.")
+        if i not in st.session_state.week3_quiz_scores:
+            st.session_state.week3_quiz_scores[i] = None
+        st.write(f"**Q{i}:** {q['q']} (miles or $)")
+        answer = st.radio("", q['options'], key=f"w3_q{i}")
+        if st.button(f"Submit Q{i}", key=f"w3_s{i}"):
+            st.session_state.week3_quiz_scores[i] = answer == q['correct']
+            st.rerun()
         if st.session_state.week3_quiz_scores[i] is not None:
-            if st.session_state.week3_quiz_scores[i]:
-                st.write("**Great job! No explanation needed.**")
-            else:
-                st.write(f"**Explanation:** Recheck your system calculations.")
+            st.write("✅ Correct!" if st.session_state.week3_quiz_scores[i] else "❌ Incorrect.")
             score += 1 if st.session_state.week3_quiz_scores[i] else 0
-
     if all(v is not None for v in st.session_state.week3_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/{len(questions)}**")
-        if score == len(questions):
-            st.balloons()
-            st.success("Perfect score! You’ve outsmarted Naruto, Jeremiah!")
+        st.write(f"**Score: {score}/{len(questions)}**")
 
 # --- WEEK 4 ---
 with week_tabs[3]:
-    st.subheader("🎓 Week 4: NJIT Bound - College Prep & Inequalities")
-    st.markdown("**📘 IXL Skills Focus:** [Y.5 - Graph compound inequalities](https://www.ixl.com/math/algebra-1/graph-compound-inequalities)")
-    st.markdown("**📚 Common Core:** HSA.REI.D.12, HSA.CED.A.2")
-    st.markdown("**🎯 Focus:** Cumulative Assessment and Future Planning")
+    st.subheader("🎓 Week 4: NJIT Bound - College Prep")
+    st.markdown("**🎯 Focus:** Inequalities")
 
-    # Story: Jeremiah and Rose’s College Dream
-    st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** Rose always dreamed of Jeremiah attending university, a goal they brought from South Africa to Jersey City. They mapped out NJIT and RPI requirements, using inequalities to ensure his GPA and SAT scores would shine. “You’re my future engineer!” Rose cheered, her voice full of hope.
-    """)
-
-    # College Readiness Analysis
-    st.markdown("---")
-    st.markdown("### 🎯 NJIT & RPI Readiness Calculator")
-    show_readiness_chart = st.checkbox("Show Readiness Map 📈", value=True, key="readiness_toggle")
-    col1, col2 = st.columns(2)
-    with col1:
-        current_gpa = st.slider("Current GPA:", 2.0, 4.0, 3.5, 0.1)
-        target_sat = st.slider("Target SAT Score:", 1000, 1600, 1300, 10)
-        njit_gpa_min = 3.3
-        njit_sat_min = 1250
-        rpi_gpa_min = 3.7
-        rpi_sat_min = 1350
-        st.markdown("**College Requirements:**")
-        st.markdown(f"• NJIT: GPA ≥ {njit_gpa_min}, SAT ≥ {njit_sat_min}")
-        st.markdown(f"• RPI: GPA ≥ {rpi_gpa_min}, SAT ≥ {rpi_sat_min}")
-        njit_gpa_ready = current_gpa >= njit_gpa_min
-        njit_sat_ready = target_sat >= njit_sat_min
-        rpi_gpa_ready = current_gpa >= rpi_gpa_min
-        rpi_sat_ready = target_sat >= rpi_sat_min
-        st.markdown("**Your Status:**")
-        st.markdown(f"• NJIT GPA: {'✅' if njit_gpa_ready else '❌'} ({current_gpa} {'≥' if njit_gpa_ready else '<'} {njit_gpa_min})")
-        st.markdown(f"• NJIT SAT: {'✅' if njit_sat_ready else '❌'} ({target_sat} {'≥' if njit_sat_ready else '<'} {njit_sat_min})")
-        st.markdown(f"• RPI GPA: {'✅' if rpi_gpa_ready else '❌'} ({current_gpa} {'≥' if rpi_gpa_ready else '<'} {rpi_gpa_min})")
-        st.markdown(f"• RPI SAT: {'✅' if rpi_sat_ready else '❌'} ({target_sat} {'≥' if rpi_sat_ready else '<'} {rpi_sat_min})")
-    with col2:
-        if show_readiness_chart:
-            fig, ax = plt.subplots(figsize=(10, 6))
-            colleges = ['NJIT', 'RPI']
-            gpa_reqs = [njit_gpa_min, rpi_gpa_min]
-            sat_reqs = [njit_sat_min, rpi_sat_min]
-            colors = ['#3498db', '#e74c3c']
-            for i, (college, gpa_req, sat_req, color) in enumerate(zip(colleges, gpa_reqs, sat_reqs, colors)):
-                ax.scatter(gpa_req, sat_req, s=300, c=color, alpha=0.7, label=f'{college} Requirements')
-            ax.scatter(current_gpa, target_sat, s=400, c='#f39c12', marker='*', label='Your Current Status', edgecolors='black', linewidth=2)
-            ax.axhline(y=njit_sat_min, color='gray', linestyle='--', alpha=0.5)
-            ax.axvline(x=njit_gpa_min, color='gray', linestyle='--', alpha=0.5)
-            ax.axhline(y=rpi_sat_min, color='gray', linestyle='--', alpha=0.3)
-            ax.axvline(x=rpi_gpa_min, color='gray', linestyle='--', alpha=0.3)
-            ax.set_xlabel('GPA')
-            ax.set_ylabel('SAT Score')
-            ax.set_title('College Readiness Map')
-            ax.legend()
-            ax.grid(True, alpha=0.3)
-            ax.set_xlim(2.8, 4.0)
-            ax.set_ylim(1100, 1500)
-            st.pyplot(fig)
-            plt.close(fig)
-
-    # Real Estate Investment Inequalities
-    st.markdown("---")
-    st.markdown("### 🏠 Real Estate Investment Constraints")
-    show_investment_chart = st.checkbox("Show Investment Opportunities Chart 📊", value=True, key="investment_toggle")
-    budget = st.slider("Investment budget ($):", 100000, 1000000, 400000, 10000)
-    min_roi = st.slider("Minimum ROI (%):", 5, 15, 8)
-    max_risk = st.selectbox("Risk tolerance:", ["Low", "Medium", "High"])
-    st.markdown("**Investment Inequalities:**")
-    st.markdown(f"• Price ≤ ${budget:,}")
-    st.markdown(f"• ROI ≥ {min_roi}%")
-    st.markdown(f"• Risk level = {max_risk}")
-    if show_investment_chart:
-        np.random.seed(42)
-        n_properties = 50
-        property_prices = np.random.uniform(budget*0.3, budget*1.2, n_properties)
-        property_rois = np.random.uniform(3, 18, n_properties)
-        price_constraint = property_prices <= budget
-        roi_constraint = property_rois >= min_roi
-        viable_properties = price_constraint & roi_constraint
-        fig, ax = plt.subplots(figsize=(10, 6))
-        ax.scatter(property_prices[~viable_properties], property_rois[~viable_properties], c='red', alpha=0.6, label='Not Viable', s=50)
-        ax.scatter(property_prices[viable_properties], property_rois[viable_properties], c='green', alpha=0.8, label='Viable Investment', s=50)
-        ax.axvline(x=budget, color='blue', linestyle='--', linewidth=2, label=f'Budget Limit: ${budget:,}')
-        ax.axhline(y=min_roi, color='orange', linestyle='--', linewidth=2, label=f'Min ROI: {min_roi}%')
-        ax.set_xlabel('Property Price ($)')
-        ax.set_ylabel('Expected ROI (%)')
-        ax.set_title('Real Estate Investment Opportunities')
+    # Readiness Calculator
+    st.markdown("### 🎯 College Readiness")
+    gpa = st.slider("Current GPA:", 2.0, 4.0, 3.5, 0.1)
+    sat = st.slider("Target SAT:", 1000, 1600, 1300, 10)
+    njit_gpa, njit_sat = 3.3, 1250
+    rpi_gpa, rpi_sat = 3.7, 1350
+    njit_ready = gpa >= njit_gpa and sat >= njit_sat
+    rpi_ready = gpa >= rpi_gpa and sat >= rpi_sat
+    st.write(f"**NJIT:** {'✅ Eligible' if njit_ready else '❌ Not Eligible'}")
+    st.write(f"**RPI:** {'✅ Eligible' if rpi_ready else '❌ Not Eligible'}")
+    if st.checkbox("Show Readiness Chart", key="w4_ready"):
+        fig, ax = plt.subplots()
+        ax.scatter([njit_gpa, rpi_gpa], [njit_sat, rpi_sat], label=['NJIT', 'RPI'], color=['#3498db', '#e74c3c'], s=100)
+        ax.scatter(gpa, sat, color='#f39c12', label='You', s=150, marker='*')
+        ax.set_xlabel('GPA')
+        ax.set_ylabel('SAT Score')
+        ax.set_title('College Readiness')
         ax.legend()
-        ax.grid(True, alpha=0.3)
-        ax.ticklabel_format(style='plain', axis='x')
         st.pyplot(fig)
         plt.close(fig)
-        viable_count = np.sum(viable_properties)
-        st.success(f"**Viable properties:** {viable_count} out of {n_properties} meet your criteria")
 
     # Quiz: Week 4
-    st.markdown("---")
-    st.subheader("📝 Week 4 Quiz: Inequality Challenge")
+    st.subheader("📝 Week 4 Quiz")
     if 'week4_quiz_scores' not in st.session_state:
-        st.session_state.week4_quiz_scores = {1: None, 2: None, 3: None, 4: None, 5: None}
-    if 'week4_quiz_feedback' not in st.session_state:
-        st.session_state.week4_quiz_feedback = {}
-
+        st.session_state.week4_quiz_scores = {}
     questions = [
-        {"question": "If NJIT requires GPA ≥ 3.3 and SAT ≥ 1250, is GPA 3.5 and SAT 1300 eligible?",
-         "options": "Yes", "No"], "correct": "Yes"},
-        {"question": "For a $400,000 budget and 8% ROI minimum, is a $300,000 property with 10% ROI viable?",
-         "options": "Yes", "No"], "correct": "Yes"},
+        {"q": "Eligible for NJIT with GPA 3.5, SAT 1300?", "options": ["Yes", "No"], "correct": "Yes"},
+        {"q": "Viable with $400k budget, 8% ROI, $300k at 10%?", "options": ["Yes", "No"], "correct": "Yes"}
     ]
-
     score = 0
     for i, q in enumerate(questions, 1):
-        st.markdown(f"**Question {i}:** {q['question']}")
-        answer = st.radio(f"Select your answer:", q['options'], key=f"q{i}_w4")
-        if st.button(f"Submit Question {i}", key=f"submit{i}_w4"):
-            if answer == q['correct']:
-                st.session_state.week4_quiz_scores[i] = True
-                st.success("✅ Correct! You’re NJIT-bound, Jeremiah!")
-            else:
-                st.session_state.week4_quiz_scores[i] = False
-                st.error("❌ Incorrect.")
+        if i not in st.session_state.week4_quiz_scores:
+            st.session_state.week4_quiz_scores[i] = None
+        st.write(f"**Q{i}:** {q['q']}")
+        answer = st.radio("", q['options'], key=f"w4_q{i}")
+        if st.button(f"Submit Q{i}", key=f"w4_s{i}"):
+            st.session_state.week4_quiz_scores[i] = answer == q['correct']
+            st.rerun()
         if st.session_state.week4_quiz_scores[i] is not None:
-            if st.session_state.week4_quiz_scores[i]:
-                st.write("**Great job! No explanation needed.**")
-            else:
-                st.write(f"**Explanation:** Recheck your inequality logic.")
+            st.write("✅ Correct!" if st.session_state.week4_quiz_scores[i] else "❌ Incorrect.")
             score += 1 if st.session_state.week4_quiz_scores[i] else 0
-
     if all(v is not None for v in st.session_state.week4_quiz_scores.values()):
-        st.markdown(f"**Quiz Score: {score}/{len(questions)}**")
-        if score == len(questions):
-            st.balloons()
-            st.success("Perfect score! You and Rose are ready for college, Jeremiah!")
+        st.write(f"**Score: {score}/{len(questions)}**")
 
 # --- Ask Dr. X Sidebar ---
 st.sidebar.title("🤖 Ask Dr. X")
-st.sidebar.markdown("*Your Personal Math Coach*")
-
 with st.sidebar:
-    st.markdown("### 💬 Chat History")
-    chat_container = st.container()
-    with chat_container:
-        for message in st.session_state.chat_history[-5:]:
-            if message["role"] == "user":
-                st.markdown(f"**🏈 You:** {message['content']}")
-            else:
-                st.markdown(f"**👓 Dr. X:** {message['content']}")
-    user_input = st.text_input("Ask Dr. X:", placeholder="e.g., How do I find the vertex of a parabola?")
+    for msg in st.session_state.chat_history[-5:]:
+        st.write(f"**{'You' if msg['role'] == 'user' else 'Dr. X'}:** {msg['content']}")
+    user_input = st.text_input("Ask Dr. X:", placeholder="e.g., How to solve equations?")
     if st.button("Send") and user_input:
         st.session_state.chat_history.append({"role": "user", "content": user_input})
-        with st.spinner("Dr. X is thinking..."):
+        with st.spinner("Thinking..."):
             response = ask_drx(user_input)
         st.session_state.chat_history.append({"role": "assistant", "content": response})
         st.rerun()
     if st.button("Clear Chat"):
-        st.session_state.chat_history = [
-            {"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your AI math coach. Ready to tackle some math problems?"}
-        ]
+        st.session_state.chat_history = [{"role": "assistant", "content": "Hello! I'm Dr. X, ready to help!"}]
         st.rerun()
-
-# --- IXL Integration Section ---
-st.header("📚 IXL Practice & Study Resources")
-selected_focus = common_core_standard.split(" - ")[0]
-if "HSA.CED" in selected_focus:
-    st.info("🎯 **Focus: Creating Equations** - Practice building equations from real-world scenarios.")
-    emphasis = "equation_building"
-elif "HSA.REI" in selected_focus:
-    st.info("🎯 **Focus: Solving Equations** - Master solving techniques and graphical methods.")
-    emphasis = "solving"
-elif "HSF.IF" in selected_focus:
-    st.info("🎯 **Focus: Function Interpretation** - Understand domain, range, and key features.")
-    emphasis = "functions"
-else:
-    st.info("🎯 **Focus: Building Functions** - Create and model real-world relationships.")
-    emphasis = "modeling"
-
-ixl_lessons = {
-    "Week 1: Algebra Foundations": {
-        "Core Skills": ["U.2 - Solve multi-step linear equations", "U.3 - Solve linear equations: mixed review", "U.4 - Solve equations involving like terms", "V.1 - Write and solve equations that represent diagrams", "V.2 - Solve linear equations: word problems"],
-        "Real-World Applications": ["AA.1 - Rate of change: graphs", "AA.2 - Rate of change: tables", "AA.3 - Constant rate of change", "BB.1 - Identify linear functions", "BB.2 - Find the slope of a graph"]
-    },
-    "Week 2: Quadratic Functions": {
-        "Core Skills": ["J.7 - Graph parabolas", "J.8 - Graph a quadratic function", "J.9 - Match quadratic functions and graphs", "K.1 - Solve a quadratic equation using square roots", "K.2 - Solve a quadratic equation using the quadratic formula"],
-        "Applications": ["J.10 - Find the vertex of a parabola", "J.11 - Complete the square", "J.12 - Convert from vertex form to standard form", "T.1 - Interpret a quadratic graph", "T.2 - Quadratic models: word problems"]
-    },
-    "Week 3: Systems of Equations": {
-        "Core Skills": ["W.10 - Solve a system of equations by graphing", "W.11 - Find the number of solutions to a system", "W.12 - Classify a system of equations", "X.1 - Solve a system of equations using substitution", "X.2 - Solve a system of equations using elimination"],
-        "Real-World Applications": ["W.13 - Systems of equations: word problems", "X.3 - Systems of linear and quadratic equations", "FF.1 - Is (x, y) a solution to the system of inequalities?", "FF.2 - Solve systems of linear inequalities by graphing"]
-    },
-    "Week 4: Inequalities & Review": {
-        "Core Skills": ["Y.5 - Graph compound inequalities", "Y.6 - Write compound inequalities from graphs", "Y.7 - Solve compound inequalities", "FF.1 - Graph a linear inequality in two variables", "FF.2 - Systems of linear inequalities"],
-        "College Prep": ["GG.1 - Domain and range of functions", "GG.2 - Identify functions", "HH.1 - Function transformation rules", "II.1 - Exponential functions over unit intervals", "JJ.1 - Compare linear, exponential, and quadratic functions"]
-    }
-}
-
-week_selected = st.selectbox("Select week for targeted IXL practice:", list(ixl_lessons.keys()))
-selected_week = ixl_lessons[week_selected]
-if emphasis == "equation_building":
-    priority_lessons = ["U.2 - Solve multi-step linear equations", "V.2 - Solve linear equations: word problems", "W.13 - Systems of equations: word problems"]
-elif emphasis == "solving":
-    priority_lessons = ["K.2 - Solve a quadratic equation using the quadratic formula", "X.1 - Solve a system of equations using substitution", "Y.7 - Solve compound inequalities"]
-elif emphasis == "functions":
-    priority_lessons = ["GG.1 - Domain and range of functions", "BB.1 - Identify linear functions", "J.10 - Find the vertex of a parabola"]
-else:
-    priority_lessons = ["T.2 - Quadratic models: word problems", "AA.3 - Constant rate of change", "FF.2 - Systems of linear inequalities"]
-
-st.markdown(f"**⭐ Priority for {selected_focus}:**")
-for lesson in priority_lessons:
-    st.write(f"• **{lesson}**")
-st.markdown("---")
-for topic, lessons in selected_week.items():
-    with st.expander(f"📖 {topic} - IXL Practice"):
-        for lesson in lessons:
-            st.write(f"• {lesson}")
-        st.markdown(f"**💡 Practice Tip:** Complete these lessons to master {topic.lower()} with Jeremiah and Rose!")
-
-# --- Capstone Project ---
-st.header("🏆 Capstone: Real Estate Flip Challenge")
-st.markdown("""
-**🎯 Final Challenge:** Select a Jersey City property, analyze its investment potential,
-and create a mathematical pitch using everything you've learned!
-""")
-property_data = {
-    "Address": ["123 Montgomery St, Jersey City", "456 Newport Pkwy, Jersey City", "789 Grove St, Jersey City", "321 Washington St, Jersey City", "654 Hamilton Park, Jersey City"],
-    "Price": [385000, 520000, 299000, 675000, 450000],
-    "Sqft": [1200, 1800, 950, 2200, 1500],
-    "Bedrooms": [2, 3, 1, 4, 3],
-    "Estimated_Rent": [2800, 3500, 2200, 4200, 3200]
-}
-df = pd.DataFrame(property_data)
-df['Price_per_Sqft'] = df['Price'] / df['Sqft']
-df['Monthly_ROI'] = (df['Estimated_Rent'] / df['Price']) * 100
-st.dataframe(df, use_container_width=True)
-selected_property = st.selectbox("Choose your investment property:", df['Address'].tolist())
-if selected_property:
-    prop_data = df[df['Address'] == selected_property].iloc[0]
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Purchase Price", f"${prop_data['Price']:,}")
-        st.metric("Square Footage", f"{prop_data['Sqft']:,} sq ft")
-    with col2:
-        st.metric("Price per Sq Ft", f"${prop_data['Price_per_Sqft']:.0f}")
-        st.metric("Estimated Rent", f"${prop_data['Estimated_Rent']:,}/month")
-    with col3:
-        st.metric("Monthly ROI", f"{prop_data['Monthly_ROI']:.2f}%")
-        annual_roi = prop_data['Monthly_ROI'] * 12
-        st.metric("Annual ROI", f"{annual_roi:.1f}%")
-    show_investment_analysis = st.checkbox("Show Investment Analysis Chart 📈", value=True, key="analysis_toggle")
-    if show_investment_analysis:
-        st.markdown("---")
-        st.markdown("### 📊 Mathematical Investment Analysis")
-        years = st.slider("Investment timeline (years):", 1, 10, 5)
-        appreciation_rate = st.slider("Annual appreciation rate (%):", 2, 8, 4)
-        future_value = prop_data['Price'] * ((1 + appreciation_rate/100) ** years)
-        total_rent = prop_data['Estimated_Rent'] * 12 * years
-        total_return = future_value + total_rent - prop_data['Price']
-        roi_percentage = (total_return / prop_data['Price']) * 100
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**📈 Investment Projections:**")
-            st.write(f"• Future property value: ${future_value:,.0f}")
-            st.write(f"• Total rental income: ${total_rent:,.0f}")
-            st.write(f"• Total return: ${total_return:,.0f}")
-            st.write(f"• Total ROI: {roi_percentage:.1f}%")
-        with col2:
-            year_range = np.arange(0, years + 1)
-            property_values = prop_data['Price'] * ((1 + appreciation_rate/100) ** year_range)
-            rental_income = prop_data['Estimated_Rent'] * 12 * year_range
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(year_range, property_values, label='Property Value', linewidth=3, color='#2ecc71')
-            ax.plot(year_range, rental_income, label='Cumulative Rent', linewidth=3, color='#3498db')
-            ax.set_xlabel('Years')
-            ax.set_ylabel('Value ($)')
-            ax.set_title(f'Investment Projection: {selected_property}')
-            ax.legend()
-            ax.grid(True, alpha=0.3)
-            ax.ticklabel_format(style='plain', axis='y')
-            st.pyplot(fig)
-            plt.close(fig)
-
-# --- External Resources ---
-st.header("🌐 Additional Learning Resources")
-resources = {
-    "📺 Video Tutorials": [
-        {"name": "Khan Academy - Algebra I Full Course", "url": "https://www.khanacademy.org/math/algebra", "description": "Dive into algebra basics with engaging video lessons tailored for 9th graders like Jeremiah!"},
-        {"name": "Crash Course Algebra", "url": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtMRoqW9W9gmL6v9bQ9vT5dC", "description": "Fun, fast-paced videos covering equations, quadratics, and more—perfect for Rose’s coaching style!"},
-        {"name": "PatrickJMT - Algebra Help", "url": "https://www.youtube.com/user/patrickjmt", "description": "Step-by-step problem-solving videos for systems and inequalities, ideal for real-world math!"}
-    ],
-    "💻 Interactive Tools": [
-        {"name": "Desmos Graphing Calculator", "url": "https://www.desmos.com/calculator", "description": "Explore graphs of parabolas and inequalities interactively—great for Jeremiah’s quarterback trajectories!"},
-        {"name": "GeoGebra Classroom", "url": "https://www.geogebra.org/classroom", "description": "Hands-on tools for graphing and solving equations, perfect for Rose’s real estate analysis!"},
-        {"name": "Wolfram Alpha Problem Generator", "url": "https://www.wolframalpha.com/examples/mathematics/algebra.html", "description": "Generate custom algebra problems with solutions for extra practice!"}
-    ],
-    "🎓 College Prep": [
-        {"name": "NJIT Admissions - Undergraduate", "url": "https://www.njit.edu/admissions/undergraduate", "description": "Check NJIT’s latest GPA and SAT requirements to plan Jeremiah’s college path!"},
-        {"name": "RPI Admissions - Apply", "url": "https://admissions.rpi.edu/apply", "description": "Explore RPI’s admission details and prepare with Rose’s guidance!"},
-        {"name": "College Board SAT Practice", "url": "https://satsuite.collegeboard.org/sat/practice", "description": "Official SAT practice tests and tips to boost Jeremiah’s scores!"},
-        {"name": "Khan Academy SAT Prep", "url": "https://www.khanacademy.org/sat", "description": "Free, personalized SAT prep aligned with College Board—perfect for college readiness!"}
-    ]
-}
-resource_tabs = st.tabs(list(resources.keys()))
-for i, (category, items) in enumerate(resources.items()):
-    with resource_tabs[i]:
-        for item in items:
-            st.markdown(f"**[{item['name']}]({item['url']})**")
-            st.write(f"📝 {item['description']}")
-            st.write("---")
-
-# --- Personalized Study Plan ---
-st.header("📅 Personalized Study Plan Generator")
-current_level = st.selectbox("Rate your current algebra confidence:", [
-    "🟢 Strong - Ready for challenge problems",
-    "🟡 Good - Need some practice in weak areas",
-    "🟠 Fair - Need systematic review",
-    "🔴 Struggling - Need fundamental reinforcement"
-])
-time_available = st.selectbox("Study time available per week:", ["2-3 hours", "4-5 hours", "6-7 hours", "8+ hours"])
-focus_area = st.selectbox("Priority focus area:", [
-    "Linear equations and graphing",
-    "Quadratic functions and parabolas",
-    "Systems of equations",
-    "Real-world problem solving",
-    "College prep and review"
-])
-if st.button("Generate My Personal Study Plan"):
-    st.success("🎯 Your Customized MathCraft Study Plan:")
-    if "Strong" in current_level:
-        st.markdown("""
-        **🚀 Advanced Track (4 weeks):**
-        - Week 1: Challenge problems with real-world applications
-        - Week 2: Advanced quadratic modeling and optimization
-        - Week 3: Complex systems and matrix methods
-        - Week 4: Pre-calculus preparation and competition problems
-        """)
-    elif "Good" in current_level:
-        st.markdown("""
-        **📈 Accelerated Track (4 weeks):**
-        - Week 1: Review fundamentals, focus on weak areas
-        - Week 2: Master quadratic applications and vertex form
-        - Week 3: Systems solving and graphical interpretation
-        - Week 4: Integration and college-level problems
-        """)
-    elif "Fair" in current_level:
-        st.markdown("""
-        **🎯 Standard Track (4-5 weeks):**
-        - Week 1-2: Systematic algebra review with practice
-        - Week 3: Quadratic functions with multiple approaches
-        - Week 4: Systems of equations mastery
-        - Week 5: Review and college prep
-        """)
-    else:
-        st.markdown("""
-        **🔧 Foundation Track (5-6 weeks):**
-        - Week 1-2: Basic equation solving and graphing
-        - Week 3: Linear functions and slope concepts
-        - Week 4: Introduction to quadratics
-        - Week 5: Simple systems of equations
-        - Week 6: Review and confidence building
-        """)
-    if time_available == "2-3 hours":
-        st.info("💡 **Study Strategy:** Focus on one concept per week with daily 20-30 minute sessions.")
-    elif time_available == "4-5 hours":
-        st.info("💡 **Study Strategy:** Balance video learning (40%) with hands-on practice (60%).")
-    elif time_available == "6-7 hours":
-        st.info("💡 **Study Strategy:** Add peer tutoring and teaching to reinforce learning.")
-    else:
-        st.info("💡 **Study Strategy:** Consider accelerated track and additional challenge problems.")
-
-# --- Progress Tracking ---
-st.header("📊 Progress Tracking")
-show_progress_chart = st.checkbox("Show Progress Chart 📊", value=True, key="progress_toggle")
-if st.checkbox("Enable Progress Tracking"):
-    progress_data = {
-        "Week": ["Week 1", "Week 2", "Week 3", "Week 4"],
-        "Concept Mastery": [85, 78, 92, 88],
-        "IXL Completion": [90, 85, 95, 80],
-        "Real-World Applications": [75, 88, 90, 95]
-    }
-    progress_df = pd.DataFrame(progress_data)
-    if show_progress_chart:
-        fig, ax = plt.subplots(figsize=(12, 6))
-        x = np.arange(len(progress_data["Week"]))
-        width = 0.25
-        ax.bar(x - width, progress_data["Concept Mastery"], width, label='Concept Mastery', color='#3498db')
-        ax.bar(x, progress_data["IXL Completion"], width, label='IXL Completion', color='#2ecc71')
-        ax.bar(x + width, progress_data["Real-World Applications"], width, label='Real-World Apps', color='#e74c3c')
-        ax.set_xlabel('Program Week')
-        ax.set_ylabel('Score (%)')
-        ax.set_title('MathCraft Progress Tracking')
-        ax.set_xticks(x)
-        ax.set_xticklabels(progress_data["Week"])
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-        ax.set_ylim(0, 100)
-        st.pyplot(fig)
-        plt.close(fig)
-    overall_avg = np.mean([progress_data["Concept Mastery"], progress_data["IXL Completion"], progress_data["Real-World Applications"]])
-    st.metric("Overall Progress", f"{overall_avg:.1f}%")
 
 # --- Footer ---
 st.markdown("---")
 st.markdown("""
-<div style="text-align: center; padding: 20px; color: #666; font-style: italic;">
-    <h4>🎓 Ready to Dominate 10th Grade Math!</h4>
-    <p><em>"Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding." - William Paul Thurston</em></p>
-    <p><strong>Built for Jeremiah by Xavier Honablue M.Ed | CognitiveCloud.ai</strong></p>
-    <p>🎯 <strong>Target Universities:</strong> NJIT & RPI | 🏈 <strong>Position:</strong> Quarterback | 🏠 <strong>Real Estate Math with Mom</strong></p>
+<div style="text-align: center; padding: 20px; color: #666;">
+    <h4>🎓 Ready for 10th Grade Math!</h4>
+    <p><strong>By Xavier Honablue M.Ed | CognitiveCloud.ai</strong></p>
 </div>
 """, unsafe_allow_html=True)

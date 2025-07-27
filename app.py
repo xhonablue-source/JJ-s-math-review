@@ -1,4 +1,4 @@
-import streamlit as st
+thats not the same code as this code import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 import requests

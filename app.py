@@ -15,7 +15,7 @@ st.set_page_config(
 col1, col2 = st.columns([1, 4])
 with col1:
     try:
-        st.image("njit_logo.png", width=80)
+        st.image("path/to/your/njit_logo.png", width=80)  # Update this path
     except:
         st.markdown("🏫")  # Fallback if logo not found
 

@@ -1,8 +1,597 @@
-import streamlit as st
+with col2:
+        # Create interactive commission comparison with break-even analysis
+        prices = np.linspace(50000, 1000000, 100)
+        comm1 = prices * (commission_rate_1 / 100)
+        comm2 = prices * (commission_rate_2 / 100) + base_fee
+        
+        fig = go.Figure()
+        
+        # Commission option 1
+        fig.add_trace(go.Scatter(
+            x=prices, y=comm1,
+            mode='lines',
+            name=f'Option 1: {commission_rate_1}%',
+            line=dict(color='#2ecc71', width=4),
+            hovertemplate='Price: $%{x:,.0f}<br>Commission: $%{y:,.0f}<extra></extra>'
+        ))
+        
+        # Commission option 2
+        fig.add_trace(go.Scatter(
+            x=prices, y=comm2,
+            mode='lines',
+            name=f'Option 2: {commission_rate_2}% + ${base_fee:,}',
+            line=dict(color='#e74c3c', width=4),
+            hovertemplate='Price: $%{x:,.0f}<br>Commission: $%{y:,.0f}<extra></extra>'
+        ))
+        
+        # Mark break-even point
+        if break_even_price > 0 and break_even_price < 1000000:
+            break_even_commission = break_even_price * (commission_rate_1 / 100)
+            fig.add_trace(go.Scatter(
+                x=[break_even_price], y=[break_even_commission],
+                mode='markers+text',
+                marker=dict(size=15, color='gold', symbol='star'),
+                text=[f'Break-Even<br>${break_even_price:,.0f}'],
+                textposition='top center',
+                name='Break-Even Point',
+                hovertemplate=f'Break-Even Point<br>Price: ${break_even_price:,.0f}<br>Commission: ${break_even_commission:,.0f}<extra></extra>'
+            ))
+            
+            # Add vertical line at break-even
+            fig.add_vline(
+                x=break_even_price,
+                line_dash="dot",
+                line_color="gold",
+                annotation_text=f"Break-Even: ${break_even_price:,.0f}",
+                annotation_position="top"
+            )
+        
+            yaxis_title='Commission ($)',
+            height=500,
+            hovermode='x unified',
+            showlegend=True
+        )
+        
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        
+        st.plotly_chart(fig, use_container_width=True)
+        
+        if break_even_price > 0:
+            st.success(f"💡 **Break-even Analysis:** At ${break_even_price:,.0f}, both commission structures are equal!")
+            
+            # Interactive decision helper
+            test_price = st.slider("Test a property price:", 100000, 1000000, int(break_even_price), 10000)
+            option1_comm = test_price * (commission_rate_1 / 100)
+            option2_comm = test_price * (commission_rate_2 / 100) + base_fee
+            
+            col_a, col_b, col_c = st.columns(3)
+            with col_a:
+                st.metric("Option 1 Commission", f"${option1_comm:,.0f}")
+            with col_b:
+                st.metric("Option 2 Commission", f"${option2_comm:,.0f}")
+            with col_c:
+                diff = option1_comm - option2_comm
+                better_option = "Option 1" if diff > 0 else "Option 2"
+                st.metric(f"{better_option} Better By", f"${abs(diff):,.0f}")
+
+# Week 3 content
+elif page_selection == "📈 Week 3: Exponential & Radicals":
+    st.subheader("📈 Week 3: Exponential and Radical Functions")
+    
+    st.markdown("**📘 IXL Skills Focus:** [M.1 - Exponential functions](https://www.ixl.com/math/algebra-1/exponential-functions)")
+    st.markdown("**📚 Common Core:** HSF.LE.A.2")
+    st.markdown("**🎯 Focus:** Growth, Decay, and Real Estate Investment")
+    
+    # Interactive exponential growth visualization
+    st.markdown("---")
+    st.markdown("### 📈 Interactive Exponential Growth Analysis")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        growth_type = st.selectbox("Choose growth scenario:", 
+                                 ["Athletic Performance", "Real Estate Investment", "Population Growth", "Compound Interest"])
+        
+        if growth_type == "Athletic Performance":
+            initial_value = st.slider("Initial throwing distance (yards):", 20, 60, 35)
+            growth_rate = st.slider("Weekly improvement rate (%):", 1, 15, 5)
+            time_period = st.slider("Training weeks:", 1, 52, 20)
+            y_label = "Throwing Distance (yards)"
+            
+        elif growth_type == "Real Estate Investment":
+            initial_value = st.slider("Initial property value ($):", 200000, 800000, 400000, 10000)
+            growth_rate = st.slider("Annual appreciation rate (%):", 1, 12, 4)
+            time_period = st.slider("Investment years:", 1, 30, 10)
+            y_label = "Property Value ($)"
+            
+        elif growth_type == "Population Growth":
+            initial_value = st.slider("Initial population:", 1000, 100000, 10000)
+            growth_rate = st.slider("Annual growth rate (%):", 0.5, 8.0, 2.5)
+            time_period = st.slider("Years:", 1, 50, 25)
+            y_label = "Population"
+            
+        else:  # Compound Interest
+            initial_value = st.slider("Initial investment ($):", 1000, 50000, 10000, 500)
+            growth_rate = st.slider("Annual interest rate (%):", 1, 15, 7)
+            time_period = st.slider("Investment years:", 1, 40, 20)
+            y_label = "Account Value ($)"
+    
+    with col2:
+        # Calculate exponential growth
+        time_vals = np.linspace(0, time_period, 100)
+        growth_decimal = growth_rate / 100
+        exponential_values = initial_value * ((1 + growth_decimal) ** time_vals)
+        linear_values = initial_value + (initial_value * growth_decimal * time_vals)
+        
+        # Create interactive comparison plot
+        fig = go.Figure()
+        
+        # Exponential growth
+        fig.add_trace(go.Scatter(
+            x=time_vals, y=exponential_values,
+            mode='lines',
+            name=f'Exponential Growth ({growth_rate}%)',
+            line=dict(color='#e74c3c', width=4),
+            hovertemplate=f'Time: %{{x:.1f}}<br>{y_label}: %{{y:,.0f}}<extra></extra>'
+        ))
+        
+        # Linear growth comparison
+        fig.add_trace(go.Scatter(
+            x=time_vals, y=linear_values,
+            mode='lines',
+            name=f'Linear Growth (for comparison)',
+            line=dict(color='#3498db', width=3, dash='dash'),
+            hovertemplate=f'Time: %{{x:.1f}}<br>{y_label}: %{{y:,.0f}}<extra></extra>'
+        ))
+        
+        # Mark key points
+        final_exponential = initial_value * ((1 + growth_decimal) ** time_period)
+        final_linear = initial_value + (initial_value * growth_decimal * time_period)
+        
+        fig.add_trace(go.Scatter(
+            x=[time_period], y=[final_exponential],
+            mode='markers+text',
+            marker=dict(size=12, color='red', symbol='star'),
+            text=[f'Final: {final_exponential:,.0f}'],
+            textposition='top center',
+            name='Exponential End Point',
+            showlegend=False
+        ))
+        
+        time_unit = "weeks" if growth_type == "Athletic Performance" else "years"
+        fig.update_layout(
+            title=f'📊 {growth_type}: Exponential vs Linear Growth',
+            xaxis_title=f'Time ({time_unit})',
+            yaxis_title=y_label,
+            height=500,
+            hovermode='x unified'
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Show mathematical analysis
+        difference = final_exponential - final_linear
+        st.success(f"""
+        **📊 Growth Analysis:**
+        - **Exponential Final Value:** {final_exponential:,.0f}
+        - **Linear Final Value:** {final_linear:,.0f}
+        - **Exponential Advantage:** {difference:,.0f} ({((difference/final_linear)*100):.1f}% more!)
+        """)
+
+# Week 4 content
+elif page_selection == "🎓 Week 4: College Prep":
+    st.subheader("🎓 Week 4: Advanced Topics and College Preparation")
+    
+    st.markdown("**📘 IXL Skills Focus:** [Statistics and Data Analysis](https://www.ixl.com/math/algebra-1/statistics)")
+    st.markdown("**📚 Common Core:** HSS.ID.B.6")
+    st.markdown("**🎯 Focus:** Data Analysis, College Readiness, and Future Planning")
+    
+    # Interactive college readiness dashboard
+    st.markdown("---")
+    st.markdown("### 🎯 Interactive NJIT & RPI Readiness Dashboard")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        current_gpa = st.slider("Current GPA:", 2.0, 4.0, 3.5, 0.1)
+        target_sat = st.slider("Target SAT Score:", 1000, 1600, 1300, 10)
+        extracurriculars = st.slider("Extracurricular Activities:", 0, 10, 4)
+        leadership_roles = st.slider("Leadership Positions:", 0, 5, 2)
+        
+        # NJIT and RPI requirements (approximate)
+        njit_gpa_min = 3.3
+        njit_sat_min = 1250
+        rpi_gpa_min = 3.7
+        rpi_sat_min = 1350
+    
+    with col2:
+        # Create interactive college readiness radar chart
+        categories = ['GPA', 'SAT Score', 'Extracurriculars', 'Leadership', 'Overall Score']
+        
+        # Normalize scores to 0-100 scale
+        gpa_score = min(100, (current_gpa / 4.0) * 100)
+        sat_score = min(100, ((target_sat - 1000) / 600) * 100)
+        extra_score = min(100, (extracurriculars / 8) * 100)
+        leadership_score = min(100, (leadership_roles / 4) * 100)
+        overall_score = (gpa_score + sat_score + extra_score + leadership_score) / 4
+        
+        current_scores = [gpa_score, sat_score, extra_score, leadership_score, overall_score]
+        
+        # NJIT requirements normalized
+        njit_gpa_score = (njit_gpa_min / 4.0) * 100
+        njit_sat_score = ((njit_sat_min - 1000) / 600) * 100
+        njit_scores = [njit_gpa_score, njit_sat_score, 60, 50, 60]  # Estimated requirements
+        
+        # RPI requirements normalized  
+        rpi_gpa_score = (rpi_gpa_min / 4.0) * 100
+        rpi_sat_score = ((rpi_sat_min - 1000) / 600) * 100
+        rpi_scores = [rpi_gpa_score, rpi_sat_score, 75, 65, 75]  # Estimated requirements
+        
+        fig = go.Figure()
+        
+        # Current profile
+        fig.add_trace(go.Scatterpolar(
+            r=current_scores + [current_scores[0]],  # Close the polygon
+            theta=categories + [categories[0]],
+            fill='toself',
+            name='Your Current Profile',
+            line_color='#3498db',
+            fillcolor='rgba(52, 152, 219, 0.3)'
+        ))
+        
+        # NJIT requirements
+        fig.add_trace(go.Scatterpolar(
+            r=njit_scores + [njit_scores[0]],
+            theta=categories + [categories[0]],
+            fill='toself',
+            name='NJIT Requirements',
+            line_color='#2ecc71',
+            fillcolor='rgba(46, 204, 113, 0.2)'
+        ))
+        
+        # RPI requirements
+        fig.add_trace(go.Scatterpolar(
+            r=rpi_scores + [rpi_scores[0]],
+            theta=categories + [categories[0]],
+            fill='toself',
+            name='RPI Requirements',
+            line_color='#e74c3c',
+            fillcolor='rgba(231, 76, 60, 0.2)'
+        ))
+        
+        fig.update_layout(
+            polar=dict(
+                radialaxis=dict(
+                    visible=True,
+                    range=[0, 100]
+                )),
+            showlegend=True,
+            title="🎯 College Readiness Radar",
+            height=500
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+    
+    # College recommendation engine
+    st.markdown("---")
+    st.markdown("### 🤖 AI College Recommendation Engine")
+    
+    njit_match = min(100, ((current_gpa >= njit_gpa_min) * 30 + 
+                          (target_sat >= njit_sat_min) * 30 + 
+                          min(40, extracurriculars * 5)))
+    
+    rpi_match = min(100, ((current_gpa >= rpi_gpa_min) * 30 + 
+                         (target_sat >= rpi_sat_min) * 30 + 
+                         min(40, (extracurriculars + leadership_roles) * 4)))
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("🟢 NJIT Match", f"{njit_match:.0f}%", 
+                 "Strong Fit" if njit_match >= 70 else "Need Improvement")
+    
+    with col2:
+        st.metric("🔴 RPI Match", f"{rpi_match:.0f}%", 
+                 "Strong Fit" if rpi_match >= 70 else "Reach School")
+    
+    with col3:
+        backup_schools = 3 if njit_match < 70 else 1
+        st.metric("📋 Backup Schools Needed", backup_schools)
+    
+    # Action plan generator
+    if st.button("📋 Generate Personalized Action Plan"):
+        st.markdown("### 🎯 Your Personalized College Prep Action Plan")
+        
+        improvements = []
+        if current_gpa < njit_gpa_min:
+            improvements.append(f"📚 Raise GPA to {njit_gpa_min:.1f}+ (currently {current_gpa:.1f})")
+        if target_sat < njit_sat_min:
+            improvements.append(f"📝 Improve SAT to {njit_sat_min}+ (target: {target_sat})")
+        if extracurriculars < 4:
+            improvements.append(f"🎭 Join {4-extracurriculars} more extracurricular activities")
+        if leadership_roles < 2:
+            improvements.append(f"👑 Seek {2-leadership_roles} leadership positions")
+        
+        if improvements:
+            st.markdown("**🎯 Priority Improvements:**")
+            for improvement in improvements:
+                st.markdown(f"• {improvement}")
+        else:
+            st.success("🎉 You're on track for both NJIT and RPI! Keep up the excellent work!")
+        
+        # Award progress points
+        st.session_state.total_points += 20
+        st.session_state.week_progress['Week 4'] = min(100, st.session_state.week_progress['Week 4'] + 50)
+
+# Ask Dr. X page with enhanced features
+elif page_selection == "🤖 Ask Dr. X":
+    st.title("🤖 Ask Dr. X - Your AI Math Tutor")
+    
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 20px; border-radius: 10px; color: white; margin-bottom: 20px;">
+        <h3>👓 Dr. X is here to help!</h3>
+        <p>Ask me anything about math - whether it's quadratic equations, football trajectories, 
+        real estate calculations, or college prep questions. I'm specifically tuned to help with 
+        your interests in football, Sonic, and real estate!</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Quick help buttons
+    st.markdown("### 🎯 Quick Help Topics")
+    help_topics = st.columns(4)
+    
+    with help_topics[0]:
+        if st.button("🏈 Football Math"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "Help me understand the math behind football trajectories and optimal throwing angles."
+            })
+            response = ask_drx("Help me understand the math behind football trajectories and optimal throwing angles.")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+    
+    with help_topics[1]:
+        if st.button("🏠 Real Estate"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "Explain how to calculate real estate ROI and commission structures."
+            })
+            response = ask_drx("Explain how to calculate real estate ROI and commission structures.")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+    
+    with help_topics[2]:
+        if st.button("📊 Quadratics"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "I need help understanding vertex form and completing the square."
+            })
+            response = ask_drx("I need help understanding vertex form and completing the square.")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+    
+    with help_topics[3]:
+        if st.button("🎓 College Prep"):
+            st.session_state.chat_history.append({
+                "role": "user", 
+                "content": "What math skills do I need for NJIT and RPI admissions?"
+            })
+            response = ask_drx("What math skills do I need for NJIT and RPI admissions?")
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+    
+    # Enhanced chat interface
+    st.markdown("### 💬 Chat with Dr. X")
+    
+    # Display chat history with better formatting
+    chat_container = st.container()
+    with chat_container:
+        for i, message in enumerate(st.session_state.chat_history):
+            if message["role"] == "user":
+                st.markdown(f"""
+                <div style="background: #e3f2fd; padding: 10px; border-radius: 10px; margin: 5px 0;">
+                    <strong>🏈 You:</strong> {message['content']}
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown(f"""
+                <div style="background: #f3e5f5; padding: 10px; border-radius: 10px; margin: 5px 0;">
+                    <strong>👓 Dr. X:</strong> {message['content']}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    # Chat input with suggestions
+    col1, col2 = st.columns([4, 1])
+    
+    with col1:
+        user_input = st.text_input("Ask Dr. X:", 
+                                  placeholder="e.g., How do I find the vertex of a parabola?",
+                                  key="chat_input")
+    
+    with col2:
+        send_button = st.button("Send 📤", key="send_chat")
+    
+    if (send_button or user_input) and user_input:
+        # Add user message
+        st.session_state.chat_history.append({"role": "user", "content": user_input})
+        
+        # Get Dr. X response
+        with st.spinner("Dr. X is thinking..."):
+            response = ask_drx(user_input)
+        
+        # Add response
+        st.session_state.chat_history.append({"role": "assistant", "content": response})
+        
+        # Award points for asking questions
+        st.session_state.total_points += 2
+        if len([msg for msg in st.session_state.chat_history if msg["role"] == "user"]) >= 10:
+            if "💬 Chat Champion" not in st.session_state.achievements:
+                st.session_state.achievements.append("💬 Chat Champion")
+        
+        st.rerun()
+    
+    # Chat management buttons
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("🗑️ Clear Chat"):
+            st.session_state.chat_history = [
+                {"role": "assistant", "content": "Hello Jeremiah! I'm Dr. X, your AI math coach. Ready to tackle some math problems?"}
+            ]
+            st.rerun()
+    
+    with col2:
+        if st.button("💾 Save Chat"):
+            chat_text = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state.chat_history])
+            st.download_button("Download Chat", chat_text, "mathcraft_chat.txt", "text/plain")
+    
+    with col3:
+        st.markdown(f"💬 **Messages:** {len(st.session_state.chat_history)}")
+
+# Progress Dashboard
+elif page_selection == "📊 Progress Dashboard":
+    st.title("📊 MathCraft Progress Dashboard")
+    
+    # Overall progress summary
+    col1, col2, col3, col4 = st.columns(4)
+    
+    total_progress = sum(st.session_state.week_progress.values()) / 4
+    
+    with col1:
+        st.metric("Overall Progress", f"{total_progress:.0f}%", "🎯")
+    with col2:
+        st.metric("Total XP", st.session_state.total_points, "⭐")
+    with col3:
+        st.metric("Achievements", len(st.session_state.achievements), "🏅")
+    with col4:
+        completed_weeks = sum(1 for progress in st.session_state.week_progress.values() if progress >= 100)
+        st.metric("Weeks Completed", completed_weeks, "✅")
+    
+    # Progress visualization
+    st.markdown("---")
+    st.markdown("### 📈 Weekly Progress Tracking")
+    
+    # Create interactive progress chart
+    weeks = list(st.session_state.week_progress.keys())
+    progress_values = list(st.session_state.week_progress.values())
+    
+    fig = go.Figure()
+    
+    # Progress bars
+    fig.add_trace(go.Bar(
+        x=weeks,
+        y=progress_values,
+        marker_color=['#2ecc71' if p >= 100 else '#3498db' if p >= 50 else '#e74c3c' for p in progress_values],
+        text=[f'{p}%' for p in progress_values],
+        textposition='auto',
+        hovertemplate='Week: %{x}<br>Progress: %{y}%<extra></extra>'
+    ))
+    
+    # Add target line
+    fig.add_hline(y=100, line_dash="dash", line_color="gold", 
+                  annotation_text="Target: 100%", annotation_position="right")
+    
+    fig.update_layout(
+        title='📊 Weekly Progress Overview',
+        xaxis_title='Week',
+        yaxis_title='Completion Percentage',
+        height=400,
+        yaxis=dict(range=[0, 120])
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # Detailed skill breakdown
+    st.markdown("---")
+    st.markdown("### 🎯 Skill Mastery Breakdown")
+    
+    skills_data = {
+        'Skill': ['Linear Equations', 'Slope Analysis', 'Quadratic Functions', 'Projectile Motion', 
+                 'Systems of Equations', 'Real Estate Math', 'College Prep', 'Problem Solving'],
+        'Mastery Level': [85, 92, 78, 88, 75, 95, 82, 90],
+        'Week': ['Week 1', 'Week 1', 'Week 2', 'Week 2', 'Week 3', 'Week 3', 'Week 4', 'Overall']
+    }
+    
+    skills_df = pd.DataFrame(skills_data)
+    
+    # Interactive skill chart
+    fig = px.bar(skills_df, x='Skill', y='Mastery Level', color='Week',
+                 title='🎯 Individual Skill Mastery Levels',
+                 height=400)
+    
+    fig.update_layout(xaxis_tickangle=-45)
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # Achievement showcase
+    st.markdown("---")
+    st.markdown("### 🏆 Achievement Gallery")
+    
+    all_achievements = {
+        "🦔 Speed Demon": "Complete Week 1 Linear Functions",
+        "🏈 Trajectory Master": "Complete Week 2 Quadratics", 
+        "🔄 Systems Solver": "Complete Week 3 Systems",
+        "🎓 College Ready": "Complete Week 4 Advanced Topics",
+        "💬 Chat Champion": "Ask Dr. X 10 questions",
+        "🎯 Perfect Shot": "Optimize a football trajectory",
+        "📊 Data Analyst": "Complete statistical analysis",
+        "🏠 Real Estate Pro": "Master property calculations"
+    }
+    
+    achievement_cols = st.columns(4)
+    
+    for i, (achievement, description) in enumerate(all_achievements.items()):
+        with achievement_cols[i % 4]:
+            if achievement in st.session_state.achievements:
+                st.success(f"✅ **{achievement}**\n\n{description}")
+            else:
+                st.info(f"🔒 **{achievement}**\n\n{description}")
+    
+    # Study recommendations
+    st.markdown("---")
+    st.markdown("### 💡 Personalized Study Recommendations")
+    
+    weakest_week = min(st.session_state.week_progress, key=st.session_state.week_progress.get)
+    weakest_score = st.session_state.week_progress[weakest_week]
+    
+    if weakest_score < 50:
+        st.warning(f"📚 **Focus Area:** {weakest_week} needs attention ({weakest_score}% complete)")
+        st.markdown("**Recommended Actions:**")
+        st.markdown("• Review the interactive lessons")
+        st.markdown("• Ask Dr. X for help with specific concepts")
+        st.markdown("• Complete the practice problems")
+    elif total_progress >= 90:
+        st.success("🎉 **Excellent Progress!** You're ready for 10th grade math!")
+        st.markdown("**Next Steps:**")
+        st.markdown("• Review all completed materials")
+        st.markdown("• Challenge yourself with advanced problems")
+        st.markdown("• Help other students with their math")
+    else:
+        st.info(f"👍 **Good Progress!** Keep working on {weakest_week}")
+
+# Footer
+st.markdown("---")
+st.markdown("""
+<div style="text-align: center; padding: 20px; color: #666; font-style: italic;">
+    <h4>🎓 Ready to Dominate 10th Grade Math!</h4>
+    <p><em>"Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding." - William Paul Thurston</em></p>
+    <p><strong>Built for Jeremiah by Xavier Honablue M.Ed | CognitiveCloud.ai</strong></p>
+    <p>🎯 <strong>Target Universities:</strong> NJIT & RPI | 🏈 <strong>Position:</strong> Quarterback | 🏠 <strong>Real Estate Math with Mom</strong></p>
+</div>
+""", unsafe_allow_html=True)
+            import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 import requests
 import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
+from plotly.subplots import make_subplots
+import time
+import altair as alt
+from streamlit_option_menu import option_menu
+from streamlit_lottie import st_lottie
+try:
+    from streamlit_plotly_events import plotly_events
+except ImportError:
+    plotly_events = None
 
 # --- Page Setup ---
 st.set_page_config(
@@ -39,8 +628,8 @@ Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade m
 ### 🎯 Program Goal:
 Prepare Jeremiah for a confident and successful 10th grade math experience by reinforcing foundational 9th grade skills through a personalized, interest-based curriculum rooted in Common Core standards.
 
-### 🧑🏿‍🏫 Who is Dr. X?
-Dr. X is not a robot 🤓. He's modeled after a real Black educator — Xavier Honablue M.Ed — complete with glasses, deep voice, and a passion for helping students succeed. Think of him as your personal sideline coach for math.
+### 🧑‍🏫 Who is Dr. X?
+Dr. X is your AI math tutor 🤓 — Xavier Honablue M.Ed — with a passion for helping students succeed. Think of him as your personal sideline coach for math, always ready to help with any questions.
 """)
 
 # Common Core Standards Alignment
@@ -121,9 +710,70 @@ with week_tabs[0]:
     st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3")
     st.markdown("**🎯 Focus:** Expressions, Equations, and Linear Functions")
     
+    # Mathematical Vocabulary and Concepts
+    st.markdown("---")
+    st.markdown("### 📚 Essential Vocabulary & Concepts")
+    
+    with st.expander("📖 Week 1 Mathematical Vocabulary"):
+        st.markdown("""
+        **📐 Linear Equations:**
+        - **Coefficient:** The numerical factor of a variable (in 3x, the coefficient is 3)
+        - **Variable:** A symbol (usually x or y) that represents an unknown quantity
+        - **Constant:** A fixed numerical value that doesn't change
+        - **Like Terms:** Terms that have the same variable raised to the same power
+        - **Solution:** The value(s) that make an equation true
+        
+        **📈 Rate of Change & Slope:**
+        - **Rate of Change:** How much one quantity changes relative to another
+        - **Slope (m):** The steepness of a line, calculated as rise/run or Δy/Δx
+        - **Rise:** The vertical change between two points
+        - **Run:** The horizontal change between two points
+        - **Slope-Intercept Form:** y = mx + b (where m is slope, b is y-intercept)
+        
+        **📊 Graphing Terms:**
+        - **Coordinate Plane:** The x-y plane with horizontal and vertical axes
+        - **Ordered Pair:** A point written as (x, y) coordinates
+        - **x-intercept:** Where the line crosses the x-axis (y = 0)
+        - **y-intercept:** Where the line crosses the y-axis (x = 0)
+        - **Domain:** All possible input values (x-values)
+        - **Range:** All possible output values (y-values)
+        """)
+    
+    with st.expander("🧮 Essential Formulas & Properties"):
+        st.markdown("""
+        **Linear Equation Standard Forms:**
+        - **Slope-Intercept Form:** y = mx + b
+        - **Point-Slope Form:** y - y₁ = m(x - x₁)
+        - **Standard Form:** Ax + By = C
+        
+        **Rate Calculations:**
+        - **Speed = Distance ÷ Time**
+        - **Average Rate of Change = (y₂ - y₁) ÷ (x₂ - x₁)**
+        - **Slope Formula: m = (y₂ - y₁) ÷ (x₂ - x₁)**
+        
+        **Properties of Equality:**
+        - **Addition Property:** If a = b, then a + c = b + c
+        - **Subtraction Property:** If a = b, then a - c = b - c
+        - **Multiplication Property:** If a = b, then ac = bc
+        - **Division Property:** If a = b and c ≠ 0, then a/c = b/c
+        """)
+    
     # Interactive Sonic Speed Calculator
     st.markdown("---")
     st.markdown("### 🚀 Sonic vs. Jeremiah Speed Challenge")
+    
+    st.markdown("""
+    **🎯 Learning Objective:** Apply rate calculations and linear relationships to compare speeds
+    
+    **📚 Mathematical Concept:** When we calculate speed, we're finding a **rate of change** - specifically, 
+    how distance changes with respect to time. This creates a **linear relationship** because if you travel 
+    at constant speed, doubling the time doubles the distance.
+    
+    **Formula:** Speed = Distance ÷ Time, or v = d/t
+    
+    **Real-World Connection:** Understanding rates helps quarterbacks calculate timing for plays, 
+    helps real estate agents determine property appreciation rates, and helps engineers design optimal systems.
+    """)
     
     col1, col2 = st.columns(2)
     
@@ -139,24 +789,35 @@ with week_tabs[0]:
         st.metric("Sonic is", f"{speed_ratio:.0f}x faster!")
     
     with col2:
-        # Create speed comparison graph
-        fig, ax = plt.subplots(figsize=(10, 6))
+        # Create speed comparison graph with Plotly
+        fig = go.Figure()
+        
         speeds = ['Jeremiah', 'Sonic']
         values = [jeremiah_speed_mph, 767]
         colors = ['#ff6b6b', '#4ecdc4']
         
-        bars = ax.bar(speeds, values, color=colors)
-        ax.set_ylabel('Speed (mph)')
-        ax.set_title('Speed Comparison: Jeremiah vs. Sonic')
-        ax.set_ylim(0, 800)
+        fig.add_trace(go.Bar(
+            x=speeds,
+            y=values,
+            marker_color=colors,
+            text=[f'{val:.1f} mph' for val in values],
+            textposition='auto',
+            hovertemplate='<b>%{x}</b><br>Speed: %{y:.1f} mph<extra></extra>'
+        ))
         
-        # Add value labels on bars
-        for bar, value in zip(bars, values):
-            height = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2., height + 10,
-                   f'{value:.1f} mph', ha='center', va='bottom', fontweight='bold')
+        fig.update_layout(
+            title='Interactive Speed Comparison: Jeremiah vs. Sonic',
+            xaxis_title='Character',
+            yaxis_title='Speed (mph)',
+            height=400,
+            showlegend=False,
+            hovermode='x'
+        )
         
-        st.pyplot(fig)
+        # Add animation on load
+        fig.update_traces(marker_line_width=2, marker_line_color="darkslategrey")
+        
+        st.plotly_chart(fig, use_container_width=True)
     
     # Lincoln Park Distance Problem
     st.markdown("---")
@@ -173,31 +834,147 @@ with week_tabs[0]:
     with col2:
         st.metric("Sonic's Time", f"{sonic_time_seconds:.2f} seconds")
     
+    # Mathematical Explanation
+    st.markdown(f"""
+    **📐 Mathematical Work:**
+    
+    **For Jeremiah:**
+    - Time = Distance ÷ Speed = {park_distance} miles ÷ {jeremiah_speed_mph:.1f} mph = {jeremiah_time_minutes:.3f} hours
+    - Converting to minutes: {jeremiah_time_minutes:.3f} hours × 60 = {jeremiah_time_minutes:.1f} minutes
+    
+    **For Sonic:**  
+    - Time = {park_distance} miles ÷ 767 mph = {(park_distance/767):.6f} hours
+    - Converting to seconds: {(park_distance/767):.6f} hours × 3,600 = {sonic_time_seconds:.2f} seconds
+    
+    **🎯 Key Insight:** Both calculations use the same formula (t = d/v), but different units require 
+    different conversion factors. This demonstrates the importance of **dimensional analysis** in mathematics.
+    """)
+    
     # Segway Slope Analysis
     st.markdown("---")
     st.markdown("### 🛴 Segway Slope Analysis")
-    st.markdown("**Real-World Application:** Jersey City hills and rate of change")
+    st.markdown("""
+    **🎯 Learning Objective:** Understand slope as a rate of change and its real-world applications
+    
+    **📚 Mathematical Concept:** Slope measures the **steepness** of a line and represents the 
+    **rate of change** between two variables. In this case, it's the rate at which elevation 
+    changes with respect to horizontal distance.
+    
+    **Real-World Application:** Slope is crucial in engineering, construction, road design, 
+    and understanding how physical forces affect motion on inclined surfaces.
+    """)
+    st.markdown("**Mathematical Connection:** Jersey City hills and rate of change")
     
     rise = st.slider("Hill rise (feet):", 10, 100, 50)
     run = st.slider("Horizontal distance (feet):", 100, 500, 200)
     slope = rise / run
     
+    st.markdown(f"""
+    **📊 Slope Calculations:**
+    
+    **Definition:** Slope = Rise ÷ Run = Vertical Change ÷ Horizontal Change
+    
+    **Calculation:** Slope = {rise} feet ÷ {run} feet = {slope:.3f}
+    
+    **Interpretations:**
+    - **As a Decimal:** {slope:.3f} means for every 1 foot horizontally, elevation rises {slope:.3f} feet
+    - **As a Percentage:** {slope * 100:.1f}% grade (used in road construction)
+    - **As a Ratio:** {rise}:{run} (simplified ratio of rise to run)
+    - **As an Angle:** {np.degrees(np.arctan(slope)):.1f}° from horizontal
+    
+    **📐 Mathematical Properties:**
+    - **Positive slope:** Line rises from left to right (uphill)
+    - **Negative slope:** Line falls from left to right (downhill)  
+    - **Zero slope:** Horizontal line (flat ground)
+    - **Undefined slope:** Vertical line (cliff face)
+    """)
+    
+    # Engineering Applications
+    st.markdown(f"""
+    **⚙️ Engineering Applications:**
+    - **Road Grade Standards:** Most highways limit grades to 6% ({slope * 100:.1f}% {'exceeds' if slope > 0.06 else 'meets'} this standard)
+    - **ADA Compliance:** Wheelchair ramps must have slopes ≤ 1:12 or 8.33% 
+    - **Segway Performance:** Steeper slopes require more power and reduce speed/range
+    """)
+    
     st.markdown(f"**Slope = Rise/Run = {rise}/{run} = {slope:.3f}**")
     st.markdown(f"**Slope percentage: {slope * 100:.1f}%**")
     
-    # Create slope visualization
-    fig, ax = plt.subplots(figsize=(10, 6))
+    # Create slope visualization with interactive Plotly
+    fig = go.Figure()
     x_vals = np.linspace(0, run, 100)
     y_vals = slope * x_vals
     
-    ax.plot(x_vals, y_vals, linewidth=3, color='#2ecc71')
-    ax.fill_between(x_vals, y_vals, alpha=0.3, color='#2ecc71')
-    ax.set_xlabel('Horizontal Distance (feet)')
-    ax.set_ylabel('Vertical Rise (feet)')
-    ax.set_title(f'Jersey City Hill Profile (Slope = {slope:.3f})')
-    ax.grid(True, alpha=0.3)
+    # Main slope line
+    fig.add_trace(go.Scatter(
+        x=x_vals, 
+        y=y_vals, 
+        mode='lines',
+        name=f'Hill Profile (slope = {slope:.3f})',
+        line=dict(color='#2ecc71', width=4),
+        fill='tonexty',
+        fillcolor='rgba(46, 204, 113, 0.3)',
+        hovertemplate='Distance: %{x:.0f} ft<br>Height: %{y:.0f} ft<extra></extra>'
+    ))
     
-    st.pyplot(fig)
+    # Add rise and run indicators
+    fig.add_trace(go.Scatter(
+        x=[0, run, run], 
+        y=[0, 0, rise], 
+        mode='lines+markers+text',
+        name='Rise/Run',
+        line=dict(color='red', width=2, dash='dash'),
+        marker=dict(size=8, color='red'),
+        text=['Start', f'Run: {run} ft', f'Rise: {rise} ft'],
+        textposition=['bottom center', 'bottom center', 'middle right'],
+        hoverinfo='skip'
+    ))
+    
+    fig.update_layout(
+        title=f'Interactive Jersey City Hill Profile<br>Slope = {slope:.3f} ({slope*100:.1f}% grade)',
+        xaxis_title='Horizontal Distance (feet)',
+        yaxis_title='Vertical Rise (feet)',
+        height=500,
+        showlegend=True,
+        hovermode='x unified'
+    )
+    
+    # Add grid
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+    
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # Interactive slope calculator
+    st.markdown("---")
+    st.markdown("### 🎮 Interactive Slope Challenge")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        challenge_rise = st.number_input("Challenge: Enter rise (ft):", min_value=1, max_value=200, value=75)
+    with col2:
+        challenge_run = st.number_input("Enter run (ft):", min_value=10, max_value=1000, value=300)
+    with col3:
+        user_guess = st.number_input("Guess the slope:", min_value=0.0, max_value=2.0, value=0.25, step=0.001, format="%.3f")
+    
+    actual_slope = challenge_rise / challenge_run
+    error = abs(user_guess - actual_slope)
+    
+    if st.button("Check My Answer! 🎯"):
+        if error < 0.001:
+            st.success(f"🎉 Perfect! Slope = {actual_slope:.3f}")
+            st.balloons()
+            # Award points
+            st.session_state.total_points += 10
+            if "🎯 Slope Master" not in st.session_state.achievements:
+                st.session_state.achievements.append("🎯 Slope Master")
+        elif error < 0.01:
+            st.success(f"👍 Very close! Actual slope = {actual_slope:.3f}, you guessed {user_guess:.3f}")
+            st.session_state.total_points += 5
+        else:
+            st.error(f"❌ Try again! Actual slope = {actual_slope:.3f}")
+            st.markdown("💡 **Hint:** Remember, slope = rise ÷ run")
 
 # --- WEEK 2 ---
 with week_tabs[1]:
@@ -207,9 +984,71 @@ with week_tabs[1]:
     st.markdown("**📚 Common Core:** HSA.REI.B.4")
     st.markdown("**🎯 Focus:** Quadratic Functions and Vertex Form")
     
+    # Mathematical Vocabulary and Concepts for Week 2
+    with st.expander("📖 Week 2 Mathematical Vocabulary"):
+        st.markdown("""
+        **📊 Quadratic Functions:**
+        - **Quadratic Function:** A function of the form f(x) = ax² + bx + c where a ≠ 0
+        - **Parabola:** The U-shaped curve that is the graph of a quadratic function
+        - **Vertex:** The highest or lowest point on a parabola
+        - **Axis of Symmetry:** The vertical line that divides the parabola into two mirror images
+        - **Discriminant:** The expression b² - 4ac that determines the nature of solutions
+        
+        **🎯 Projectile Motion:**
+        - **Initial Velocity:** The starting speed and direction of a projectile
+        - **Launch Angle:** The angle at which a projectile is released
+        - **Maximum Height:** The highest point reached by a projectile
+        - **Range:** The horizontal distance traveled by a projectile
+        - **Time of Flight:** The total time a projectile remains in the air
+        
+        **📐 Quadratic Forms:**
+        - **Standard Form:** f(x) = ax² + bx + c
+        - **Vertex Form:** f(x) = a(x - h)² + k where (h,k) is the vertex
+        - **Factored Form:** f(x) = a(x - r₁)(x - r₂) where r₁ and r₂ are roots
+        """)
+    
+    with st.expander("🧮 Quadratic Formulas & Properties"):
+        st.markdown("""
+        **Essential Quadratic Formulas:**
+        - **Quadratic Formula:** x = (-b ± √(b² - 4ac)) / 2a
+        - **Vertex x-coordinate:** x = -b / 2a
+        - **Axis of Symmetry:** x = -b / 2a
+        - **Discriminant:** Δ = b² - 4ac
+        
+        **Projectile Motion Formulas:**
+        - **Height:** h(t) = -16t² + v₀t + h₀ (in feet)
+        - **Horizontal Distance:** x(t) = v₀cos(θ)t
+        - **Vertical Velocity:** vᵧ(t) = v₀sin(θ) - 32t
+        - **Maximum Height:** h_max = h₀ + (v₀sin(θ))² / 64
+        
+        **Key Properties:**
+        - If a > 0, parabola opens upward (has minimum)
+        - If a < 0, parabola opens downward (has maximum)  
+        - |a| determines how wide or narrow the parabola is
+        """)
+    
     # Football Trajectory Calculator
     st.markdown("---")
     st.markdown("### 🎯 Perfect Spiral Trajectory Analysis")
+    
+    st.markdown("""
+    **🎯 Learning Objective:** Model projectile motion using quadratic functions and analyze optimization
+    
+    **📚 Mathematical Concept:** Projectile motion follows a **parabolic path** described by quadratic 
+    functions. The height of any projectile (ignoring air resistance) can be modeled by:
+    
+    **h(t) = -16t² + v₀t + h₀**
+    
+    Where:
+    - h(t) = height at time t (feet)
+    - -16 = half the acceleration due to gravity (ft/s²)
+    - v₀ = initial vertical velocity (ft/s)
+    - h₀ = initial height (feet)
+    - t = time (seconds)
+    
+    **Why Quadratic?** Gravity causes constant acceleration, and when you integrate constant 
+    acceleration twice, you get a quadratic (second-degree) function.
+    """)
     
     col1, col2 = st.columns(2)
     
@@ -237,7 +1076,7 @@ with week_tabs[1]:
         st.metric("Flight Time", f"{flight_time:.2f} seconds")
     
     with col2:
-        # Create trajectory plot
+        # Create 3D trajectory plot with Plotly
         t_vals = np.linspace(0, flight_time, 100)
         x_vals = v_x * t_vals
         y_vals = initial_height + v_y * t_vals - 0.5 * 32.2 * t_vals**2
@@ -246,26 +1085,240 @@ with week_tabs[1]:
         valid_indices = y_vals >= 0
         x_vals = x_vals[valid_indices]
         y_vals = y_vals[valid_indices]
+        t_vals = t_vals[valid_indices]
         
-        fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(x_vals, y_vals, linewidth=3, color='#e74c3c')
-        ax.fill_between(x_vals, y_vals, alpha=0.3, color='#e74c3c')
-        ax.set_xlabel('Horizontal Distance (feet)')
-        ax.set_ylabel('Height (feet)')
-        ax.set_title(f'Football Trajectory (θ={launch_angle}°, v₀={initial_velocity} ft/s)')
-        ax.grid(True, alpha=0.3)
-        ax.set_ylim(0, max(y_vals) * 1.1)
+        # Create animated trajectory
+        fig = go.Figure()
         
-        # Mark maximum height
+        # Full trajectory path
+        fig.add_trace(go.Scatter(
+            x=x_vals, 
+            y=y_vals,
+            mode='lines',
+            name='Flight Path',
+            line=dict(color='#e74c3c', width=4),
+            hovertemplate='Distance: %{x:.1f} ft<br>Height: %{y:.1f} ft<extra></extra>'
+        ))
+        
+        # Mark key points
+        # Launch point
+        fig.add_trace(go.Scatter(
+            x=[0], y=[initial_height],
+            mode='markers+text',
+            marker=dict(size=12, color='green', symbol='star'),
+            text=['Launch'],
+            textposition='top center',
+            name='Launch Point',
+            hovertemplate='Launch Point<br>Height: %{y:.1f} ft<extra></extra>'
+        ))
+        
+        # Peak point
         vertex_x = max_distance / 2
-        ax.plot(vertex_x, max_height, 'ro', markersize=8, label=f'Peak: ({vertex_x:.1f}, {max_height:.1f})')
-        ax.legend()
+        fig.add_trace(go.Scatter(
+            x=[vertex_x], y=[max_height],
+            mode='markers+text',
+            marker=dict(size=12, color='gold', symbol='diamond'),
+            text=['Peak'],
+            textposition='top center',
+            name='Maximum Height',
+            hovertemplate='Peak<br>Distance: %{x:.1f} ft<br>Height: %{y:.1f} ft<extra></extra>'
+        ))
         
-        st.pyplot(fig)
+        # Landing point
+        fig.add_trace(go.Scatter(
+            x=[max_distance], y=[0],
+            mode='markers+text',
+            marker=dict(size=12, color='red', symbol='x'),
+            text=['Landing'],
+            textposition='top center',
+            name='Landing Point',
+            hovertemplate='Landing Point<br>Distance: %{x:.1f} ft<extra></extra>'
+        ))
+        
+        # Add field markings every 10 yards
+        yard_lines = np.arange(0, max_distance + 30, 30)  # Every 10 yards (30 feet)
+        for yard in yard_lines:
+            fig.add_vline(x=yard, line_dash="dot", line_color="gray", opacity=0.5)
+        
+        fig.update_layout(
+            title=f'🏈 Interactive Football Trajectory Analysis<br>θ={launch_angle}°, v₀={initial_velocity} ft/s',
+            xaxis_title='Horizontal Distance (feet)',
+            yaxis_title='Height (feet)',
+            height=500,
+            showlegend=True,
+            hovermode='x unified'
+        )
+        
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray', range=[0, max(y_vals) * 1.1])
+        
+        st.plotly_chart(fig, use_container_width=True)
+    
+    # Animated trajectory simulation
+    st.markdown("---")
+    st.markdown("### 🎬 Trajectory Animation")
+    
+    if st.button("🚀 Launch Football Animation"):
+        animation_placeholder = st.empty()
+        progress_bar = st.progress(0)
+        
+        # Animation parameters
+        animation_steps = 50
+        
+        for step in range(animation_steps + 1):
+            progress = step / animation_steps
+            current_time = progress * flight_time
+            
+            # Calculate position at current time
+            if current_time <= flight_time:
+                current_x = v_x * current_time
+                current_y = max(0, initial_height + v_y * current_time - 0.5 * 32.2 * current_time**2)
+            else:
+                current_x = max_distance
+                current_y = 0
+            
+            # Create animation frame
+            anim_fig = go.Figure()
+            
+            # Full trajectory (faded)
+            anim_fig.add_trace(go.Scatter(
+                x=x_vals, y=y_vals,
+                mode='lines',
+                line=dict(color='lightgray', width=2),
+                name='Full Path',
+                showlegend=False
+            ))
+            
+            # Current position (highlighted)
+            anim_fig.add_trace(go.Scatter(
+                x=[current_x], y=[current_y],
+                mode='markers',
+                marker=dict(size=20, color='red', symbol='circle'),
+                name='Football',
+                showlegend=False
+            ))
+            
+            # Trajectory so far (colored)
+            if step > 0:
+                t_so_far = np.linspace(0, current_time, step)
+                x_so_far = v_x * t_so_far
+                y_so_far = np.maximum(0, initial_height + v_y * t_so_far - 0.5 * 32.2 * t_so_far**2)
+                
+                anim_fig.add_trace(go.Scatter(
+                    x=x_so_far, y=y_so_far,
+                    mode='lines',
+                    line=dict(color='#e74c3c', width=4),
+                    name='Flight Path',
+                    showlegend=False
+                ))
+            
+            anim_fig.update_layout(
+                title=f'🏈 Football in Flight - Time: {current_time:.2f}s<br>Position: ({current_x:.1f}, {current_y:.1f}) ft',
+                xaxis_title='Distance (feet)',
+                yaxis_title='Height (feet)',
+                height=400,
+                xaxis=dict(range=[0, max_distance * 1.1]),
+                yaxis=dict(range=[0, max_height * 1.2])
+            )
+            
+            animation_placeholder.plotly_chart(anim_fig, use_container_width=True)
+            progress_bar.progress(progress)
+            time.sleep(0.1)
+        
+        st.success("🎯 Touchdown! Animation complete!")
+        
+        # Award achievement points
+        st.session_state.total_points += 15
+        if "🏈 Trajectory Master" not in st.session_state.achievements:
+            st.session_state.achievements.append("🏈 Trajectory Master")
+        st.session_state.week_progress['Week 2'] = min(100, st.session_state.week_progress['Week 2'] + 25)
+    
+    # Detailed Mathematical Analysis
+    st.markdown("---")
+    st.markdown("### 🧠 Quadratic Function Analysis")
+    
+    st.markdown(f"""
+    **📊 Complete Mathematical Breakdown:**
+    
+    **Given Parameters:**
+    - Initial velocity: {initial_velocity} ft/s at {launch_angle}° angle
+    - Release height: {initial_height} feet
+    
+    **Step 1: Resolve Velocity Components**
+    - Horizontal velocity: vₓ = {initial_velocity} × cos({launch_angle}°) = {v_x:.1f} ft/s
+    - Vertical velocity: vᵧ = {initial_velocity} × sin({launch_angle}°) = {v_y:.1f} ft/s
+    
+    **Step 2: Create Height Function**
+    - h(t) = {initial_height} + {v_y:.1f}t - 16t²
+    - This is a quadratic function in **standard form**: h(t) = at² + bt + c
+    - Where a = -16, b = {v_y:.1f}, c = {initial_height}
+    
+    **Step 3: Find Key Features**
+    - **Vertex (Maximum Height):** t = -b/2a = -{v_y:.1f}/(2×-16) = {v_y/(2*16.1):.2f} seconds
+    - **Maximum Height:** h({v_y/(2*16.1):.2f}) = {max_height:.1f} feet
+    - **Flight Time:** Solve h(t) = 0 using quadratic formula = {flight_time:.2f} seconds
+    - **Range:** Distance = vₓ × flight time = {v_x:.1f} × {flight_time:.2f} = {max_distance:.1f} feet
+    
+    **📐 Vertex Form Conversion:**
+    - Standard form: h(t) = -16t² + {v_y:.1f}t + {initial_height}
+    - Vertex form: h(t) = -16(t - {v_y/(2*16.1):.2f})² + {max_height:.1f}
+    - The vertex form clearly shows the maximum occurs at t = {v_y/(2*16.1):.2f} seconds
+    """)
+    
+    # Physics and Engineering Applications
+    st.markdown(f"""
+    **⚙️ Physics & Engineering Insights:**
+    
+    **Optimization Analysis:**
+    - Current angle ({launch_angle}°) gives range of {max_distance:.1f} feet
+    - Theoretical optimal angle for maximum range: 45° (ignoring air resistance)
+    - Actual optimal angle for football: 35-40° (accounting for air resistance and spiral)
+    
+    **Real-World Factors Not in Model:**
+    - Air resistance (reduces range by ~10-20%)
+    - Spin of the football (affects trajectory)
+    - Wind conditions (can significantly alter path)
+    - Football shape (not perfectly spherical)
+    
+    **Quadratic Properties Demonstrated:**
+    - **Symmetry:** Time to reach maximum = time to fall from maximum
+    - **Concavity:** Opens downward (a = -16 < 0)
+    - **Intercepts:** y-intercept at (0, {initial_height}), x-intercepts when h(t) = 0
+    """)
     
     # Quadratic Function Analysis
     st.markdown("---")
     st.markdown("### 📐 Vertex Form Analysis")
+    st.markdown(f"""
+    **🎯 Converting Between Forms:**
+    
+    **Original Height Equation (Standard Form):**
+    h(t) = -16t² + {v_y:.1f}t + {initial_height}
+    
+    **Completing the Square to Get Vertex Form:**
+    
+    Step 1: Factor out the coefficient of t²
+    h(t) = -16(t² - {v_y/16:.3f}t) + {initial_height}
+    
+    Step 2: Complete the square inside parentheses
+    h(t) = -16(t² - {v_y/16:.3f}t + {(v_y/32)**2:.4f}) + {initial_height} + 16×{(v_y/32)**2:.4f}
+    
+    Step 3: Factor and simplify
+    h(t) = -16(t - {v_y/32:.3f})² + {max_height:.1f}
+    
+    **Vertex Form:** h(t) = -16(t - {v_y/(2*16.1):.2f})² + {max_height:.1f}
+    
+    **Key Information from Vertex Form:**
+    - **Vertex coordinates:** ({v_y/(2*16.1):.2f}, {max_height:.1f})
+    - **Axis of symmetry:** t = {v_y/(2*16.1):.2f} seconds
+    - **Maximum value:** {max_height:.1f} feet
+    - **Opens:** Downward (because a = -16 < 0)
+    
+    **🎯 Why Vertex Form is Useful:**
+    - Immediately shows the maximum height and when it occurs
+    - Makes it easy to identify transformations from the parent function y = x²
+    - Useful for optimization problems in physics and engineering
+    """)
     st.markdown(f"**Height equation:** h(t) = {initial_height} + {v_y:.1f}t - 16.1t²")
     st.markdown(f"**Vertex form:** h(t) = -16.1(t - {v_y/(2*16.1):.2f})² + {max_height:.1f}")
     st.markdown(f"**Vertex (time at max height):** t = {v_y/(2*16.1):.2f} seconds")
@@ -306,7 +1359,7 @@ with week_tabs[2]:
         st.markdown(f"• Sonic: t = {sonic_time:.4f} minutes")
     
     with col2:
-        # Create race visualization
+        # Create interactive 3-way race visualization
         times = np.linspace(0, max(running_time, segway_time) * 1.2, 100)
         
         # Distance covered by each mode
@@ -314,22 +1367,71 @@ with week_tabs[2]:
         segway_distance = np.maximum(0, ((times + segway_head_start) / 60) * segway_speed)
         sonic_distance = (times / 60) * sonic_speed
         
-        fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(times, running_distance, label='Running', linewidth=3, color='#3498db')
-        ax.plot(times, segway_distance, label='Segway', linewidth=3, color='#e67e22')
-        ax.plot(times, sonic_distance, label='Sonic', linewidth=3, color='#9b59b6')
+        fig = go.Figure()
+        
+        # Add traces for each racer
+        fig.add_trace(go.Scatter(
+            x=times, y=running_distance,
+            mode='lines',
+            name='🏃‍♂️ Jeremiah Running',
+            line=dict(color='#3498db', width=4),
+            hovertemplate='Time: %{x:.1f} min<br>Distance: %{y:.2f} miles<extra></extra>'
+        ))
+        
+        fig.add_trace(go.Scatter(
+            x=times, y=segway_distance,
+            mode='lines',
+            name='🛴 Jeremiah on Segway',
+            line=dict(color='#e67e22', width=4),
+            hovertemplate='Time: %{x:.1f} min<br>Distance: %{y:.2f} miles<extra></extra>'
+        ))
+        
+        fig.add_trace(go.Scatter(
+            x=times, y=sonic_distance,
+            mode='lines',
+            name='🦔 Sonic',
+            line=dict(color='#9b59b6', width=4),
+            hovertemplate='Time: %{x:.1f} min<br>Distance: %{y:.2f} miles<extra></extra>'
+        ))
         
         # Mark finish line
-        ax.axhline(y=race_distance, color='red', linestyle='--', alpha=0.7, label='Finish Line')
+        fig.add_hline(
+            y=race_distance, 
+            line_dash="dash", 
+            line_color="red",
+            annotation_text="🏁 Finish Line",
+            annotation_position="bottom right"
+        )
         
-        ax.set_xlabel('Time (minutes)')
-        ax.set_ylabel('Distance (miles)')
-        ax.set_title('Race Progress: Three Systems of Motion')
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-        ax.set_ylim(0, race_distance * 1.2)
+        # Mark intersection points
+        for i, time_val in enumerate(times[::10]):  # Check every 10th point
+            run_pos = (time_val / 60) * running_speed
+            seg_pos = max(0, ((time_val + segway_head_start) / 60) * segway_speed)
+            
+            if abs(run_pos - seg_pos) < 0.01 and run_pos > 0.1:  # Found intersection
+                fig.add_trace(go.Scatter(
+                    x=[time_val], y=[run_pos],
+                    mode='markers',
+                    marker=dict(size=12, color='yellow', symbol='star'),
+                    name='Intersection',
+                    showlegend=False,
+                    hovertemplate=f'Intersection<br>Time: {time_val:.1f} min<br>Distance: {run_pos:.2f} miles<extra></extra>'
+                ))
+                break
         
-        st.pyplot(fig)
+        fig.update_layout(
+            title='🏃‍♂️🛴🦔 Interactive Three-Way Race: Systems in Motion',
+            xaxis_title='Time (minutes)',
+            yaxis_title='Distance Covered (miles)',
+            height=500,
+            hovermode='x unified',
+            showlegend=True
+        )
+        
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray', range=[0, race_distance * 1.2])
+        
+        st.plotly_chart(fig, use_container_width=True)
     
     # Real Estate Systems
     st.markdown("---")

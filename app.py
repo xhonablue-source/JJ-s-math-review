@@ -377,4 +377,3 @@ st.markdown("""
     <p><strong>Built for Jeremiah by Xavier Honablue M.Ed | CognitiveCloud.ai</strong></p>
     <p>🎯 <strong>Target Path:</strong> NJIT Mechanical Engineering & Army Corps of Engineers</p>
 </div>
-""", unsafe_allow_html=True)

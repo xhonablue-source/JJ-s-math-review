@@ -39,7 +39,7 @@ Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade m
 Prepare Jeremiah for a confident 10th grade math experience by reinforcing foundational skills through a personalized, interest-based curriculum rooted in Common Core standards, with Rose as his inspiring partner.
 
 ### 🧑🏿‍🏫 Who is Dr. X?
-Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real Black educator who wears glasses. He’s your sideline coach for math, cheering Jeremiah and Rose on!
+Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real educator who wears glasses. He’s your sideline coach for math, cheering Jeremiah and Rose on!
 """)
 
 # Common Core Standards Alignment (Global Dropdown)

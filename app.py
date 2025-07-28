@@ -376,4 +376,3 @@ st.markdown("""
     <p><em>"Mathematics is the language of engineering solutions." - Xavier Honablue</em></p>
     <p><strong>Built for Jeremiah by Xavier Honablue M.Ed | CognitiveCloud.ai</strong></p>
     <p>🎯 <strong>Target Path:</strong> NJIT Mechanical Engineering & Army Corps of Engineers</p>
-</div>

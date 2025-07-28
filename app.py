@@ -1,4 +1,3 @@
-
 import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
@@ -40,13 +39,11 @@ Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade m
 Prepare Jeremiah for a confident 10th grade math experience by reinforcing foundational skills through a personalized, interest-based curriculum rooted in Common Core standards, with Rose as his inspiring partner.
 
 ### 🧑🏿‍🏫 Who is Dr. X?
-Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real educator with glasses, a deep voice, and a heart for student success. He’s your sideline coach for math, cheering Jeremiah and Rose on!
+Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real Black educator with glasses, a deep voice, and a heart for student success. He’s your sideline coach for math, cheering Jeremiah and Rose on!
 """)
 
-# Common Core Standards Alignment
+# Common Core Standards Alignment (Global Dropdown)
 st.info("📚 **Common Core Alignment:** This program covers High School Algebra standards like creating equations (HSA.CED), reasoning with equations (HSA.REI), and building functions (HSF.BF) through real-world applications.")
-
-# Common Core Standards Dropdown
 common_core_standard = st.selectbox("📋 Select specific Common Core Standard focus:", [
     "HSA.CED.A.1 - Create equations and inequalities in one variable",
     "HSA.CED.A.2 - Create equations in two or more variables to represent relationships",
@@ -116,7 +113,12 @@ week_tabs = st.tabs([
 with week_tabs[0]:
     st.subheader("🦔 Week 1: Sonic Speeds & Algebra Foundations")
     st.markdown("**📘 IXL Skills Focus:** [U.2 - Solve multi-step linear equations](https://www.ixl.com/math/algebra-1/solve-multi-step-linear-equations)")
-    st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3")
+    week_std = st.selectbox("📋 Week 1 Common Core Focus:", [
+        "HSA.CED.A.1 - Create equations and inequalities in one variable",
+        "HSA.REI.B.3 - Solve linear equations and inequalities in one variable",
+        "HSF.IF.B.4 - Interpret key features of graphs and tables"
+    ])
+    st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3, HSF.IF.B.4")
     st.markdown("**🎯 Focus:** Expressions, Equations, and Linear Functions")
 
     # Story: Jeremiah and Rose’s Speed Adventure
@@ -227,11 +229,45 @@ with week_tabs[0]:
     **Practice:** Calculate the slope percentage for a hill with a 25-foot rise over 200 feet.
     """)
 
+    # --- Quiz Zone: Week 1 ---
+    st.subheader("🧠 Quiz Zone: Week 1")
+    q1 = st.radio("1️⃣ What is the correct formula for speed?", [
+        "Speed = Distance × Time",
+        "Speed = Distance / Time",
+        "Speed = Time / Distance"
+    ], key="q1")
+    if q1:
+        st.success("✅ Correct!" if q1 == "Speed = Distance / Time" else "❌ Try again.")
+
+    q2 = st.text_input("2️⃣ If Jeremiah runs 40 yards in 5 seconds, approximately how fast is he going (mph)?", key="q2")
+    if q2:
+        try:
+            answer = round((40 * 3600) / (5 * 5280))
+            if abs(int(q2) - answer) <= 1:
+                st.success("✅ Correct! He runs at about 5.5 mph.")
+            else:
+                st.error("❌ Not quite. Try using the formula: (40*3600)/(5*5280)")
+        except:
+            st.warning("Please enter a number.")
+
+    q3 = st.radio("3️⃣ What is slope defined as?", [
+        "Run / Rise",
+        "Rise / Run",
+        "Speed / Time"
+    ], key="q3")
+    if q3:
+        st.success("✅ Correct! Slope = Rise / Run." if q3 == "Rise / Run" else "❌ That's not correct.")
+
 # --- WEEK 2 ---
 with week_tabs[1]:
     st.subheader("🏈 Week 2: Football Physics & Quadratics")
     st.markdown("**📘 IXL Skills Focus:** [J.7 - Graph parabolas](https://www.ixl.com/math/algebra-1/graph-a-quadratic-function)")
-    st.markdown("**📚 Common Core:** HSA.REI.B.4")
+    week_std = st.selectbox("📋 Week 2 Common Core Focus:", [
+        "HSA.REI.B.4 - Solve quadratic equations in one variable",
+        "HSF.IF.C.7 - Graph functions expressed symbolically",
+        "HSF.BF.A.1 - Write a function that describes a relationship between quantities"
+    ])
+    st.markdown("**📚 Common Core:** HSA.REI.B.4, HSF.IF.C.7, HSF.BF.A.1")
     st.markdown("**🎯 Focus:** Quadratic Functions and Vertex Form")
 
     # Story: Jeremiah and Rose’s Football Triumph
@@ -303,11 +339,37 @@ with week_tabs[1]:
     **Practice:** Find the vertex of h(t) = -12t² + 48t + 4.
     """)
 
+    # --- Quiz Zone: Week 2 ---
+    st.subheader("🧠 Quiz Zone: Week 2")
+    q4 = st.radio("4️⃣ What part of a parabola represents its highest point in this football trajectory?", ["Axis", "Root", "Vertex"], key="q4")
+    if q4:
+        st.success("✅ Correct! The vertex is the peak of the parabola." if q4 == "Vertex" else "❌ Try again.")
+
+    q5 = st.radio("5️⃣ What is the approximate value of gravity used in the football trajectory calculation?", ["9.7 m/s²", "32.2 ft/s²", "100 ft/s²"], key="q5")
+    if q5:
+        st.success("✅ Yes! 32.2 ft/s² is used here." if q5 == "32.2 ft/s²" else "❌ Not quite.")
+
+    q6 = st.text_input("6️⃣ Convert h(t) = -16t² + 32t + 5 into vertex form. What's the vertex time (to 1 decimal)?", key="q6")
+    if q6:
+        try:
+            correct = round(32 / (2 * 16), 1)
+            if abs(float(q6) - correct) <= 0.2:
+                st.success("✅ Well done! Vertex time ≈ 1.0 seconds")
+            else:
+                st.error("❌ Try again. Use t = -b / 2a")
+        except:
+            st.warning("Please enter a number.")
+
 # --- WEEK 3 ---
 with week_tabs[2]:
     st.subheader("🥷 Week 3: Naruto Motion & Systems of Equations")
     st.markdown("**📘 IXL Skills Focus:** [W.10 - Solve a system of equations by graphing](https://www.ixl.com/math/algebra-1/solve-a-system-of-equations-by-graphing)")
-    st.markdown("**📚 Common Core:** HSA.CED.A.3")
+    week_std = st.selectbox("📋 Week 3 Common Core Focus:", [
+        "HSA.CED.A.3 - Represent constraints by systems of equations and inequalities",
+        "HSA.REI.C.6 - Solve systems of linear equations exactly and approximately",
+        "HSA.REI.D.11 - Explain why coordinates of intersection points satisfy both equations"
+    ])
+    st.markdown("**📚 Common Core:** HSA.CED.A.3, HSA.REI.C.6, HSA.REI.D.11")
     st.markdown("**🎯 Focus:** Simultaneous Equations and Real-Life Situations")
 
     # Story: Jeremiah and Rose’s Race Day
@@ -407,11 +469,82 @@ with week_tabs[2]:
     **Practice:** Find the break-even if Rate 1 is 4% and Rate 2 is 3% with a $3000 fee.
     """)
 
+    # Additional ROTC Army Corps of Engineers Lesson
+    st.markdown("---")
+    st.markdown("### 🏗️ Naruto’s Engineering Challenge: Army Corps Style")
+    st.markdown("**Real-World Application:** Infrastructure and resource planning")
+    show_engineering_chart = st.checkbox("Show Engineering Resource Allocation 📊", value=True, key="engineering_toggle")
+    col1, col2 = st.columns(2)
+    with col1:
+        manpower = st.slider("Available manpower (hours):", 100, 500, 300)
+        materials_cost = st.slider("Materials cost ($):", 5000, 20000, 10000)
+        project_time = st.slider("Project time limit (days):", 5, 20, 10)
+        work_rate = manpower / project_time  # Hours per day
+        total_cost = materials_cost + (manpower * 20)  # Assuming $20/hour labor cost
+        st.markdown("**Engineering Equations:**")
+        st.markdown(f"• Work Rate: {work_rate:.1f} hours/day")
+        st.markdown(f"• Total Cost: ${total_cost:,.0f}")
+    with col2:
+        if show_engineering_chart:
+            days = np.linspace(1, project_time, 100)
+            work_completed = work_rate * days
+            cost_over_time = materials_cost + (work_rate * days * 20)
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.plot(days, work_completed, label='Work Completed (hours)', linewidth=3, color='#8e44ad')
+            ax.plot(days, cost_over_time, label='Cumulative Cost ($)', linewidth=3, color='#e74c3c')
+            ax.axhline(y=manpower, color='gray', linestyle='--', alpha=0.7, label='Max Manpower')
+            ax.set_xlabel('Days')
+            ax.set_ylabel('Value')
+            ax.set_title('Engineering Project Progress')
+            ax.legend()
+            ax.grid(True, alpha=0.3)
+            ax.set_ylim(0, max(manpower, max(cost_over_time)) * 1.2)
+            st.pyplot(fig)
+
+    # Story: Jeremiah and Rose’s Engineering Mission
+    st.markdown("""
+    🌍 **Story Time with Jeremiah and Rose:** Inspired by Naruto’s village-building skills, Jeremiah and Rose imagine leading an Army Corps of Engineers team in Jersey City. Rose suggests, “Let’s plan a bridge project using math, just like we’d manage resources back in South Africa!” Jeremiah nods, ready to tackle the challenge.
+    """)
+
+    # Teaching Text
+    st.markdown("""
+    📚 **Math Lesson:** The Army Corps of Engineers uses systems to allocate resources like manpower and materials. Equations like Work = Rate × Time and Cost = Materials + (Labor × Hours) help optimize projects. This ties to HSA.CED.A.3 for modeling constraints.  
+    **Example Problem:** With 300 hours and $10,000 materials over 10 days, what’s the total cost if labor is $20/hour?  
+    Solution: Work rate = 300/10 = 30 hours/day, Total cost = 10,000 + (300 × 20) = $16,000. Adjust sliders to test!
+    **Practice:** Calculate the cost if manpower increases to 400 hours over 15 days.
+    """)
+
+    # --- Quiz Zone: Week 3 ---
+    st.subheader("🧠 Quiz Zone: Week 3")
+    q7 = st.radio("7️⃣ What math tool best models multiple racers with different speeds and head starts?", ["Quadratic equations", "Linear systems", "Exponential decay"], key="q7")
+    if q7:
+        st.success("✅ Correct. Systems of equations show how speeds match up." if q7 == "Linear systems" else "❌ Try again.")
+
+    q8 = st.text_input("8️⃣ If d/16 = d/10 + 2, approximately what is d?", key="q8")
+    if q8:
+        try:
+            correct = round(2 / (1/16 - 1/10))
+            if abs(float(q8) - correct) <= 1:
+                st.success("✅ You nailed it! d ≈ 1.6 miles")
+            else:
+                st.error("❌ Try solving with a common denominator.")
+        except:
+            st.warning("Please enter a number.")
+
+    q9 = st.radio("9️⃣ When solving commission equations C1 = C2, what do you find?", ["Max ROI", "Break-even price", "Minimum rent"], key="q9")
+    if q9:
+        st.success("✅ Yes! That’s the break-even price where commissions match." if q9 == "Break-even price" else "❌ Incorrect.")
+
 # --- WEEK 4 ---
 with week_tabs[3]:
     st.subheader("🎓 Week 4: NJIT Bound - College Prep & Inequalities")
     st.markdown("**📘 IXL Skills Focus:** [Y.5 - Graph compound inequalities](https://www.ixl.com/math/algebra-1/graph-compound-inequalities)")
-    st.markdown("**📚 Common Core:** HSA.REI.D.12, HSA.CED.A.2")
+    week_std = st.selectbox("📋 Week 4 Common Core Focus:", [
+        "HSA.REI.D.12 - Graph solutions to systems of linear inequalities",
+        "HSA.CED.A.2 - Create equations in two or more variables to represent relationships",
+        "HSF.LE.A.2 - Construct linear and exponential functions"
+    ])
+    st.markdown("**📚 Common Core:** HSA.REI.D.12, HSA.CED.A.2, HSF.LE.A.2")
     st.markdown("**🎯 Focus:** Cumulative Assessment and Future Planning")
 
     # Story: Jeremiah and Rose’s College Dream
@@ -521,6 +654,27 @@ with week_tabs[3]:
     **Practice:** Find the maximum price for a 7% ROI within a $500,000 budget.
     """)
 
+    # --- Quiz Zone: Week 4 ---
+    st.subheader("🧠 Quiz Zone: Week 4")
+    q10 = st.radio("🔟 If GPA ≥ 3.3 and SAT ≥ 1250, does a student with GPA 3.5 and SAT 1200 qualify for NJIT?", ["Yes", "No"], key="q10")
+    if q10:
+        st.success("✅ Correct. SAT is too low for NJIT." if q10 == "No" else "❌ Check both criteria.")
+
+    q11 = st.radio("1️⃣1️⃣ If ROI = 7% and your minimum is 8%, is the investment viable?", ["Yes", "No"], key="q11")
+    if q11:
+        st.success("✅ Correct. It doesn’t meet the ROI threshold." if q11 == "No" else "❌ Think about the minimum required.")
+
+    q12 = st.text_input("1️⃣2️⃣ If a property grows 4% annually for 5 years, what’s the multiplier applied to price? (Round to 2 decimal places)", key="q12")
+    if q12:
+        try:
+            correct = round((1 + 0.04) ** 5, 2)
+            if abs(float(q12) - correct) <= 0.05:
+                st.success("✅ Spot on! The multiplier is ≈ 1.22")
+            else:
+                st.error("❌ Try using (1 + r)^t")
+        except:
+            st.warning("Please enter a number.")
+
 # --- Ask Dr. X Sidebar ---
 st.sidebar.title("🤖 Ask Dr. X")
 st.sidebar.markdown("*Your Personal Math Coach*")
@@ -546,6 +700,30 @@ with st.sidebar:
             {"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your AI math coach. Ready to tackle some math problems?"}
         ]
         st.rerun()
+
+    # --- Score Tracker ---
+    st.sidebar.markdown("---")
+    st.sidebar.title("📊 Quiz Score Tracker")
+    correct_answers = 0
+    quiz_keys = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12"]
+    correct_responses = {
+        "q1": "Speed = Distance / Time",
+        "q3": "Rise / Run",
+        "q4": "Vertex",
+        "q5": "32.2 ft/s²",
+        "q7": "Linear systems",
+        "q9": "Break-even price",
+        "q10": "No",
+        "q11": "No"
+    }
+    for key in quiz_keys:
+        if key in st.session_state:
+            if key in correct_responses:
+                if st.session_state[key] == correct_responses[key]:
+                    correct_answers += 1
+            elif key in ["q2", "q6", "q8", "q12"]:
+                correct_answers += 1  # Assume text input was validated earlier
+    st.sidebar.metric("Correct Answers", f"{correct_answers} / 12")
 
 # --- IXL Integration Section ---
 st.header("📚 IXL Practice & Study Resources")
@@ -807,8 +985,3 @@ st.markdown("""
     <p>🎯 <strong>Target Universities:</strong> NJIT & RPI | 🏈 <strong>Position:</strong> Quarterback | 🏠 <strong>Real Estate Math with Mom</strong></p>
 </div>
 """, unsafe_allow_html=True)
-
-
-
-
-

@@ -1,3 +1,4 @@
+
 import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
@@ -39,11 +40,13 @@ Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade m
 Prepare Jeremiah for a confident 10th grade math experience by reinforcing foundational skills through a personalized, interest-based curriculum rooted in Common Core standards, with Rose as his inspiring partner.
 
 ### 🧑🏿‍🏫 Who is Dr. X?
-Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real educator who wears glasses. He’s your sideline coach for math, cheering Jeremiah and Rose on!
+Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a real Black educator with glasses, a deep voice, and a heart for student success. He’s your sideline coach for math, cheering Jeremiah and Rose on!
 """)
 
-# Common Core Standards Alignment (Global Dropdown)
+# Common Core Standards Alignment
 st.info("📚 **Common Core Alignment:** This program covers High School Algebra standards like creating equations (HSA.CED), reasoning with equations (HSA.REI), and building functions (HSF.BF) through real-world applications.")
+
+# Common Core Standards Dropdown
 common_core_standard = st.selectbox("📋 Select specific Common Core Standard focus:", [
     "HSA.CED.A.1 - Create equations and inequalities in one variable",
     "HSA.CED.A.2 - Create equations in two or more variables to represent relationships",
@@ -113,12 +116,7 @@ week_tabs = st.tabs([
 with week_tabs[0]:
     st.subheader("🦔 Week 1: Sonic Speeds & Algebra Foundations")
     st.markdown("**📘 IXL Skills Focus:** [U.2 - Solve multi-step linear equations](https://www.ixl.com/math/algebra-1/solve-multi-step-linear-equations)")
-    week_std = st.selectbox("📋 Week 1 Common Core Focus:", [
-        "HSA.CED.A.1 - Create equations and inequalities in one variable",
-        "HSA.REI.B.3 - Solve linear equations and inequalities in one variable",
-        "HSF.IF.B.4 - Interpret key features of graphs and tables"
-    ])
-    st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3, HSF.IF.B.4")
+    st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3")
     st.markdown("**🎯 Focus:** Expressions, Equations, and Linear Functions")
 
     # Story: Jeremiah and Rose’s Speed Adventure
@@ -233,12 +231,7 @@ with week_tabs[0]:
 with week_tabs[1]:
     st.subheader("🏈 Week 2: Football Physics & Quadratics")
     st.markdown("**📘 IXL Skills Focus:** [J.7 - Graph parabolas](https://www.ixl.com/math/algebra-1/graph-a-quadratic-function)")
-    week_std = st.selectbox("📋 Week 2 Common Core Focus:", [
-        "HSA.REI.B.4 - Solve quadratic equations in one variable",
-        "HSF.IF.C.7 - Graph functions expressed symbolically",
-        "HSF.BF.A.1 - Write a function that describes a relationship between quantities"
-    ])
-    st.markdown("**📚 Common Core:** HSA.REI.B.4, HSF.IF.C.7, HSF.BF.A.1")
+    st.markdown("**📚 Common Core:** HSA.REI.B.4")
     st.markdown("**🎯 Focus:** Quadratic Functions and Vertex Form")
 
     # Story: Jeremiah and Rose’s Football Triumph
@@ -314,12 +307,7 @@ with week_tabs[1]:
 with week_tabs[2]:
     st.subheader("🥷 Week 3: Naruto Motion & Systems of Equations")
     st.markdown("**📘 IXL Skills Focus:** [W.10 - Solve a system of equations by graphing](https://www.ixl.com/math/algebra-1/solve-a-system-of-equations-by-graphing)")
-    week_std = st.selectbox("📋 Week 3 Common Core Focus:", [
-        "HSA.CED.A.3 - Represent constraints by systems of equations and inequalities",
-        "HSA.REI.C.6 - Solve systems of linear equations exactly and approximately",
-        "HSA.REI.D.11 - Explain why coordinates of intersection points satisfy both equations"
-    ])
-    st.markdown("**📚 Common Core:** HSA.CED.A.3, HSA.REI.C.6, HSA.REI.D.11")
+    st.markdown("**📚 Common Core:** HSA.CED.A.3")
     st.markdown("**🎯 Focus:** Simultaneous Equations and Real-Life Situations")
 
     # Story: Jeremiah and Rose’s Race Day
@@ -419,61 +407,11 @@ with week_tabs[2]:
     **Practice:** Find the break-even if Rate 1 is 4% and Rate 2 is 3% with a $3000 fee.
     """)
 
-    # Additional ROTC Army Corps of Engineers Lesson
-    st.markdown("---")
-    st.markdown("### 🏗️ Naruto’s Engineering Challenge: Army Corps Style")
-    st.markdown("**Real-World Application:** Infrastructure and resource planning")
-    show_engineering_chart = st.checkbox("Show Engineering Resource Allocation 📊", value=True, key="engineering_toggle")
-    col1, col2 = st.columns(2)
-    with col1:
-        manpower = st.slider("Available manpower (hours):", 100, 500, 300)
-        materials_cost = st.slider("Materials cost ($):", 5000, 20000, 10000)
-        project_time = st.slider("Project time limit (days):", 5, 20, 10)
-        work_rate = manpower / project_time  # Hours per day
-        total_cost = materials_cost + (manpower * 20)  # Assuming $20/hour labor cost
-        st.markdown("**Engineering Equations:**")
-        st.markdown(f"• Work Rate: {work_rate:.1f} hours/day")
-        st.markdown(f"• Total Cost: ${total_cost:,.0f}")
-    with col2:
-        if show_engineering_chart:
-            days = np.linspace(1, project_time, 100)
-            work_completed = work_rate * days
-            cost_over_time = materials_cost + (work_rate * days * 20)
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(days, work_completed, label='Work Completed (hours)', linewidth=3, color='#8e44ad')
-            ax.plot(days, cost_over_time, label='Cumulative Cost ($)', linewidth=3, color='#e74c3c')
-            ax.axhline(y=manpower, color='gray', linestyle='--', alpha=0.7, label='Max Manpower')
-            ax.set_xlabel('Days')
-            ax.set_ylabel('Value')
-            ax.set_title('Engineering Project Progress')
-            ax.legend()
-            ax.grid(True, alpha=0.3)
-            ax.set_ylim(0, max(manpower, max(cost_over_time)) * 1.2)
-            st.pyplot(fig)
-
-    # Story: Jeremiah and Rose’s Engineering Mission
-    st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** Inspired by Naruto’s village-building skills, Jeremiah and Rose imagine leading an Army Corps of Engineers team in Jersey City. Rose suggests, “Let’s plan a bridge project using math, just like we’d manage resources back in South Africa!” Jeremiah nods, ready to tackle the challenge.
-    """)
-
-    # Teaching Text
-    st.markdown("""
-    📚 **Math Lesson:** The Army Corps of Engineers uses systems to allocate resources like manpower and materials. Equations like Work = Rate × Time and Cost = Materials + (Labor × Hours) help optimize projects. This ties to HSA.CED.A.3 for modeling constraints.  
-    **Example Problem:** With 300 hours and $10,000 materials over 10 days, what’s the total cost if labor is $20/hour?  
-    Solution: Work rate = 300/10 = 30 hours/day, Total cost = 10,000 + (300 × 20) = $16,000. Adjust sliders to test!
-    **Practice:** Calculate the cost if manpower increases to 400 hours over 15 days.
-    """)
-
 # --- WEEK 4 ---
 with week_tabs[3]:
     st.subheader("🎓 Week 4: NJIT Bound - College Prep & Inequalities")
     st.markdown("**📘 IXL Skills Focus:** [Y.5 - Graph compound inequalities](https://www.ixl.com/math/algebra-1/graph-compound-inequalities)")
-    week_std = st.selectbox("📋 Week 4 Common Core Focus:", [
-        "HSA.REI.D.12 - Graph solutions to systems of linear inequalities",
-        "HSA.CED.A.2 - Create equations in two or more variables to represent relationships",
-        "HSF.LE.A.2 - Construct linear and exponential functions"
-    ])
-    st.markdown("**📚 Common Core:** HSA.REI.D.12, HSA.CED.A.2, HSF.LE.A.2")
+    st.markdown("**📚 Common Core:** HSA.REI.D.12, HSA.CED.A.2")
     st.markdown("**🎯 Focus:** Cumulative Assessment and Future Planning")
 
     # Story: Jeremiah and Rose’s College Dream
@@ -642,29 +580,6 @@ ixl_lessons = {
         "Core Skills": ["Y.5 - Graph compound inequalities", "Y.6 - Write compound inequalities from graphs", "Y.7 - Solve compound inequalities", "FF.1 - Graph a linear inequality in two variables", "FF.2 - Systems of linear inequalities"],
         "College Prep": ["GG.1 - Domain and range of functions", "GG.2 - Identify functions", "HH.1 - Function transformation rules", "II.1 - Exponential functions over unit intervals", "JJ.1 - Compare linear, exponential, and quadratic functions"]
     }
-    # --- IXL PRACTICE LINKS ---
-with st.expander("📘 Week 1 - Core Skills IXL Practice"):
-    st.markdown("""
-- [U.2 - Solve Multi-Step Linear Equations](https://www.ixl.com/math/algebra-1/solve-multi-step-linear-equations)  
-- [U.3 - Solve Linear Equations: Mixed Review](https://www.ixl.com/math/algebra-1/solve-linear-equations-mixed-review)  
-- [U.4 - Solve Equations Involving Like Terms](https://www.ixl.com/math/algebra-1/solve-equations-involving-like-terms)  
-- [V.1 - Write and Solve Equations that Represent Diagrams](https://www.ixl.com/math/algebra-1/write-and-solve-equations-that-represent-diagrams)  
-- [V.2 - Solve Linear Equations: Word Problems](https://www.ixl.com/math/algebra-1/solve-linear-equations-word-problems)  
-
-✅ Practice these to build a strong foundation in algebra!
-""")
-
-with st.expander("📘 Week 1 - Real-World Applications IXL Practice"):
-    st.markdown("""
-- [AA.1 - Rate of Change: Graphs](https://www.ixl.com/math/algebra-1/rate-of-change-graphs)  
-- [AA.2 - Rate of Change: Tables](https://www.ixl.com/math/algebra-1/rate-of-change-tables)  
-- [AA.3 - Constant Rate of Change](https://www.ixl.com/math/algebra-1/constant-rate-of-change)  
-- [BB.1 - Identify Linear Functions](https://www.ixl.com/math/algebra-1/identify-linear-functions)  
-- [BB.2 - Find the Slope of a Graph](https://www.ixl.com/math/algebra-1/find-the-slope-of-a-graph)  
-
-🏈 Apply your math skills like a champion with these game-based challenges!
-""")
-
 }
 
 week_selected = st.selectbox("Select week for targeted IXL practice:", list(ixl_lessons.keys()))
@@ -892,3 +807,8 @@ st.markdown("""
     <p>🎯 <strong>Target Universities:</strong> NJIT & RPI | 🏈 <strong>Position:</strong> Quarterback | 🏠 <strong>Real Estate Math with Mom</strong></p>
 </div>
 """, unsafe_allow_html=True)
+
+
+
+
+

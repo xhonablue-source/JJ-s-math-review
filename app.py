@@ -642,6 +642,29 @@ ixl_lessons = {
         "Core Skills": ["Y.5 - Graph compound inequalities", "Y.6 - Write compound inequalities from graphs", "Y.7 - Solve compound inequalities", "FF.1 - Graph a linear inequality in two variables", "FF.2 - Systems of linear inequalities"],
         "College Prep": ["GG.1 - Domain and range of functions", "GG.2 - Identify functions", "HH.1 - Function transformation rules", "II.1 - Exponential functions over unit intervals", "JJ.1 - Compare linear, exponential, and quadratic functions"]
     }
+    # --- IXL PRACTICE LINKS ---
+with st.expander("📘 Week 1 - Core Skills IXL Practice"):
+    st.markdown("""
+- [U.2 - Solve Multi-Step Linear Equations](https://www.ixl.com/math/algebra-1/solve-multi-step-linear-equations)  
+- [U.3 - Solve Linear Equations: Mixed Review](https://www.ixl.com/math/algebra-1/solve-linear-equations-mixed-review)  
+- [U.4 - Solve Equations Involving Like Terms](https://www.ixl.com/math/algebra-1/solve-equations-involving-like-terms)  
+- [V.1 - Write and Solve Equations that Represent Diagrams](https://www.ixl.com/math/algebra-1/write-and-solve-equations-that-represent-diagrams)  
+- [V.2 - Solve Linear Equations: Word Problems](https://www.ixl.com/math/algebra-1/solve-linear-equations-word-problems)  
+
+✅ Practice these to build a strong foundation in algebra!
+""")
+
+with st.expander("📘 Week 1 - Real-World Applications IXL Practice"):
+    st.markdown("""
+- [AA.1 - Rate of Change: Graphs](https://www.ixl.com/math/algebra-1/rate-of-change-graphs)  
+- [AA.2 - Rate of Change: Tables](https://www.ixl.com/math/algebra-1/rate-of-change-tables)  
+- [AA.3 - Constant Rate of Change](https://www.ixl.com/math/algebra-1/constant-rate-of-change)  
+- [BB.1 - Identify Linear Functions](https://www.ixl.com/math/algebra-1/identify-linear-functions)  
+- [BB.2 - Find the Slope of a Graph](https://www.ixl.com/math/algebra-1/find-the-slope-of-a-graph)  
+
+🏈 Apply your math skills like a champion with these game-based challenges!
+""")
+
 }
 
 week_selected = st.selectbox("Select week for targeted IXL practice:", list(ixl_lessons.keys()))

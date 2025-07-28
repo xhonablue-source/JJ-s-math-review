@@ -31,7 +31,7 @@ st.title("🏈 MathCraft: Quest for the Quarterback Crown")
 st.markdown("""
 **A 4-Week Challenge-Based Math Journey for Jeremiah Erskine**
 
-Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade math review into an epic quest, blending Jeremiah’s passions—quarterback for the Lincoln Lions, Sonic speed, Segway adventures, ROTC leadership, and real estate success with his mother Rose from Namibia—into mathematical mastery for 10th grade.
+Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade math review into an epic quest, blending Jeremiah's passions—quarterback for the Lincoln Lions, Sonic speed, Segway adventures, ROTC leadership, and real estate success with his mother Rose from Namibia—into mathematical mastery for 10th grade.
 
 ---
 
@@ -39,11 +39,11 @@ Welcome, **Future NJIT Engineer**! This MathCraft program transforms 9th grade m
 Prepare Jeremiah for 10th grade math (Algebra I and Intro to Algebra II) by reinforcing foundational skills and introducing functions through his ROTC program and the Army Corps of Engineers, with Rose as his inspiring partner.
 
 ### 🧑🏿‍🏫 Who is Dr. X?
-Dr. X isn’t a robot 🤓—he’s modeled after Xavier Honablue M.Ed, a Black educator with glasses, a deep voice, and a heart for student success. He’s your sideline coach for math, cheering Jeremiah and Rose on!
+Dr. X isn't a robot 🤓—he's modeled after Xavier Honablue M.Ed, a Black educator with glasses, a deep voice, and a heart for student success. He's your sideline coach for math, cheering Jeremiah and Rose on!
 """)
 
 # Common Core Standards Alignment
-st.info("📚 **Common Core Alignment:** Covers High School Algebra standards (HSA.CED, HSA.REI, HSF.BF) and introduces 10th-grade topics like functions (HSF.IF), preparing Jeremiah for NJIT’s mechanical engineering path and Army Corps of Engineers applications.")
+st.info("📚 **Common Core Alignment:** Covers High School Algebra standards (HSA.CED, HSA.REI, HSF.BF) and introduces 10th-grade topics like functions (HSF.IF), preparing Jeremiah for NJIT's mechanical engineering path and Army Corps of Engineers applications.")
 
 # Common Core Standards Dropdown
 common_core_standard = st.selectbox("📋 Select specific Common Core Standard focus:", [
@@ -78,7 +78,7 @@ challenge_level = st.selectbox("Choose your challenge level:", [
 # Initialize session state for Dr. X chat
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = [
-        {"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your AI math coach. Let’s conquer math with the Lincoln Lions spirit and ROTC discipline!"}
+        {"role": "assistant", "content": "Hello Jeremiah and Rose! I'm Dr. X, your AI math coach. Let's conquer math with the Lincoln Lions spirit and ROTC discipline!"}
     ]
 
 # Dr. X API function
@@ -109,9 +109,9 @@ with week_tabs[0]:
     st.markdown("**📚 Common Core:** HSA.CED.A.1, HSA.REI.B.3, HSF.IF.B.4")
     st.markdown("**🎯 10th Grade Prep:** Linear functions, domain, and range")
 
-    # Story: Jeremiah and Rose’s Speed Adventure
+    # Story: Jeremiah and Rose's Speed Adventure
     st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** In Namibia, Rose and Jeremiah loved watching cheetahs sprint across the plains. Now in Jersey City, they imagine racing Sonic to Lincoln High School, home of the Lincoln Lions. Rose, with her Namibian wisdom, says, “Let’s use linear functions to calculate our speeds and win!” Jeremiah, the Lions’ quarterback, is ready to apply math to outrun Sonic.
+    🌍 **Story Time with Jeremiah and Rose:** In Namibia, Rose and Jeremiah loved watching cheetahs sprint across the plains. Now in Jersey City, they imagine racing Sonic to Lincoln High School, home of the Lincoln Lions. Rose, with her Namibian wisdom, says, "Let's use linear functions to calculate our speeds and win!" Jeremiah, the Lions' quarterback, is ready to apply math to outrun Sonic.
     """)
 
     # Sonic Speed Calculator
@@ -143,7 +143,7 @@ with week_tabs[0]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Speed = Distance/Time, a linear function (HSF.IF.B.4). Jeremiah’s speed is calculated as (40 yards × 3600 seconds/hour) / (time × 5280 yards/mile). The domain (time > 0) and range (speed > 0) introduce 10th-grade function concepts, preparing Jeremiah for ROTC precision.
+    📚 **Math Lesson:** Speed = Distance/Time, a linear function (HSF.IF.B.4). Jeremiah's speed is calculated as (40 yards × 3600 seconds/hour) / (time × 5280 yards/mile). The domain (time > 0) and range (speed > 0) introduce 10th-grade function concepts, preparing Jeremiah for ROTC precision.
     """)
 
 # --- WEEK 2 ---
@@ -153,9 +153,9 @@ with week_tabs[1]:
     st.markdown("**📚 Common Core:** HSA.REI.B.4, HSF.IF.C.7")
     st.markdown("**🎯 10th Grade Prep:** Quadratic functions, vertex form, and intercepts")
 
-    # Story: Jeremiah and Rose’s Football Triumph
+    # Story: Jeremiah and Rose's Football Triumph
     st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** In Namibia, Rose cheered at village soccer games, inspiring Jeremiah’s love for sports. Now, as the Lincoln Lions’ star quarterback, Jeremiah uses quadratic functions to perfect his spiral throws. Rose says, “Let’s calculate the arc to win the game!” The Lions’ championship legacy fuels their drive.
+    🌍 **Story Time with Jeremiah and Rose:** In Namibia, Rose cheered at village soccer games, inspiring Jeremiah's love for sports. Now, as the Lincoln Lions' star quarterback, Jeremiah uses quadratic functions to perfect his spiral throws. Rose says, "Let's calculate the arc to win the game!" The Lions' championship legacy fuels their drive.
     """)
 
     # Football Trajectory Calculator
@@ -199,7 +199,7 @@ with week_tabs[1]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** The football’s path follows h(t) = -16.1t² + v₀t + h₀, a quadratic function (HSF.IF.C.7). The vertex gives the maximum height, and roots show landing points, key for 10th-grade Algebra II. Jeremiah’s throws align with ROTC precision training.
+    📚 **Math Lesson:** The football's path follows h(t) = -16.1t² + v₀t + h₀, a quadratic function (HSF.IF.C.7). The vertex gives the maximum height, and roots show landing points, key for 10th-grade Algebra II. Jeremiah's throws align with ROTC precision training.
     """)
 
 # --- WEEK 3 ---
@@ -209,9 +209,9 @@ with week_tabs[2]:
     st.markdown("**📚 Common Core:** HSA.CED.A.3, HSA.REI.C.6")
     st.markdown("**🎯 10th Grade Prep:** Systems of linear equations and inequalities")
 
-    # Story: Jeremiah and Rose’s Race Day
+    # Story: Jeremiah and Rose's Race Day
     st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** Inspired by Naruto’s ninja speed, Rose and Jeremiah, the Lincoln Lions QB, stage a race in Jersey City. Rose, drawing on Namibian storytelling, says, “Let’s use systems of equations to see who wins, just like planning our real estate deals!” The Lions’ winning spirit drives them.
+    🌍 **Story Time with Jeremiah and Rose:** Inspired by Naruto's ninja speed, Rose and Jeremiah, the Lincoln Lions QB, stage a race in Jersey City. Rose, drawing on Namibian storytelling, says, "Let's use systems of equations to see who wins, just like planning our real estate deals!" The Lions' winning spirit drives them.
     """)
 
     # Three-Way Race System
@@ -263,9 +263,9 @@ with week_tabs[3]:
     st.markdown("**📚 Common Core:** HSA.REI.D.12, HSF.BF.A.1")
     st.markdown("**🎯 10th Grade Prep:** Function modeling for engineering applications")
 
-    # Story: Jeremiah and Rose’s Engineering Dream
+    # Story: Jeremiah and Rose's Engineering Dream
     st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** At Lincoln High School, Jeremiah’s ROTC program sparked his interest in the Army Corps of Engineers, inspired by their flood control projects. Rose, from Namibia’s arid landscapes, shared stories of water management, saying, “Use functions to design solutions, my future NJIT engineer!” The Lincoln Lions’ championship spirit drives their vision.
+    🌍 **Story Time with Jeremiah and Rose:** At Lincoln High School, Jeremiah's ROTC program sparked his interest in the Army Corps of Engineers, inspired by their flood control projects. Rose, from Namibia's arid landscapes, shared stories of water management, saying, "Use functions to design solutions, my future NJIT engineer!" The Lincoln Lions' championship spirit drives their vision.
     """)
 
     # Army Corps Flood Control Challenge
@@ -364,9 +364,9 @@ if selected_design:
         ax.ticklabel_format(style='plain', axis='y')
         st.pyplot(fig)
 
-    # Story: Jeremiah and Rose’s Legacy
+    # Story: Jeremiah and Rose's Legacy
     st.markdown("""
-    🌍 **Story Time with Jeremiah and Rose:** Rose, inspired by Namibia’s water challenges, helps Jeremiah design a flood defense system. “This will protect Jersey City and honor the Lincoln Lions!” Jeremiah says, dreaming of joining the Army Corps post-NJIT.
+    🌍 **Story Time with Jeremiah and Rose:** Rose, inspired by Namibia's water challenges, helps Jeremiah design a flood defense system. "This will protect Jersey City and honor the Lincoln Lions!" Jeremiah says, dreaming of joining the Army Corps post-NJIT.
     """)
 
 # --- Footer ---
@@ -376,3 +376,5 @@ st.markdown("""
     <p><em>"Mathematics is the language of engineering solutions." - Xavier Honablue</em></p>
     <p><strong>Built for Jeremiah by Xavier Honablue M.Ed | CognitiveCloud.ai</strong></p>
     <p>🎯 <strong>Target Path:</strong> NJIT Mechanical Engineering & Army Corps of Engineers</p>
+</div>
+""", unsafe_allow_html=True)

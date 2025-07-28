@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
@@ -158,6 +156,9 @@ with week_tabs[0]:
     st.markdown("""
     📚 **Math Lesson:** Speed is calculated as distance divided by time (Speed = Distance/Time). Here, Jeremiah’s 40-yard dash time is converted to mph using the formula:  
     Speed (mph) = (40 yards × 3600 seconds/hour) / (dash time × 5280 yards/mile). Sonic’s speed is a constant 767 mph. The ratio helps us compare their speeds, a key skill in HSA.CED.A.1 for creating equations!
+    **Example Problem:** If Jeremiah runs 40 yards in 5 seconds, what’s his speed in mph?  
+    Solution: Speed = (40 × 3600) / (5 × 5280) ≈ 5.45 mph. Try adjusting the slider to see how time affects speed!
+    **Practice:** Create your own speed equation for a different distance (e.g., 100 yards) and solve it.
     """)
 
     # Lincoln Park Distance Problem with Toggle
@@ -184,7 +185,10 @@ with week_tabs[0]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Time = Distance / Speed. For Jeremiah, we convert mph to minutes per mile (Time = Distance × 60 / Speed). For Sonic, we use seconds (Time = Distance × 3600 / Speed). This exercise builds HSA.REI.B.3 skills by solving linear equations to find time.
+    📚 **Math Lesson:** Time = Distance / Speed. For Jeremiah, we convert mph to minutes per mile (Time = Distance × 60 / Speed). For Sonic, we use seconds (Time = Distance × 3600 / Speed). This exercise builds HSA.REI.B.3 skills by solving linear equations to find time.  
+    **Example Problem:** If Lincoln Park is 0.5 miles away, how long does Jeremiah take?  
+    Solution: Time = (0.5 × 60) / jeremiah_speed_mph. Adjust the distance slider to test different scenarios!
+    **Practice:** Solve for Sonic’s time if the distance changes to 1 mile.
     """)
 
     # Segway Slope Analysis with Toggle
@@ -216,7 +220,10 @@ with week_tabs[0]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Slope = Rise / Run, representing the rate of change. A 10% slope means a 10-foot rise over 100 feet of run. This aligns with HSF.IF.B.4, interpreting key features of graphs, and helps Jeremiah and Rose plan their Segway routes!
+    📚 **Math Lesson:** Slope = Rise / Run, representing the rate of change. A 10% slope means a 10-foot rise over 100 feet of run. This aligns with HSF.IF.B.4, interpreting key features of graphs, and helps Jeremiah and Rose plan their Segway routes!  
+    **Example Problem:** If rise is 30 feet and run is 150 feet, what’s the slope?  
+    Solution: Slope = 30 / 150 = 0.2 or 20%. Try different rise and run values to explore!
+    **Practice:** Calculate the slope percentage for a hill with a 25-foot rise over 200 feet.
     """)
 
 # --- WEEK 2 ---
@@ -272,7 +279,10 @@ with week_tabs[1]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** A projectile’s path follows a quadratic equation: h(t) = h₀ + v₀t - ½gt², where h₀ is initial height, v₀ is initial velocity, and g is gravity (32.2 ft/s²). The vertex gives the maximum height, a key concept in HSA.REI.B.4 for solving quadratics. Jeremiah and Rose can optimize his throws!
+    📚 **Math Lesson:** A projectile’s path follows a quadratic equation: h(t) = h₀ + v₀t - ½gt², where h₀ is initial height, v₀ is initial velocity, and g is gravity (32.2 ft/s²). The vertex gives the maximum height, a key concept in HSA.REI.B.4 for solving quadratics.  
+    **Example Problem:** If v₀ = 60 ft/s, θ = 30°, and h₀ = 6 ft, what’s the max height?  
+    Solution: Use the formula to find max height ≈ 9.1 ft (adjust sliders to verify!).  
+    **Practice:** Solve for max distance if velocity increases to 70 ft/s.
     """)
 
     # Quadratic Function Analysis with Toggle
@@ -286,7 +296,10 @@ with week_tabs[1]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Vertex form, h(t) = a(t - h)² + k, reveals the peak (h, k). Here, a = -16.1 (downward parabola), h is the time to max height, and k is max height. This ties to HSF.IF.C.7 for graphing functions symbolically—perfect for Jeremiah’s quarterback precision!
+    📚 **Math Lesson:** Vertex form, h(t) = a(t - h)² + k, reveals the peak (h, k). Here, a = -16.1 (downward parabola), h is the time to max height, and k is max height. This ties to HSF.IF.C.7 for graphing functions symbolically—perfect for Jeremiah’s quarterback precision!  
+    **Example Problem:** Convert h(t) = -16t² + 30t + 6 to vertex form.  
+    Solution: Complete the square to get h(t) = -16(t - 0.94)² + 14.06. Try it with different coefficients!
+    **Practice:** Find the vertex of h(t) = -12t² + 48t + 4.
     """)
 
 # --- WEEK 3 ---
@@ -340,7 +353,10 @@ with week_tabs[2]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Systems of equations model multiple relationships, like distance = speed × time for each racer. Graphing these (HSA.CED.A.3) shows where lines intersect, representing equal times or distances. Jeremiah and Rose can use this to strategize their race!
+    📚 **Math Lesson:** Systems of equations model multiple relationships, like distance = speed × time for each racer. Graphing these (HSA.CED.A.3) shows where lines intersect, representing equal times or distances.  
+    **Example Problem:** If running speed = 16 mph and Segway speed = 10 mph with a 2-min head start, at what distance do they tie?  
+    Solution: Set t = d/16 = (d/10) + 2, solve for d ≈ 1.6 miles (adjust sliders to test!).  
+    **Practice:** Find the tie distance if Segway’s head start increases to 3 minutes.
     """)
 
     # Real Estate Systems with Toggle
@@ -384,7 +400,10 @@ with week_tabs[2]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Systems of linear equations (C₁ = k₁P, C₂ = k₂P + B) can be solved to find the break-even point where C₁ = C₂. This involves HSA.REI.C.6—solving systems exactly. Jeremiah and Rose use this to optimize real estate profits!
+    📚 **Math Lesson:** Systems of linear equations (C₁ = k₁P, C₂ = k₂P + B) can be solved to find the break-even point where C₁ = C₂. This involves HSA.REI.C.6—solving systems exactly.  
+    **Example Problem:** If C₁ = 3%P and C₂ = 2.5%P + 2000, what’s the break-even price?  
+    Solution: 0.03P = 0.025P + 2000 → P = 2000 / 0.005 = 400,000. Adjust sliders to explore!
+    **Practice:** Find the break-even if Rate 1 is 4% and Rate 2 is 3% with a $3000 fee.
     """)
 
 # --- WEEK 4 ---
@@ -448,7 +467,10 @@ with week_tabs[3]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Inequalities like GPA ≥ 3.3 and SAT ≥ 1250 form a region on a graph (HSA.REI.D.12). The intersection of these regions shows eligibility. Jeremiah and Rose can adjust his scores to meet college goals!
+    📚 **Math Lesson:** Inequalities like GPA ≥ 3.3 and SAT ≥ 1250 form a region on a graph (HSA.REI.D.12). The intersection of these regions shows eligibility.  
+    **Example Problem:** If GPA ≥ 3.3 and SAT ≥ 1300, is (3.5, 1350) eligible?  
+    Solution: Yes, both conditions are met. Adjust sliders to test your status!
+    **Practice:** Find the minimum SAT score needed if GPA is 3.4 for NJIT.
     """)
 
     # Real Estate Investment Inequalities with Toggle
@@ -492,7 +514,10 @@ with week_tabs[3]:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Inequalities (Price ≤ Budget, ROI ≥ Min ROI) define a feasible region (HSA.CED.A.2). Graphing these constraints helps identify viable options, a skill Jeremiah and Rose can use to build their real estate empire!
+    📚 **Math Lesson:** Inequalities (Price ≤ Budget, ROI ≥ Min ROI) define a feasible region (HSA.CED.A.2). Graphing these constraints helps identify viable options.  
+    **Example Problem:** If budget = $400,000 and min ROI = 8%, is a $350,000 property with 9% ROI viable?  
+    Solution: Yes, it meets both constraints. Adjust sliders to explore more options!
+    **Practice:** Find the maximum price for a 7% ROI within a $500,000 budget.
     """)
 
 # --- Ask Dr. X Sidebar ---
@@ -647,7 +672,10 @@ if selected_property:
 
     # Teaching Text
     st.markdown("""
-    📚 **Math Lesson:** Investment growth uses the compound interest formula: Future Value = Present Value × (1 + r)^t, where r is the appreciation rate and t is time. Adding rental income and calculating ROI (Return / Investment × 100) ties to HSF.BF.A.1 for modeling relationships—Jeremiah and Rose’s path to success!
+    📚 **Math Lesson:** Investment growth uses the compound interest formula: Future Value = Present Value × (1 + r)^t, where r is the appreciation rate and t is time. Adding rental income and calculating ROI (Return / Investment × 100) ties to HSF.BF.A.1 for modeling relationships—Jeremiah and Rose’s path to success!  
+    **Example Problem:** If price = $400,000, rent = $3,000/month, and appreciation = 4% over 5 years, what’s the total ROI?  
+    Solution: Future value ≈ $487,000, total rent = $180,000, ROI ≈ 67.5%. Adjust sliders to experiment!
+    **Practice:** Calculate ROI for a 3% appreciation rate over 3 years.
     """)
 
 # --- External Resources ---

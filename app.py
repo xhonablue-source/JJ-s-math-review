@@ -111,22 +111,27 @@ def get_feedback(text, context):
 
 challenge_text = st.text_area("Describe a challenge you're facing:", key="challenge", height=100)
 if challenge_text:
+    st.markdown("#### Dr. X's Feedback:")
     st.info(get_feedback(challenge_text, "a challenge"))
 
 effort_taken = st.text_area("What effort have you made so far?", key="effort", height=100)
 if effort_taken:
+    st.markdown("#### Dr. X's Feedback:")
     st.info(get_feedback(effort_taken, "effort made"))
 
 mistake_text = st.text_area("Describe a mistake you’ve made:", key="mistake", height=100)
 if mistake_text:
+    st.markdown("#### Dr. X's Feedback:")
     st.info(get_feedback(mistake_text, "a mistake"))
 
 lesson_learned = st.text_area("What did you learn from that mistake?", key="lesson", height=100)
 if lesson_learned:
+    st.markdown("#### Dr. X's Feedback:")
     st.info(get_feedback(lesson_learned, "a lesson learned"))
 
 growth_action = st.text_input("One action you’ll take to grow this week:", "e.g., Ask for help on a tough math problem", key="action")
 if growth_action:
+    st.markdown("#### Dr. X's Feedback:")
     st.info(get_feedback(growth_action, "an action step"))
 
 # --- Export Button ---

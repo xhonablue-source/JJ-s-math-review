@@ -3,6 +3,8 @@ import io
 import time # For exponential backoff (though less critical with external API)
 import json # For parsing JSON responses
 import requests # For making HTTP requests
+# Removed: import openai (as it's handled by the external API)
+# Removed: from PIL import Image (as it's no longer used after removing image gallery)
 
 # --- Page Configuration ---
 st.set_page_config(

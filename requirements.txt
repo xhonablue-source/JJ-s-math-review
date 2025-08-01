@@ -1,11 +1,2 @@
 streamlit
-pandas
-numpy
-matplotlib
-plotly
-streamlit
 requests
-streamlit
-requests
-json # (optional, but good practice if you explicitly use json.loads/dumps)
-# Remove 'openai' if it was there, as it's no longer a direct dependency for this LLM integration

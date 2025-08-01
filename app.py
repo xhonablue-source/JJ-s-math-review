@@ -73,6 +73,15 @@ st.markdown("""
     .stButton > button:hover {
         background-color: #004070; /* Darker blue on hover */
     }
+    .feedback-box {
+        background-color: #e0f7fa; /* Light blue for feedback */
+        border-left: 5px solid #00BCD4; /* Cyan accent */
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        font-style: italic;
+        color: #006064;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -197,17 +206,7 @@ if prompt := st.chat_input("Ask Dr. X about your growth...", key="drx_general_ch
     # Add user message to chat history
     st.session_state.general_chat_history.append({"role": "user", "content": prompt})
 
-    # For the general chat, we can combine the history for a more conversational flow
-    # Note: The external API might not maintain full conversational context on its own.
-    # We'll send the latest prompt and rely on the external API's internal logic.
-    # If the external API truly supports chat history, we'd send the full st.session_state.general_chat_history.
-    # For now, we'll send the last user message as the 'message' to the external API.
-    # A more robust solution would involve the external API managing session history.
-    
     with st.spinner("Dr. X is thinking..."):
-        # Send only the latest user prompt to the external API for simplicity,
-        # assuming the external API handles its own context or is designed for single-turn questions.
-        # If the external API supports full chat history, you would pass a more complex structure here.
         assistant_response = ask_drx(prompt)
 
     # Display assistant response in chat message container
@@ -221,77 +220,96 @@ if prompt := st.chat_input("Ask Dr. X about your growth...", key="drx_general_ch
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Your Growth Journal</h2>', unsafe_allow_html=True)
 
+# Initialize session state for feedback if not already present
+if 'challenge_feedback' not in st.session_state:
+    st.session_state.challenge_feedback = ""
+if 'effort_feedback' not in st.session_state:
+    st.session_state.effort_feedback = ""
+if 'mistake_feedback' not in st.session_state:
+    st.session_state.mistake_feedback = ""
+if 'lesson_feedback' not in st.session_state:
+    st.session_state.lesson_feedback = ""
+if 'action_feedback' not in st.session_state:
+    st.session_state.action_feedback = ""
+
+# Function to get LLM feedback for a specific entry (now uses ask_drx)
+def get_llm_feedback_journal(entry_content, entry_type):
+    # The system prompt is now managed by the external Dr. X API,
+    # but we can still craft a specific user prompt for the journal entries.
+    user_prompt = f"As a growth mindset coach, provide supportive, encouraging, and constructive feedback on this journal entry for '{entry_type}':\n\n{entry_content}\n\nRemember to end with a relevant resource link."
+    return ask_drx(user_prompt)
+
+
 # Challenge Entry
 challenge_text = st.text_area("Describe a challenge you're facing:", height=100, key="journal_challenge_text")
 if st.button("Get Feedback on Challenge", key="feedback_challenge_btn"):
-    if challenge_text:
-        journal_prompt = f"As a growth mindset coach, provide encouraging and constructive feedback on this challenge: {challenge_text}. Emphasize perseverance and learning."
+    if challenge_text.strip():
         with st.spinner("Dr. X is thinking..."):
-            feedback = ask_drx(journal_prompt)
-            st.markdown(f"<div class='highlight-box'><p style='font-weight: bold; color: #388E3C;'>Dr. X's Feedback on your Challenge:</p><p style='color: #4CAF50;'>{feedback}</p></div>", unsafe_allow_html=True)
+            st.session_state.challenge_feedback = get_llm_feedback_journal(challenge_text, "Challenge")
     else:
-        st.warning("Please describe your challenge before getting feedback.")
+        st.session_state.challenge_feedback = "Please describe your challenge before getting feedback."
+if st.session_state.challenge_feedback:
+    st.markdown(f"<div class='feedback-box'>{st.session_state.challenge_feedback}</div>", unsafe_allow_html=True)
 
 # Effort Entry
 effort_taken = st.text_area("What effort have you made so far?", height=100, key="journal_effort_taken")
 if st.button("Get Feedback on Effort", key="feedback_effort_btn"):
-    if effort_taken:
-        journal_prompt = f"As a growth mindset coach, acknowledge and praise the effort described: {effort_taken}. Reinforce that effort is key to growth and encourage continued dedication."
+    if effort_taken.strip():
         with st.spinner("Dr. X is thinking..."):
-            feedback = ask_drx(journal_prompt)
-            st.markdown(f"<div class='highlight-box'><p style='font-weight: bold; color: #388E3C;'>Dr. X's Feedback on your Effort:</p><p style='color: #4CAF50;'>{feedback}</p></div>", unsafe_allow_html=True)
+            st.session_state.effort_feedback = get_llm_feedback_journal(effort_taken, "Effort")
     else:
-        st.warning("Please describe your effort before getting feedback.")
+        st.session_state.effort_feedback = "Please describe your effort before getting feedback."
+if st.session_state.effort_feedback:
+    st.markdown(f"<div class='feedback-box'>{st.session_state.effort_feedback}</div>", unsafe_allow_html=True)
 
 # Mistake Entry
 mistake_text = st.text_area("Describe a mistake you’ve made:", height=100, key="journal_mistake_text")
 if st.button("Get Feedback on Mistake", key="feedback_mistake_btn"):
-    if mistake_text:
-        journal_prompt = f"As a growth mindset coach, help reframe this mistake: {mistake_text}. Emphasize that mistakes are valuable for growth and learning."
+    if mistake_text.strip():
         with st.spinner("Dr. X is thinking..."):
-            feedback = ask_drx(journal_prompt)
-            st.markdown(f"<div class='highlight-box'><p style='font-weight: bold; color: #388E3C;'>Dr. X's Feedback on your Mistake:</p><p style='color: #4CAF50;'>{feedback}</p></div>", unsafe_allow_html=True)
+            st.session_state.mistake_feedback = get_llm_feedback_journal(mistake_text, "Mistake")
     else:
-        st.warning("Please describe your mistake before getting feedback.")
+        st.session_state.mistake_feedback = "Please describe your mistake before getting feedback."
+if st.session_state.mistake_feedback:
+    st.markdown(f"<div class='feedback-box'>{st.session_state.mistake_feedback}</div>", unsafe_allow_html=True)
 
 # Lesson Learned Entry
 lesson_learned = st.text_area("What did you learn from that mistake?", height=100, key="journal_lesson_learned")
 if st.button("Get Feedback on Lesson Learned", key="feedback_lesson_btn"):
-    if lesson_learned:
-        journal_prompt = f"As a growth mindset coach, validate the learning from this mistake: {lesson_learned}. Encourage the student to apply this lesson in the future."
+    if lesson_learned.strip():
         with st.spinner("Dr. X is thinking..."):
-            feedback = ask_drx(journal_prompt)
-            st.markdown(f"<div class='highlight-box'><p style='font-weight: bold; color: #388E3C;'>Dr. X's Feedback on your Lesson Learned:</p><p style='color: #4CAF50;'>{feedback}</p></div>", unsafe_allow_html=True)
+            st.session_state.lesson_feedback = get_llm_feedback_journal(lesson_learned, "Lesson Learned")
     else:
-        st.warning("Please describe your lesson learned before getting feedback.")
+        st.session_state.lesson_feedback = "Please describe your lesson learned before getting feedback."
+if st.session_state.lesson_feedback:
+    st.markdown(f"<div class='feedback-box'>{st.session_state.lesson_feedback}</div>", unsafe_allow_html=True)
 
 # Growth Action Entry
 growth_action = st.text_input("One action you’ll take to grow this week:", "e.g., Ask for help on a tough math problem", key="journal_growth_action")
 if st.button("Get Feedback on Growth Action", key="feedback_growth_action_btn"):
-    if growth_action:
-        journal_prompt = f"As a growth mindset coach, provide encouraging feedback on this planned growth action: {growth_action}. Emphasize the importance of taking concrete steps."
+    if growth_action.strip():
         with st.spinner("Dr. X is thinking..."):
-            feedback = ask_drx(journal_prompt)
-            st.markdown(f"<div class='highlight-box'><p style='font-weight: bold; color: #388E3C;'>Dr. X's Feedback on your Growth Action:</p><p style='color: #4CAF50;'>{feedback}</p></div>", unsafe_allow_html=True)
+            st.session_state.action_feedback = get_llm_feedback_journal(growth_action, "Growth Action")
     else:
-        st.warning("Please enter a growth action before getting feedback.")
-
+        st.session_state.action_feedback = "Please enter a growth action before getting feedback."
+if st.session_state.action_feedback:
+    st.markdown(f"<div class='feedback-box'>{st.session_state.action_feedback}</div>", unsafe_allow_html=True)
 
 # --- Export Button ---
 if st.button("📅 Download My Journal as Text File", key="download_journal_btn"):
     buffer = io.StringIO()
     buffer.write("Growth Mindset Reflection Journal\n\n")
-    buffer.write(f"Challenge: {challenge_text}\n")
-    buffer.write(f"Effort: {effort_taken}\n\n")
-    buffer.write(f"Mistake: {mistake_text}\n")
-    buffer.write(f"Lesson Learned: {lesson_learned}\n\n")
-    buffer.write(f"Growth Action: {growth_action}\n")
+    buffer.write(f"Challenge: {challenge_text}\nFeedback: {st.session_state.challenge_feedback}\n\n")
+    buffer.write(f"Effort: {effort_taken}\nFeedback: {st.session_state.effort_feedback}\n\n")
+    buffer.write(f"Mistake: {mistake_text}\nFeedback: {st.session_state.mistake_feedback}\n\n")
+    buffer.write(f"Lesson Learned: {lesson_learned}\nFeedback: {st.session_state.lesson_feedback}\n\n")
+    buffer.write(f"Growth Action: {growth_action}\nFeedback: {st.session_state.action_feedback}\n")
     st.download_button(
         label="Click to download",
         data=buffer.getvalue(),
         file_name="growth_journal.txt",
         mime="text/plain",
-        key="download_button_final" # Added a unique key for the download button itself
+        key="download_button_final"
     )
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -316,8 +334,6 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-# The "Your Growth Plan" input is now part of the journal section above,
-# but the motivational text remains here.
 st.markdown(f"""
 <div class="highlight-box">
     <p style='font-weight: bold; color: #388E3C;'>

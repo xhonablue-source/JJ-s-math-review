@@ -3,3 +3,6 @@ pandas
 numpy
 matplotlib
 plotly
+streamlit
+requests
+# Remove 'openai' if it was there, as it's no longer a direct dependency for this LLM integration
